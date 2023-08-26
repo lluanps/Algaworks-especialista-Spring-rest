@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
+import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
+import com.luan.algafoodapi.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
@@ -27,6 +30,9 @@ public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CadastroCozinhaService service;
 	
 	@GetMapping
 	public List<Cozinha> listar() {
@@ -49,7 +55,7 @@ public class CozinhaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha save(@RequestBody Cozinha cozinha) {
-		return cozinhaRepository.salvar(cozinha);
+		return service.salvar(cozinha);
 	}
 	
 	@PutMapping("/{id}")
@@ -70,18 +76,14 @@ public class CozinhaController {
 	@DeleteMapping("{id}")
 	public ResponseEntity<Cozinha> delete(@PathVariable Long id) {
 		try {
-			Cozinha cozinha = cozinhaRepository.buscar(id);
-			
-			//tratando NullPointException
-			if (id != null) {
-				cozinhaRepository.remover(cozinha);
-				//return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-				return ResponseEntity.noContent().build();			
-			}
-
-			return ResponseEntity.notFound().build();			
+			service.excluir(id);
+			return ResponseEntity.noContent().build();			
 		} 
-		catch (DataIntegrityViolationException e) {
+		catch (EntidadeNaoEncontradaException e){
+			return ResponseEntity.notFound().build();			
+
+		}
+		catch (EntidadeEmUsoException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();//retornar um corpo futuramente
 		}
 	}
