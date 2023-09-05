@@ -1,18 +1,11 @@
 package com.luan.algafoodapi.domain.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.luan.algafoodapi.domain.model.Pagamento;
 
-public interface PagamentoRepository {
-	
-	List<Pagamento> listar();
-	
-	Pagamento buscar(Long id);
-	
-	Pagamento salvar(Pagamento pagamento);
-	
-	void remover(Pagamento pagamento);
-	
+@Repository
+public interface PagamentoRepository extends JpaRepository<Pagamento, Long>{
 
 }

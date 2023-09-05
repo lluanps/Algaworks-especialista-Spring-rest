@@ -3,8 +3,7 @@ package com.luan.algafoodapi.api.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-
-import javax.websocket.server.PathParam;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,12 @@ public class RestauranteController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Restaurante> findById(@PathVariable Long id) {
-		Restaurante restaurante = service.findById(id);
-		return ResponseEntity.ok(restaurante);
+		Optional<Restaurante> restaurante = repository.findById(id);
+		if (restaurante.isPresent()) {
+			return ResponseEntity.ok(restaurante.get());
+		}
+		//return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
@@ -58,11 +61,12 @@ public class RestauranteController {
 		}
 	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,
-        @RequestBody Restaurante restaurante) {
-        try {
-			Restaurante restauranteAtual = repository.buscar(id);
+	@PutMapping("/{restauranteId}")
+	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId,
+			@RequestBody Restaurante restaurante) {
+		try {
+			Restaurante restauranteAtual = repository
+					.findById(restauranteId).orElse(null);
 			
 			if (restauranteAtual != null) {
 				BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
@@ -77,40 +81,37 @@ public class RestauranteController {
 			return ResponseEntity.badRequest()
 					.body(e.getMessage());
 		}
-    }
-    
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> updateParcial(@PathVariable Long id, @RequestBody Map<String, Object> campos) {
-    	Restaurante restauranteAtual = repository.buscar(id);
-    	
-    	if (restauranteAtual == null) {
-    		return ResponseEntity.notFound().build();
-    	}
-    	merge(campos, restauranteAtual);
-    	
-    	return update(id, restauranteAtual);
-    }
+	}
+	
+	@PatchMapping("/{restauranteId}")
+	public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId,
+			@RequestBody Map<String, Object> campos) {
+		Restaurante restauranteAtual = repository
+				.findById(restauranteId).orElse(null);
+		
+		if (restauranteAtual == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		merge(campos, restauranteAtual);
+		
+		return atualizar(restauranteId, restauranteAtual);
+	}
 
 	private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
 		
-		System.out.println(restauranteOrigem);
-		
 		dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
-			/*
-			if (nomePropriedade.equals("nome")) {
-				restauranteDestino.setNome((String) nomePropriedade);
-			} field sendo usado abaixo para evitar aninhado de if's*/ 
 			Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
-			field.setAccessible(true);//torna variaveis acessiveis, como esta em outra classe e usando private, é necessario essa abordagem
-
+			field.setAccessible(true);
+			
 			Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
 			
-			System.out.println(nomePropriedade + " = " + valorPropriedade + " = " + novoValor);
+//			System.out.println(nomePropriedade + " = " + valorPropriedade + " = " + novoValor);
 			
-			//ReflectionUtils.setField(field, restauranteDestino, valorPropriedade);
-    	});
+			ReflectionUtils.setField(field, restauranteDestino, novoValor);
+		});
 	}
     
 }

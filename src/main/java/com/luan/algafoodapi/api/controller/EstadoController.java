@@ -15,11 +15,11 @@ import com.luan.algafoodapi.domain.repository.EstadoRepository;
 public class EstadoController {
 
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private EstadoRepository repository;
 	
 	@GetMapping
 	public List<Estado> listar() {
-		return estadoRepository.listar();
+		return repository.findAll();
 	}
 	
 }

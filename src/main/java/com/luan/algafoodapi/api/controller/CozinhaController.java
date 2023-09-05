@@ -1,6 +1,7 @@
 package com.luan.algafoodapi.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +21,30 @@ import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
-import com.luan.algafoodapi.domain.service.CadastroCozinhaService;
+import com.luan.algafoodapi.domain.service.CozinhaService;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
 public class CozinhaController {
 
 	@Autowired
-	private CozinhaRepository cozinhaRepository;
+	private CozinhaRepository repository;
 	
 	@Autowired
-	private CadastroCozinhaService service;
+	private CozinhaService service;
 	
 	@GetMapping
 	public List<Cozinha> listar() {
-		return cozinhaRepository.listar();
+		return repository.findAll();
 	}
 	
 	//@ResponseStatus(HttpStatus.OK)retornando o status de outro forma
 	@GetMapping("/{id}")
 	public ResponseEntity<Cozinha> findCozinhaById(@PathVariable Long id) {
-		Cozinha cozinha = cozinhaRepository.buscar(id);
+		Optional<Cozinha> cozinha = repository.findById(id);
 		
-		if (cozinha != null) {
-			return ResponseEntity.ok(cozinha);
+		if (cozinha.isPresent()) {
+			return ResponseEntity.ok(cozinha.get());
 		}
 		//return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.notFound().build();
@@ -58,14 +59,14 @@ public class CozinhaController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody Cozinha obj) {
-		Cozinha cozinha = cozinhaRepository.buscar(id);
+		Optional<Cozinha> cozinhaAtual = repository.findById(id);
 		
-		if (cozinha != null) {
+		if (cozinhaAtual.isPresent()) {
 			/*BeanUtils seta os valores, é parecido como o => cozinha.setNome(obj.getNome());
 			o terceiro parametro(1,2,3) é usado para ignorar os campos que nao vao ser setados*/
-			BeanUtils.copyProperties(obj, cozinha, "id");
-			cozinha = cozinhaRepository.salvar(cozinha);
-			return ResponseEntity.ok(cozinha);			
+			BeanUtils.copyProperties(obj, cozinhaAtual.get(), "id");
+			Cozinha cozinhaSalva = service.salvar(cozinhaAtual.get());
+			return ResponseEntity.ok(cozinhaSalva);			
 		}
 		
 		return ResponseEntity.notFound().build();
