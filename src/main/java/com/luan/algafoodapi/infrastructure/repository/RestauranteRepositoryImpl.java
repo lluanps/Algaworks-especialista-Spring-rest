@@ -1,15 +1,16 @@
 package com.luan.algafoodapi.infrastructure.repository;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepositoryQueries;
@@ -23,6 +24,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 	@Override
 	public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 		
+		/*
 		var jpql = new StringBuffer();
 		jpql.append("FROM Restaurante ");
 		
@@ -52,6 +54,20 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
 		
 		return query.getResultList();
+		*/
+		
+		//USANDO CRITERIA (recomendado para consultas mais complexas
+		CriteriaBuilder builder = null;
+		
+		CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
+		Root<Restaurante> root =  criteria.from(Restaurante.class); // FROM Restaurante
+		
+		Predicate nomePredicate = builder.like(root.get("nome"), "%" + nome + "%");
+		Predicate taxaInicialPredicate = builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial);
+		Predicate taxaFinalPredicate = builder.lessThanOrEqualTo(root.get("taxaFinal"), taxaFreteFinal);
+		
+		criteria.where(nomePredicate, taxaInicialPredicate, taxaFinalPredicate);
+		
 	}
 
 }
