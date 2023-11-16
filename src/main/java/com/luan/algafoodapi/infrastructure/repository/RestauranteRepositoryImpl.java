@@ -1,5 +1,7 @@
 package com.luan.algafoodapi.infrastructure.repository;
 
+import static com.luan.algafoodapi.infrastructure.repository.spec.RestauranteSpecification.*;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.luan.algafoodapi.domain.model.Restaurante;
+import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 import com.luan.algafoodapi.domain.repository.RestauranteRepositoryQueries;
 
 @Repository
@@ -23,6 +28,10 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Autowired @Lazy// usado o lazy para ser instanciado apenas quando precisar evitando o erro "Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true."
+
+	private RestauranteRepository restauranteRepository;
 
 	@Override
 	public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
@@ -84,6 +93,11 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 		TypedQuery<Restaurante> query = manager.createQuery(criteria);
 		return query.getResultList();
 		
+	}
+
+	@Override
+	public List<Restaurante> findComFreteGratis(String nome) {
+		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
 	}
 
 }

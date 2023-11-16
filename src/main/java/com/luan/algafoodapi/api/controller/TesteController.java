@@ -1,5 +1,7 @@
 package com.luan.algafoodapi.api.controller;
 
+import static com.luan.algafoodapi.infrastructure.repository.spec.RestauranteSpecification.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -64,5 +66,13 @@ public class TesteController {
 	public List<Restaurante> restaurantePorNomeEFrete (String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 		return restauranteRepository.find(nome, taxaFreteFinal, taxaFreteFinal);
 	}
+	
+	@GetMapping("restaurante/com-frete-gratis")
+	public List<Restaurante> restaurantesComFreteGratis (String nome) {
+		
+		return restauranteRepository.findComFreteGratis(nome);
+	}
+	
+	
 	
 }
