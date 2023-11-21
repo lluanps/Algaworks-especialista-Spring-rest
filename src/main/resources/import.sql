@@ -11,7 +11,7 @@ CREATE TABLE restaurante (
     endereco_numero VARCHAR(10),
     endereco_bairro VARCHAR(255),
     FOREIGN KEY (cozinha_id) REFERENCES cozinha(id),
-    FOREIGN KEY (endereco_cidade_id) REFERENCES cidade(id)
+    FOREIGN KEY (endereco_cidade_id) REFERENCES cidade(id),
 );
 
 insert into cozinha (id, nome) values (1, 'Tailandesa');
