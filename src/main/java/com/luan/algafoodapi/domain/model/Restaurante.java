@@ -1,6 +1,7 @@
 package com.luan.algafoodapi.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,6 +46,15 @@ public class Restaurante {
 	
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
 	private Endereco endereco;
+	/*
+	@CreationTimestamp // informe que a propriedade anotada deve ser atribuido com a data no momento que for cadastrada
+	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataCadastro;
+	
+	@UpdateTimestamp // altera a data sempre na hora atual
+	@Column(name = "data_atualizacao", nullable = false, columnDefinition = "datetime") // columnDefinition = "datetime" -> cria sem o milisegundos ficando hh:mm:ss
+	private LocalDateTime dataAtualizacao;
+	*/
 	
 	@JsonIgnore
 	//muitos restaurantes possui muitas formas de pagamentos
