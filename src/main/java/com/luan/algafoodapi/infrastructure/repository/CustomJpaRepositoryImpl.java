@@ -1,4 +1,4 @@
-package com.luan.algafoodapi.infrastructure.repository.spec;
+package com.luan.algafoodapi.infrastructure.repository;
 
 import java.util.Optional;
 
