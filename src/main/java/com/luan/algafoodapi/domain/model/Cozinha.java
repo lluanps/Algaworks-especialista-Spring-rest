@@ -1,6 +1,5 @@
 package com.luan.algafoodapi.domain.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,8 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
-public class Cozinha implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Cozinha {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +24,7 @@ public class Cozinha implements Serializable {
 	
 	private String nome;
 	
-//	@JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "cozinha")
 	private List<Restaurante> restaurantes;
 

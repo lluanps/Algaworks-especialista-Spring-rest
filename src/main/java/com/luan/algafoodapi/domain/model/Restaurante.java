@@ -1,10 +1,11 @@
 package com.luan.algafoodapi.domain.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,8 +23,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Restaurante implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Restaurante {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -40,6 +40,9 @@ public class Restaurante implements Serializable {
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
+	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
+	private Endereco endereco;
+	
 	@JsonIgnore
 	//muitos restaurantes possui muitas formas de pagamentos
 	@ManyToMany
@@ -47,6 +50,6 @@ public class Restaurante implements Serializable {
 	@JoinTable(name = "restaurante_forma_pagamento", 
 		joinColumns = @JoinColumn(name = "restaurante_id"),
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-	private List<FormaPagamento> formaPagamentos;
+	private List<FormaPagamento> formaPagamentos = new ArrayList<>();
 	
 }
