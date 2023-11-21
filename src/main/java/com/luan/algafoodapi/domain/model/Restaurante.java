@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(of = "id")
 @Entity
 public class Restaurante {
 
-	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -41,21 +41,24 @@ public class Restaurante {
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
+	@JsonIgnore
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
 	private Endereco endereco;
-	/*
+
+	@JsonIgnore
 	@CreationTimestamp // informe que a propriedade anotada deve ser atribuido com a data no momento que for cadastrada
 	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 	
+	@JsonIgnore
 	@UpdateTimestamp // altera a data sempre na hora atual
 	@Column(name = "data_atualizacao", nullable = false, columnDefinition = "datetime") // columnDefinition = "datetime" -> cria sem o milisegundos ficando hh:mm:ss
 	private LocalDateTime dataAtualizacao;
-	*/
 	
 	@JsonIgnore
 	//muitos restaurantes possui muitas formas de pagamentos

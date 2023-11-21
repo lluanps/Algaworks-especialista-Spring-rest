@@ -1,7 +1,6 @@
 package com.luan.algafoodapi.domain.model;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
