@@ -1,5 +1,7 @@
 package com.luan.algafoodapi.domain.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,16 +15,19 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
-public class FormaPagamento {
-
+public class ItemPedido {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String descricao;
+	private Integer quantidade;
+	private BigDecimal precoUnitario;
+	private BigDecimal precoTotal;
+	private String observacao;
 	
 	@ManyToOne
 	@JoinColumn(name = "pedido_id", nullable = false)
 	private Pedido pedido;
-	
+
 }

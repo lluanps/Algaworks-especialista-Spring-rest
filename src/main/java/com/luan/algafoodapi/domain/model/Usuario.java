@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,5 +42,8 @@ public class Usuario {
 	joinColumns = @JoinColumn(name = "usuario_id"),
 	inverseJoinColumns = @JoinColumn(name = "grupos_id"))
 	private List<Grupo> grupos;
+	
+	@OneToMany(mappedBy = "usuarios")
+	private List<Pedido> pedido;
 	
 }
