@@ -72,4 +72,7 @@ public class Restaurante {
 	@OneToMany(mappedBy = "restaurantes")
 	private List<Produto> produto;
 	
+	@OneToMany(mappedBy = "restaurantes")
+	private List<Pedido> pedido;
+	
 }
