@@ -43,7 +43,7 @@ public class Usuario {
 	inverseJoinColumns = @JoinColumn(name = "grupos_id"))
 	private List<Grupo> grupos;
 	
-	@OneToMany(mappedBy = "usuarios")
+	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedido;
 	
 }

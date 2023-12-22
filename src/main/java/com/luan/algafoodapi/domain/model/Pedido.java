@@ -50,8 +50,8 @@ public class Pedido implements Serializable {
 	private Restaurante restaurantes;
 	
 	@ManyToOne
-	@JoinColumn(name = "usuario_id", nullable = false)
-	private Usuario usuarios;
+	@JoinColumn(name = "usuario_cliente_id", nullable = false)
+	private Usuario cliente;
 	
 	@OneToMany(mappedBy = "pedido")
 	private List<FormaPagamento> formaPagamento;
