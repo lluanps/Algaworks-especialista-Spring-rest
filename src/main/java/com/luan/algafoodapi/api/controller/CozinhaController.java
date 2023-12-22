@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
@@ -40,14 +39,8 @@ public class CozinhaController {
 	
 	//@ResponseStatus(HttpStatus.OK)retornando o status de outro forma
 	@GetMapping("/{id}")
-	public ResponseEntity<Cozinha> findCozinhaById(@PathVariable Long id) {
-		Optional<Cozinha> cozinha = repository.findById(id);
-		
-		if (cozinha.isPresent()) {
-			return ResponseEntity.ok(cozinha.get());
-		}
-		//return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		return ResponseEntity.notFound().build();
+	public Cozinha findCozinhaById(@PathVariable Long id) {
+		return service.buscaOuFalha(id);
 	}
 	
 	/*retornando com STATUS CREATED 201*/
@@ -58,18 +51,13 @@ public class CozinhaController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody Cozinha obj) {
-		Optional<Cozinha> cozinhaAtual = repository.findById(id);
+	public Cozinha update(@PathVariable Long id, @RequestBody Cozinha obj) {
+		Cozinha cozinhaAtual = service.buscaOuFalha(id);
 		
-		if (cozinhaAtual.isPresent()) {
-			/*BeanUtils seta os valores, é parecido como o => cozinha.setNome(obj.getNome());
-			o terceiro parametro(1,2,3) é usado para ignorar os campos que nao vao ser setados*/
-			BeanUtils.copyProperties(obj, cozinhaAtual.get(), "id");
-			Cozinha cozinhaSalva = service.salvar(cozinhaAtual.get());
-			return ResponseEntity.ok(cozinhaSalva);			
-		}
-		
-		return ResponseEntity.notFound().build();
+		/*BeanUtils seta os valores, é parecido como o => cozinha.setNome(obj.getNome());
+		o terceiro parametro(1,2,3) é usado para ignorar os campos que nao vao ser setados*/
+		BeanUtils.copyProperties(obj, cozinhaAtual, "id");
+		return service.salvar(cozinhaAtual);
 	}
 	
 	@DeleteMapping("{id}")
