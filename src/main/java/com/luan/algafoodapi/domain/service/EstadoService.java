@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.Estado;
 import com.luan.algafoodapi.domain.repository.EstadoRepository;
 
@@ -17,7 +18,7 @@ public class EstadoService {
 	private EstadoRepository repository;
 	
 	public Estado buscaOuFalha(Long estadoId) {
-		return repository.findById(estadoId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+		return repository.findById(estadoId).orElseThrow(() -> new EstadoNaoEncontradaException(
 				String.format("Não foi encontrado estado com id ", estadoId)));
 	}
 
@@ -29,7 +30,7 @@ public class EstadoService {
 		try {
 			repository.deleteById(estadoId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não foi possivel remover o estado, pois o Id: %d informado não se encontra em nosso siterma", estadoId));
+			throw new EstadoNaoEncontradaException(String.format("Não foi possivel remover o estado, pois o Id: %d informado não se encontra em nosso siterma", estadoId));
 		} 
 		catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(

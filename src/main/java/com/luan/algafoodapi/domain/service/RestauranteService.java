@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.luan.algafoodapi.domain.exception.RestauranteNaoEncontradoException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
@@ -30,14 +31,14 @@ public class RestauranteService {
 		try {
 			return repository.findById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(
+			throw new RestauranteNaoEncontradoException(
 					String.format("Restaurante id %d, não existe", id));
 		}
 	}
 
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
-		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() ->new EntidadeNaoEncontradaException(
+		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() ->new RestauranteNaoEncontradoException(
 				String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
 		
 		restaurante.setCozinha(cozinha);
@@ -46,7 +47,7 @@ public class RestauranteService {
 	}
 	
 	public Restaurante buscaOuFalha(Long restauranteId) {
-		return repository.findById(restauranteId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+		return repository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncontradoException(
 				String.format("Não existe um restaurante com esse id %d", restauranteId)));
 	}
 	

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
+import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Estado;
 import com.luan.algafoodapi.domain.repository.EstadoRepository;
 import com.luan.algafoodapi.domain.service.EstadoService;
@@ -42,15 +44,23 @@ public class EstadoController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Estado salvar(@RequestBody Estado estado) {
-		return service.salvar(estado);
+		try {
+			return service.salvar(estado);
+		} catch (EstadoNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 	
 	@PutMapping("/{estadoId}")
 	public Estado atualizar(@RequestBody Estado estado, @PathVariable Long id) {
-		Estado estadoAtual = service.buscaOuFalha(id);
-		
-		BeanUtils.copyProperties(estado, estadoAtual, "id");
-		return service.salvar(estadoAtual);
+		try {
+			Estado estadoAtual = service.buscaOuFalha(id);
+			
+			BeanUtils.copyProperties(estado, estadoAtual, "id");
+			return service.salvar(estadoAtual);
+		} catch (EstadoNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 
 	@DeleteMapping("/{estadoId}")
