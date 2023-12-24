@@ -44,5 +44,11 @@ public class RestauranteService {
 		
 		return repository.save(restaurante);
 	}
+	
+	public Restaurante buscaOuFalha(Long restauranteId) {
+		return repository.findById(restauranteId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+				String.format("Não existe um restaurante com esse id %d", restauranteId)));
+	}
+	
 
 }
