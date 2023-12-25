@@ -51,5 +51,4 @@ public class RestauranteService {
 				String.format("Não existe um restaurante com esse id %d", restauranteId)));
 	}
 	
-
 }
