@@ -1,14 +1,11 @@
 package com.luan.algafoodapi.api.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luan.algafoodapi.api.exceptionhandler.ApiError;
-import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Cidade;
@@ -33,6 +28,7 @@ public class CidadeController {
 	@Autowired
 	private CidadeService service;
 	
+	@Autowired
 	private CidadeRepository repository;
 	
 	@GetMapping
@@ -70,24 +66,4 @@ public class CidadeController {
 		service.excluir(cidadeId);	
 	}
 	
-	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e) {
-		ApiError apiError = ApiError.builder()
-				.dataHora(LocalDateTime.now())
-				.msg(e.getMessage())
-				.build();
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
-	}
-	
-	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<?> tratarNegocioException(NegocioException e) {
-		ApiError apiError = ApiError.builder()
-				.dataHora(LocalDateTime.now())
-				.msg(e.getMessage())
-				.build();
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
-	}
-
 }
