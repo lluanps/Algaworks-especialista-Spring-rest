@@ -4,6 +4,7 @@ import org.springframework.data.projection.EntityProjection.ProjectionType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -15,7 +16,19 @@ import com.luan.algafoodapi.domain.exception.NegocioException;
 
 @ControllerAdvice//dentro desse componente é possivel adicionar exceptions handlers
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
-
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+		ApiErrorType apiErrorType = ApiErrorType.MENSAGEM_INCOMPREENSIVEL;
+		String detail = "O corpo da requisição está inválido. Verifique se existe erro de sintaxe";
+		
+		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+		
+		return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
+	}
+	
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e,
 			WebRequest request) {
