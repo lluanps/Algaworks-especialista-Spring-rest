@@ -5,7 +5,9 @@ import lombok.Getter;
 @Getter
 public enum ApiErrorType {
 	
-	ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada");
+	ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
+	NEGOCIO_EXCEPETION("/negocio-exception", "Negócio exception"),
+	ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso");
 	
 	private String title;
 	private String uri;
