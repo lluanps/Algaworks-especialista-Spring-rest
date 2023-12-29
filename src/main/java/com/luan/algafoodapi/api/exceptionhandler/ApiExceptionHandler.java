@@ -39,7 +39,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> handleNegocioException(NegocioException e, WebRequest request) {
 		
-		HttpStatus status = HttpStatus.NOT_FOUND;
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		ApiErrorType apiErrorType = ApiErrorType.NEGOCIO_EXCEPETION;
 		String detail = e.getMessage();
 		
