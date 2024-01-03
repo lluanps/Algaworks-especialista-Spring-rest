@@ -1,5 +1,6 @@
 package com.luan.algafoodapi.api.exceptionhandler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,10 @@ import com.luan.algafoodapi.domain.exception.NegocioException;
 @ControllerAdvice//dentro desse componente é possivel adicionar exceptions handlers
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
+	private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
+	        + "Tente novamente e se o problema persistir, entre em contato "
+	        + "com o administrador do sistema.";
+
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -41,7 +46,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiErrorType apiErrorType = ApiErrorType.MENSAGEM_INCOMPREENSIVEL;
 		String detail = "O corpo da requisição está inválido. Verifique se existe erro de sintaxe";
 		
-		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+				.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+				.build();
 		
 		return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
 	}
@@ -59,7 +66,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				+ "Corrija e informe o valor compatível com o tipo %s.", 
 				path, ex.getValue(), ex.getTargetType().getSimpleName());
 		
-		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+	    		.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+				.build();
 
 		return handleExceptionInternal(ex, apiError, headers, status, request);
 	}
@@ -72,7 +81,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiErrorType apiErrorType = ApiErrorType.RECURSO_NAO_ENCONTRADO;
 		String detail = e.getMessage();
 		
-		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+				.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+				.build();
 		
 //		ApiError apiError = ApiError.builder()
 //				.status(status.value())
@@ -91,7 +102,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiErrorType apiErrorType = ApiErrorType.NEGOCIO_EXCEPETION;
 		String detail = e.getMessage();
 		
-		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+				.userMessage(detail)
+				.build();
 		
 		return handleExceptionInternal(e, apiError, new HttpHeaders(), status, request);
 	}
@@ -103,7 +116,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiErrorType apiErrorType = ApiErrorType.ENTIDADE_EM_USO;
 		String detail = e.getMessage();
 		
-		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+	    		.userMessage(detail)
+				.build();
 		
 		return handleExceptionInternal(e, apiError, new HttpHeaders(), status, request);
 	}
@@ -114,11 +129,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		if (body == null) {
 			body = ApiError.builder()
+					.timestamp(LocalDateTime.now())
 					.title(status.getReasonPhrase())//getReasonPhrase() retorna a descrição do status
 					.status(status.value())
 					.build();
 		} else if (body instanceof String) {
 			body = ApiError.builder()
+					.timestamp(LocalDateTime.now())
 					.title((String) body)
 					.status(status.value())
 					.build();
@@ -136,7 +153,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    String detail = String.format("A propriedade '%s' não existe. "
 	            + "Corrija ou remova essa propriedade e tente novamente.", path);
 
-	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+	    		.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+	    		.build();
 	    
 	    return handleExceptionInternal(ex, apiError, headers, status, request);
 	}
@@ -163,7 +182,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	            + "que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
 	            ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+	    		.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+	    		.build();
 
 	    return handleExceptionInternal(ex, apiError, headers, status, request);
 	}
@@ -177,7 +198,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", 
 	            ex.getRequestURL());
 	    
-	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+	    		.userMessage(detail)
+	    		.build();
 	    
 	    return handleExceptionInternal(ex, apiError, headers, status, request);
 	}
@@ -187,11 +210,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;		
 	    ApiErrorType apiErrorType = ApiErrorType.ERRO_DE_SISTEMA;
 	    
-	    String detail = "Ocorreu um erro interno inesperado no sistema. "
-	            + "Tente novamente e se o problema persistir, entre em contato "
-	            + "com o administrador do sistema.";
+	    String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
 
-	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).build();
+	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+	    		.userMessage(detail)
+	    		.build();
 
 	    return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
 	}
@@ -200,6 +223,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			, String detail) {
 		
 		return ApiError.builder()
+				.timestamp(LocalDateTime.now())
 				.status(status.value())
 				.type(apiErrorType.getUri())
 				.title(apiErrorType.getTitle())
