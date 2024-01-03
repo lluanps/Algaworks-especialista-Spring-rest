@@ -8,6 +8,7 @@ public enum ApiErrorType {
 	ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
 	NEGOCIO_EXCEPETION("/negocio-exception", "Violação de regra de negócio"),
 	ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
+	PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensivel");
 	
 	private String title;
