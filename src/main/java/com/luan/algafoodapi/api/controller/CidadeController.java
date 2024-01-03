@@ -17,56 +17,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
-import com.luan.algafoodapi.domain.model.Estado;
-import com.luan.algafoodapi.domain.repository.EstadoRepository;
-import com.luan.algafoodapi.domain.service.EstadoService;
+import com.luan.algafoodapi.domain.model.Cidade;
+import com.luan.algafoodapi.domain.repository.CidadeRepository;
+import com.luan.algafoodapi.domain.service.CidadeService;
 
 @RestController
-@RequestMapping(value = "/estados")
-public class EstadoController {
-
-	@Autowired
-	private EstadoRepository repository;
+@RequestMapping("/cidades")
+public class CidadeController {
 	
 	@Autowired
-	private EstadoService service;
+	private CidadeService service;
+	
+	@Autowired
+	private CidadeRepository repository;
 	
 	@GetMapping
-	public List<Estado> listar() {
+	public List<Cidade> listar() {
 		return repository.findAll();
-	}
-	
-	@GetMapping("/{estadoId}")
-	public Estado findEstadoById(@PathVariable Long estadoId) {
-		return service.buscaOuFalha(estadoId);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado salvar(@RequestBody Estado estado) {
+	public Cidade salvar(@RequestBody Cidade cidade) {
 		try {
-			return service.salvar(estado);
+			return service.salvar(cidade);
 		} catch (EstadoNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
 	
-	@PutMapping("/{estadoId}")
-	public Estado atualizar(@RequestBody Estado estado, @PathVariable Long id) {
+	@PutMapping("/{cidadeId}")
+	public Cidade atualizar(@PathVariable Long cidadeId,
+			@RequestBody Cidade cidade) {
 		try {
-			Estado estadoAtual = service.buscaOuFalha(id);
+			Cidade cidadeAtual = service.buscarOuFalhar(cidadeId);
 			
-			BeanUtils.copyProperties(estado, estadoAtual, "id");
-			return service.salvar(estadoAtual);
+			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+			
+			return service.salvar(cidadeAtual);
 		} catch (EstadoNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
+			throw new NegocioException(e.getMessage(), e);
 		}
 	}
-
-	@DeleteMapping("/{estadoId}")
+	
+	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void excluir(@PathVariable Long estadoId) {
-		service.excluir(estadoId);
+	public void remover(@PathVariable Long cidadeId) {
+		service.excluir(cidadeId);	
 	}
 	
 }

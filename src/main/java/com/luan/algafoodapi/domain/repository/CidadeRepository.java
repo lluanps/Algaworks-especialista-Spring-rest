@@ -7,5 +7,5 @@ import com.luan.algafoodapi.domain.model.Cidade;
 
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Long> {
-	
+
 }
