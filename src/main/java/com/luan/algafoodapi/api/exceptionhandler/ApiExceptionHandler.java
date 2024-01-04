@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.luan.algafoodapi.api.exceptionhandler.ApiError.Field;
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -205,8 +207,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiErrorType apiErrorType = ApiErrorType.DADOS_INVALIDOS;
 		String detail = "Um ou mais campos estão inválidos, favor preencha corretamente e tente novamente.";
 		
+		BindingResult bindingResult = ex.getBindingResult();//armazena violações de contraints de validação
+		List<ApiError.Field> apiErrorFields = bindingResult.getFieldErrors()
+				.stream()
+				.map(fieldError -> ApiError.Field.builder()
+						.name("a")
+						.userMessage("msg para user")
+						.build())
+				.collect(Collectors.toList());
+		
 		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
 				.userMessage(detail)
+				.fields(apiErrorFields)
 				.build();
 		
 		return handleExceptionInternal(ex, apiError, headers, status, request);
