@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.RestauranteNaoEncontradoException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.model.Restaurante;
-import com.luan.algafoodapi.domain.repository.CozinhaRepository;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 
 @Service
