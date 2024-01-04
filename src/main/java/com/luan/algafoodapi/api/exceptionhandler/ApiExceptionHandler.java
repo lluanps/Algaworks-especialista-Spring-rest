@@ -124,27 +124,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(e, apiError, new HttpHeaders(), status, request);
 	}
 	
-	@Override
-	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-			HttpStatus status, WebRequest request) {
-		
-		if (body == null) {
-			body = ApiError.builder()
-					.timestamp(LocalDateTime.now())
-					.title(status.getReasonPhrase())//getReasonPhrase() retorna a descrição do status
-					.status(status.value())
-					.build();
-		} else if (body instanceof String) {
-			body = ApiError.builder()
-					.timestamp(LocalDateTime.now())
-					.title((String) body)
-					.status(status.value())
-					.build();
-		}
-		
-		return super.handleExceptionInternal(ex, body, headers, status, request);
-	}
-	
 	private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex,
 	        HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -195,7 +174,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	        HttpHeaders headers, HttpStatus status, WebRequest request) {
 	    
 	    ApiErrorType apiErrorType = ApiErrorType.RECURSO_NAO_ENCONTRADO;
-	    
 	    String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", 
 	            ex.getRequestURL());
 	    
@@ -208,9 +186,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
+		
 	    HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;		
 	    ApiErrorType apiErrorType = ApiErrorType.ERRO_DE_SISTEMA;
-	    
 	    String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
 
 	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
@@ -249,6 +227,27 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    return references.stream()
 	        .map(ref -> ref.getFieldName())
 	        .collect(Collectors.joining("."));
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		
+		if (body == null) {
+			body = ApiError.builder()
+					.timestamp(LocalDateTime.now())
+					.title(status.getReasonPhrase())//getReasonPhrase() retorna a descrição do status
+					.status(status.value())
+					.build();
+		} else if (body instanceof String) {
+			body = ApiError.builder()
+					.timestamp(LocalDateTime.now())
+					.title((String) body)
+					.status(status.value())
+					.build();
+		}
+		
+		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
 	
 }
