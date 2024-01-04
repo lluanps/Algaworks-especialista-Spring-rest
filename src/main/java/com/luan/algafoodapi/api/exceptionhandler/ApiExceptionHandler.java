@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
-import com.luan.algafoodapi.api.exceptionhandler.ApiError.Field;
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -211,8 +210,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		List<ApiError.Field> apiErrorFields = bindingResult.getFieldErrors()
 				.stream()
 				.map(fieldError -> ApiError.Field.builder()
-						.name("a")
-						.userMessage("msg para user")
+						.name(fieldError.getField())
+						.userMessage(fieldError.getDefaultMessage())
 						.build())
 				.collect(Collectors.toList());
 		
