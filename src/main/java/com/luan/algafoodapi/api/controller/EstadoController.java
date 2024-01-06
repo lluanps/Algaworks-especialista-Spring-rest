@@ -2,6 +2,8 @@ package com.luan.algafoodapi.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,7 @@ public class EstadoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado salvar(@RequestBody Estado estado) {
+	public Estado salvar(@RequestBody @Valid Estado estado) {
 		try {
 			return service.salvar(estado);
 		} catch (EstadoNaoEncontradaException e) {
@@ -52,7 +54,7 @@ public class EstadoController {
 	}
 	
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@RequestBody Estado estado, @PathVariable Long id) {
+	public Estado atualizar(@RequestBody @Valid Estado estado, @PathVariable Long id) {
 		try {
 			Estado estadoAtual = service.buscaOuFalha(id);
 			

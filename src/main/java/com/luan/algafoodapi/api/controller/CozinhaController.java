@@ -50,7 +50,7 @@ public class CozinhaController {
 	}
 	
 	@PutMapping("/{id}")
-	public Cozinha update(@PathVariable Long id, @RequestBody Cozinha obj) {
+	public Cozinha update(@PathVariable @Valid Long id, @RequestBody Cozinha obj) {
 		Cozinha cozinhaAtual = service.buscaOuFalha(id);
 		
 		/*BeanUtils seta os valores, é parecido como o => cozinha.setNome(obj.getNome());
