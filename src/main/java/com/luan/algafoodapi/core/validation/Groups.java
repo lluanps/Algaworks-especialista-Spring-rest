@@ -1,4 +1,4 @@
-package com.luan.algafoodapi;
+package com.luan.algafoodapi.core.validation;
 
 public interface Groups {
 	
