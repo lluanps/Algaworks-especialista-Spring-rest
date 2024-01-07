@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +14,11 @@ import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.service.CozinhaService;
+
+/*
+ * executar teste por linha de comando = mvnw test
+ * limpa o projeto e em seguida recompila e empacota o código-fonte, = mvnw clean package
+ * */
 
 @SpringBootTest
 public class CadastroCozinhaIntegrationTests {
