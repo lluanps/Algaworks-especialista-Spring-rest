@@ -28,10 +28,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luan.algafoodapi.core.validation.Groups;
 import com.luan.algafoodapi.core.validation.TaxaFrete;
+import com.luan.algafoodapi.core.validation.ValorZeroIncluiDescricao;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
