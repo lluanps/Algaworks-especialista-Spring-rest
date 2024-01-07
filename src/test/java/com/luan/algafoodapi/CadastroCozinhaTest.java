@@ -1,6 +1,8 @@
 package com.luan.algafoodapi;
 
+import org.aspectj.lang.annotation.Before;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -22,13 +24,17 @@ public class CadastroCozinhaTest {
 	@LocalServerPort//é injetado o numero da porta q foi injetado,
 	private int port;
 	
+	@BeforeEach
+	public void setUp() {
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+		RestAssured.port = port;
+		RestAssured.basePath = "/cozinhas";
+	}
+	
 	@Test
 	public void deveRetornarStatus200QuandoConsultarCozinhas() {
 		RestAssured
 		.given()
-			.basePath("/cozinhas")
-//			.port(8080) caso o teste for realizado com a aplicação levantada usar o numero da porta
-			.port(port)
 			.accept(ContentType.JSON)
 		.when()
 			.get()
@@ -40,8 +46,6 @@ public class CadastroCozinhaTest {
 	public void deveConter3CozinhasQuandoConsultarCozinhas() {
 		RestAssured
 		.given()
-			.basePath("/cozinhas")
-			.port(port)
 			.accept(ContentType.JSON)
 		.when()
 			.get()
