@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -213,13 +214,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = "Um ou mais campos estão inválidos, favor preencha corretamente e tente novamente.";
 		
 		BindingResult bindingResult = ex.getBindingResult();//armazena violações de contraints de validação
-		List<ApiError.Field> apiErrorFields = bindingResult.getFieldErrors()
+		List<ApiError.Object> apiErrorObjects = bindingResult.getAllErrors()
 				.stream()
-				.map(fieldError -> {
-					String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+				.map(objectError -> {
+					String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
 					
-					return ApiError.Field.builder()
-						.name(fieldError.getField())
+					String name = objectError.getObjectName();
+					
+					if (objectError instanceof FieldError) {
+						name = ((FieldError) objectError).getField();
+					}
+					
+					return ApiError.Object.builder()
+						.name(name)
 						.userMessage(message)
 						.build();
 				})
@@ -227,7 +234,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
 				.userMessage(detail)
-				.fields(apiErrorFields)
+				.objects(apiErrorObjects)
 				.build();
 		
 		return handleExceptionInternal(ex, apiError, headers, status, request);
