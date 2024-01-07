@@ -1,5 +1,6 @@
 package com.luan.algafoodapi;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -33,6 +34,20 @@ public class CadastroCozinhaTest {
 			.get()
 		.then()
 			.statusCode(HttpStatus.OK.value());//htttp status 200
+	}
+	
+	@Test
+	public void deveConter3CozinhasQuandoConsultarCozinhas() {
+		RestAssured
+		.given()
+			.basePath("/cozinhas")
+			.port(port)
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.body("", Matchers.hasSize(3))//verifica a quantidade exata do array do corpo da resposta
+			.body("nome", Matchers.hasItems("Chilena", "Brazileira"));//verifica se contem os nomes no corpo da resposta
 	}
 	
 }
