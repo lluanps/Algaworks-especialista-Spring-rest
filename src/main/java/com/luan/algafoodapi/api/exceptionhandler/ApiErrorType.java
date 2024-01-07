@@ -10,6 +10,7 @@ public enum ApiErrorType {
 	ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
 	PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),
 	ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
+	DADOS_INVALIDOS("/dados-invalidos", "Dados inválidos"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensivel");
 	
 	private String title;

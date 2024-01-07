@@ -2,6 +2,8 @@ package com.luan.algafoodapi.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +40,7 @@ public class CidadeController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cidade salvar(@RequestBody Cidade cidade) {
+	public Cidade salvar(@RequestBody @Valid Cidade cidade) {
 		try {
 			return service.salvar(cidade);
 		} catch (EstadoNaoEncontradaException e) {
@@ -47,7 +49,7 @@ public class CidadeController {
 	}
 	
 	@PutMapping("/{cidadeId}")
-	public Cidade atualizar(@PathVariable Long cidadeId,
+	public Cidade atualizar(@PathVariable @Valid Long cidadeId,
 			@RequestBody Cidade cidade) {
 		try {
 			Cidade cidadeAtual = service.buscarOuFalhar(cidadeId);

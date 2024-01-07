@@ -6,10 +6,16 @@ import java.util.stream.Collectors;
 
 import org.flywaydb.core.internal.util.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -20,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.luan.algafoodapi.core.validation.ValidacaoException;
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -30,6 +37,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
 	        + "Tente novamente e se o problema persistir, entre em contato "
 	        + "com o administrador do sistema.";
+	
+	@Autowired
+	private MessageSource messageSource;
 
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
@@ -123,27 +133,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(e, apiError, new HttpHeaders(), status, request);
 	}
 	
-	@Override
-	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-			HttpStatus status, WebRequest request) {
-		
-		if (body == null) {
-			body = ApiError.builder()
-					.timestamp(LocalDateTime.now())
-					.title(status.getReasonPhrase())//getReasonPhrase() retorna a descrição do status
-					.status(status.value())
-					.build();
-		} else if (body instanceof String) {
-			body = ApiError.builder()
-					.timestamp(LocalDateTime.now())
-					.title((String) body)
-					.status(status.value())
-					.build();
-		}
-		
-		return super.handleExceptionInternal(ex, body, headers, status, request);
-	}
-	
 	private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex,
 	        HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -194,7 +183,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	        HttpHeaders headers, HttpStatus status, WebRequest request) {
 	    
 	    ApiErrorType apiErrorType = ApiErrorType.RECURSO_NAO_ENCONTRADO;
-	    
 	    String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", 
 	            ex.getRequestURL());
 	    
@@ -207,9 +195,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
+		
 	    HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;		
 	    ApiErrorType apiErrorType = ApiErrorType.ERRO_DE_SISTEMA;
-	    
 	    String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
 
 	    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
@@ -219,8 +207,45 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
 	}
 	
-	private ApiError.ApiErrorBuilder createApiErrorBuilder(HttpStatus status, ApiErrorType apiErrorType
-			, String detail) {
+	private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		        
+		    ApiErrorType apiErrorType = ApiErrorType.DADOS_INVALIDOS;
+		    String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+		    
+		    List<ApiError.Object> problemObjects = bindingResult.getAllErrors().stream()
+		            .map(objectError -> {
+		                String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+		                
+		                String name = objectError.getObjectName();
+		                
+		                if (objectError instanceof FieldError) {
+		                    name = ((FieldError) objectError).getField();
+		                }
+		                
+		                return ApiError.Object.builder()
+		                    .name(name)
+		                    .userMessage(message)
+		                    .build();
+		            })
+		            .collect(Collectors.toList());
+		    
+		    ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail)
+		        .userMessage(detail)
+		        .objects(problemObjects)
+		        .build();
+		    
+		    return handleExceptionInternal(ex, apiError, headers, status, request);
+		}
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+	        HttpHeaders headers, HttpStatus status, WebRequest request) {
+	    return handleValidationInternal(ex, ex.getBindingResult(), headers, status, request);
+	}
+	
+	private ApiError.ApiErrorBuilder createApiErrorBuilder(HttpStatus status, ApiErrorType apiErrorType,
+			String detail) {
 		
 		return ApiError.builder()
 				.timestamp(LocalDateTime.now())
@@ -230,10 +255,37 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.detail(detail);
 	}
 	
+	
+	@ExceptionHandler({ ValidacaoException.class })
+	public ResponseEntity<Object> handleValidacaoException(ValidacaoException ex, WebRequest request) {
+		return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
 	private String joinPath(List<Reference> references) {
 	    return references.stream()
 	        .map(ref -> ref.getFieldName())
 	        .collect(Collectors.joining("."));
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		
+		if (body == null) {
+			body = ApiError.builder()
+					.timestamp(LocalDateTime.now())
+					.title(status.getReasonPhrase())//getReasonPhrase() retorna a descrição do status
+					.status(status.value())
+					.build();
+		} else if (body instanceof String) {
+			body = ApiError.builder()
+					.timestamp(LocalDateTime.now())
+					.title((String) body)
+					.status(status.value())
+					.build();
+		}
+		
+		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
 	
 }

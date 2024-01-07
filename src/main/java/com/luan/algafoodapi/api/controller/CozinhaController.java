@@ -1,12 +1,12 @@
 package com.luan.algafoodapi.api.controller;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
 import com.luan.algafoodapi.domain.service.CozinhaService;
@@ -46,12 +45,12 @@ public class CozinhaController {
 	/*retornando com STATUS CREATED 201*/
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha save(@RequestBody Cozinha cozinha) {
+	public Cozinha save(@RequestBody @Valid Cozinha cozinha) {
 		return service.salvar(cozinha);
 	}
 	
 	@PutMapping("/{id}")
-	public Cozinha update(@PathVariable Long id, @RequestBody Cozinha obj) {
+	public Cozinha update(@PathVariable @Valid Long id, @RequestBody Cozinha obj) {
 		Cozinha cozinhaAtual = service.buscaOuFalha(id);
 		
 		/*BeanUtils seta os valores, é parecido como o => cozinha.setNome(obj.getNome());
