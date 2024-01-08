@@ -13,6 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
 import com.luan.algafoodapi.util.DatabaseCleaner;
+import com.luan.algafoodapi.util.ResourceUtils;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -40,7 +41,7 @@ public class CadastroCozinhaTest {
 	
 //	private Cozinha cozinhaTest;
 	private int quantidadeCozinhasCadastradas;
-//	private String jsonCorretoCozinhaChinesa;
+	private String jsonCorretoCozinhaChinesa;
 	
 	@BeforeEach
 	public void setUp() {
@@ -48,8 +49,8 @@ public class CadastroCozinhaTest {
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
 		
-//		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource(
-//				"/json/correto/cozinha-chinesa.json");
+		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource(
+				"/json/correto/cozinha-chinesa.json");
 		
 		cleaner.clearTables();
 		prepararDados();
@@ -81,7 +82,7 @@ public class CadastroCozinhaTest {
 	public void deveRetornarStatus201QuandoCadastrarCozinhas() {
 		RestAssured
 		.given()
-			.body("{ \"nome\": \"Japonesa\" }")
+			.body(jsonCorretoCozinhaChinesa)
 			.contentType(ContentType.JSON)
 			.accept(ContentType.JSON)
 		.when()
