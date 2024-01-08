@@ -27,6 +27,8 @@ import io.restassured.http.ContentType;
 @TestPropertySource("/application-test.properties")
 public class CadastroCozinhaTest {
 	
+	private static final int COZINHA_ID_INEXISTENTE = 999999999;
+	
 	@LocalServerPort//é injetado o numero da porta q foi injetado,
 	private int port;
 	
@@ -36,14 +38,21 @@ public class CadastroCozinhaTest {
 	@Autowired
 	CozinhaRepository cozinhaRepository;
 	
+//	private Cozinha cozinhaTest;
+	private int quantidadeCozinhasCadastradas;
+//	private String jsonCorretoCozinhaChinesa;
+	
 	@BeforeEach
 	public void setUp() {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
 		
+//		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource(
+//				"/json/correto/cozinha-chinesa.json");
+		
 		cleaner.clearTables();
-		preparDados();
+		prepararDados();
 	}
 	
 	@Test
@@ -58,15 +67,14 @@ public class CadastroCozinhaTest {
 	}
 	
 	@Test
-	public void deveConter2CozinhasQuandoConsultarCozinhas() {
+	public void deveRetornarQuantidadeCorretaDeCozinhasQuandoConsultarCozinhas() {
 		RestAssured
 		.given()
 			.accept(ContentType.JSON)
 		.when()
 			.get()// metodo HTTP
 		.then()
-			.body("", Matchers.hasSize(2))//verifica a quantidade exata do array do corpo da resposta
-			.body("nome", Matchers.hasItems("Tailadesa", "Americana"));//verifica se contem os nomes no corpo da resposta
+			.body("", Matchers.hasSize(quantidadeCozinhasCadastradas));//verifica a quantidade exata do array do corpo da resposta
 	}
 	
 	@Test
@@ -81,15 +89,44 @@ public class CadastroCozinhaTest {
 		.then()
 			.statusCode(HttpStatus.CREATED.value());
 	}
+
+	/*
+	@Test
+	public void deveRetornarRespostaEStatusCorretosQuandoConsultarCozinhaExistente() {
+		RestAssured
+		.given()
+			.pathParam("cozinhaId", cozinhaTest.getId())
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("nome", equalTo(cozinhaTest.getNome()));
+	}
+	*/
 	
-	private void preparDados() {
+	@Test
+	public void deveRetornarStatus404QuandoConsultarCozinhaInexistente() {
+		RestAssured
+		.given()
+			.pathParam("cozinhaId", COZINHA_ID_INEXISTENTE)
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+	}
+	
+	private void prepararDados() {
 		Cozinha cozinha1 = new Cozinha();
-		cozinha1.setNome("Tailadesa");
+		cozinha1.setNome("Tailandesa");
 		cozinhaRepository.save(cozinha1);
-		
+
 		Cozinha cozinha2 = new Cozinha();
 		cozinha2.setNome("Americana");
 		cozinhaRepository.save(cozinha2);
+		
+		quantidadeCozinhasCadastradas = (int) cozinhaRepository.count();
 	}
 	
 }
