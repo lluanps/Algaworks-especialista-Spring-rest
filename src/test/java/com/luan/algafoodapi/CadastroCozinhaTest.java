@@ -1,6 +1,5 @@
 package com.luan.algafoodapi;
 
-import org.flywaydb.core.Flyway;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
+
+import com.luan.algafoodapi.domain.model.Cozinha;
+import com.luan.algafoodapi.domain.repository.CozinhaRepository;
+import com.luan.algafoodapi.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -28,7 +31,10 @@ public class CadastroCozinhaTest {
 	private int port;
 	
 	@Autowired
-	private Flyway flyway;
+	private DatabaseCleaner cleaner;
+	
+	@Autowired
+	CozinhaRepository cozinhaRepository;
 	
 	@BeforeEach
 	public void setUp() {
@@ -36,7 +42,8 @@ public class CadastroCozinhaTest {
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
 		
-		flyway.migrate();
+		cleaner.clearTables();
+		preparDados();
 	}
 	
 	@Test
@@ -51,15 +58,15 @@ public class CadastroCozinhaTest {
 	}
 	
 	@Test
-	public void deveConter4CozinhasQuandoConsultarCozinhas() {
+	public void deveConter2CozinhasQuandoConsultarCozinhas() {
 		RestAssured
 		.given()
 			.accept(ContentType.JSON)
 		.when()
 			.get()// metodo HTTP
 		.then()
-			.body("", Matchers.hasSize(4))//verifica a quantidade exata do array do corpo da resposta
-			.body("nome", Matchers.hasItems("Tailandesa", "Brasileira"));//verifica se contem os nomes no corpo da resposta
+			.body("", Matchers.hasSize(2))//verifica a quantidade exata do array do corpo da resposta
+			.body("nome", Matchers.hasItems("Tailadesa", "Americana"));//verifica se contem os nomes no corpo da resposta
 	}
 	
 	@Test
@@ -73,6 +80,16 @@ public class CadastroCozinhaTest {
 			.post()// metodo HTTP
 		.then()
 			.statusCode(HttpStatus.CREATED.value());
+	}
+	
+	private void preparDados() {
+		Cozinha cozinha1 = new Cozinha();
+		cozinha1.setNome("Tailadesa");
+		cozinhaRepository.save(cozinha1);
+		
+		Cozinha cozinha2 = new Cozinha();
+		cozinha2.setNome("Americana");
+		cozinhaRepository.save(cozinha2);
 	}
 	
 }
