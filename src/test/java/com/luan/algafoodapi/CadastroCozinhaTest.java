@@ -41,7 +41,11 @@ public class CadastroCozinhaTest {
 	
 //	private Cozinha cozinhaTest;
 	private int quantidadeCozinhasCadastradas;
+	
 	private String jsonCorretoCozinhaChinesa;
+	private String jsonRestauranteCorreto;
+	private String jsonRestauranteComCozinhaInexistente;
+	private String jsonRestauranteSemFrete;
 	
 	@BeforeEach
 	public void setUp() {
@@ -51,6 +55,15 @@ public class CadastroCozinhaTest {
 		
 		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource(
 				"/json/correto/cozinha-chinesa.json");
+		
+		jsonRestauranteCorreto = ResourceUtils.getContentFromResource(
+				"/json/correto/restaurante-new-york-barbecue.json.json");
+		
+		jsonRestauranteComCozinhaInexistente = ResourceUtils.getContentFromResource(
+				"/json/correto/restaurante-new-york-barbecue-com-cozinha-inexistente.json");
+		
+		jsonRestauranteSemFrete = ResourceUtils.getContentFromResource(
+				"/json/correto/restaurante-new-york-barbecue-sem-frete.json");
 		
 		cleaner.clearTables();
 		prepararDados();

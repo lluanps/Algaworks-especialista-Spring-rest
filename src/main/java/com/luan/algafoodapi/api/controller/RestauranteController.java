@@ -32,6 +32,7 @@ import com.luan.algafoodapi.core.validation.ValidacaoException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Restaurante;
+import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
 @RestController
@@ -42,13 +43,14 @@ public class RestauranteController {
 	private RestauranteService service;
 	
 	@Autowired
+	private RestauranteRepository repository;
+	
+	@Autowired
 	private SmartValidator smartValidator;
 	
 	@GetMapping
 	public List<Restaurante> findAll() { 
-		List<Restaurante> restaurantes = service.findAll();
-		
-		return restaurantes;
+		return repository.findAll();
 	}
 	
 	@GetMapping("/{id}")
