@@ -26,6 +26,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luan.algafoodapi.core.validation.Groups;
 import com.luan.algafoodapi.core.validation.TaxaFrete;
 import com.luan.algafoodapi.core.validation.ValorZeroIncluiDescricao;
@@ -56,6 +57,7 @@ public class Restaurante {
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
+	@JsonIgnoreProperties(value = "nome", allowGetters = true)
 	@Valid//valida as propriedades de cozinha
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
 	@NotNull
