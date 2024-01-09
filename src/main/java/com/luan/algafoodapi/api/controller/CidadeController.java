@@ -40,7 +40,7 @@ public class CidadeController {
 	}
 
 	@GetMapping("/cidadeId")
-	public Cidade cozinhaById(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+	public Cidade cidadeById(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
 		return service.buscarOuFalhar(cidadeId);
 	}
 	
