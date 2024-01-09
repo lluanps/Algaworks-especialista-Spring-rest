@@ -89,6 +89,19 @@ public class CadastroRestauranteTest {
 	}
 	
 	@Test
+	public void deveRetornarStatus400QuandoCadastrarCozinhaInexistente() {
+		RestAssured
+		.given()
+			.body(jsonRestauranteComCozinhaInexistente)
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value());
+	}
+	
+	@Test
 	public void deveRetornarStatus404QuandoCadastrarRestauranteSemCozinha() {
 		
 	}
