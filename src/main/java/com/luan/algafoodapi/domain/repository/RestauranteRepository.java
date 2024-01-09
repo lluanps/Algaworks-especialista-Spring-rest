@@ -27,7 +27,18 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 	
 	int countByCozinhaId(Long cozinhaId);
 	
-	@Query("FROM Restaurante r JOIN r.cozinha JOIN r.formasPagamento")
+	@Query("FROM Restaurante r JOIN FETCH r.cozinha")
 	List<Restaurante> findAll();
+	
+	/*sql usado para descobrir sequencia para usar dentro no netval
+	SELECT column_default
+	FROM information_schema.columns
+	WHERE table_name = 'nome_da_sua_tabela' AND column_name = 'id';
+	*/
+
+    @Query(value = "SELECT nextval('restaurante_id_seq')", nativeQuery = true)
+    Long findProximoIdDisponivel();
+
+	Restaurante findByNome(String nome);
 	
 }

@@ -53,8 +53,9 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "usuario_cliente_id", nullable = false)
 	private Usuario cliente;
 	
-	@OneToMany(mappedBy = "pedido")
-	private List<FormaPagamento> formaPagamento;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private FormaPagamento formaPagamento;
 	
 	@JsonIgnore
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante

@@ -37,7 +37,7 @@ public class CozinhaController {
 	}
 	
 	//@ResponseStatus(HttpStatus.OK)retornando o status de outro forma
-	@GetMapping("/{id}")
+	@GetMapping("/{cozinhaId}")
 	public Cozinha findCozinhaById(@PathVariable Long id) {
 		return service.buscaOuFalha(id);
 	}
