@@ -1,9 +1,10 @@
 package com.luan.algafoodapi;
 
-import static org.assertj.core.api.Assertions.contentOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 import java.math.BigDecimal;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ import io.restassured.http.ContentType;
 @TestPropertySource("/application-test.properties")
 public class CadastroRestauranteTest {
 	
+	private static final String DADOS_INVALIDOS = "/dados-invalidos";
+
 	@LocalServerPort
 	private int port;
 	
@@ -42,6 +45,7 @@ public class CadastroRestauranteTest {
 	private String jsonRestauranteCorreto;
 	private String jsonRestauranteComCozinhaInexistente;
 	private String jsonRestauranteSemFrete;
+	private String jsonRestauranteComFreteZeroEFreteGratisNoNome;
 	
     private Restaurante RestaurantenewYorkBarbecue;
 	
@@ -59,6 +63,9 @@ public class CadastroRestauranteTest {
 		
 		jsonRestauranteSemFrete = ResourceUtils.getContentFromResource(
 				"/json/correto/restaurante-new-york-barbecue-sem-frete.json");
+		
+		jsonRestauranteComFreteZeroEFreteGratisNoNome = ResourceUtils.getContentFromResource(
+				"json/correto/restaurante-new-york-barbecue-com-frete-zero-e-frete-gratis-no-nome.json");
 		
 		cleaner.clearTables();
 		prepararDados();
@@ -102,8 +109,31 @@ public class CadastroRestauranteTest {
 	}
 	
 	@Test
-	public void deveRetornarStatus404QuandoCadastrarRestauranteSemCozinha() {
+	public void deveRetornarStatus400QuandoCadastrarRestauranteComFreteNull() {
+		RestAssured
+		.given()
+			.body(jsonRestauranteSemFrete)
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("title", Matchers.equalTo(DADOS_INVALIDOS));
 		
+	}
+	
+	@Test
+	public void deveRetornarStatus400QuandoCadastrarRestauranteComFreteZeroEQuandoNaoContemFreteGratisNoNome() {
+		RestAssured
+		.given()
+			.body(jsonRestauranteComFreteZeroEFreteGratisNoNome)
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value());
 	}
 	
     private void prepararDados() {
