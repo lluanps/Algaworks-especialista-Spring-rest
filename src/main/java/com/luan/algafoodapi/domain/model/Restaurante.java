@@ -25,8 +25,6 @@ import javax.validation.groups.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luan.algafoodapi.core.validation.Groups;
 import com.luan.algafoodapi.core.validation.TaxaFrete;
 import com.luan.algafoodapi.core.validation.ValorZeroIncluiDescricao;
@@ -57,7 +55,6 @@ public class Restaurante {
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
-	@JsonIgnoreProperties(value = "nome", allowGetters = true)
 	@Valid//valida as propriedades de cozinha
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
 	@NotNull
@@ -65,21 +62,17 @@ public class Restaurante {
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
-	@JsonIgnore
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
 	private Endereco endereco;
 
-	@JsonIgnore
 	@CreationTimestamp // informe que a propriedade anotada deve ser atribuido com a data no momento que for cadastrada
 	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 	
-	@JsonIgnore
 	@UpdateTimestamp // altera a data sempre na hora atual
 	@Column(name = "data_atualizacao", nullable = false, columnDefinition = "datetime") // columnDefinition = "datetime" -> cria sem o milisegundos ficando hh:mm:ss
 	private LocalDateTime dataAtualizacao;
 	
-	@JsonIgnore
 	//muitos restaurantes possui muitas formas de pagamentos
 	@ManyToMany
 	//joinColumns define o nome da coluna da chave estrangeira na tabela intermediaria que faz referencia a tabela restaurante
@@ -88,12 +81,10 @@ public class Restaurante {
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurantes")
 	private List<Produto> produto;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurantes")
-	private List<Pedido> pedido;
+	private List<Pedido> pedido;//verificar necessidade 
 	
 }
