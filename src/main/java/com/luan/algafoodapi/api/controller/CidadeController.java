@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Cidade;
+import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
@@ -36,6 +37,11 @@ public class CidadeController {
 	@GetMapping
 	public List<Cidade> listar() {
 		return repository.findAll();
+	}
+
+	@GetMapping("/cidadeId")
+	public Cidade cozinhaById(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+		return service.buscarOuFalhar(cidadeId);
 	}
 	
 	@PostMapping
