@@ -1,7 +1,10 @@
 package com.luan.algafoodapi.domain.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,16 +36,18 @@ public class RestauranteService {
 					String.format("Restaurante id %d, não existe", id));
 		}
 	}
-
 	
+	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
 		Cozinha cozinha = cozinhaService.buscaOuFalha(cozinhaId);
+		
 		restaurante.setCozinha(cozinha);
-
+		restaurante.setDataCadastro(LocalDateTime.now());
+		
 		return repository.save(restaurante);
 	}
-	
+
 	public Restaurante buscaOuFalha(Long restauranteId) {
 		return repository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncontradoException(
 				String.format("Não existe um restaurante com esse id %d", restauranteId)));

@@ -21,8 +21,8 @@ public class FormaPagamento {
 	
 	private String descricao;
 	
-	@ManyToOne
-	@JoinColumn(name = "pedido_id", nullable = false)
-	private Pedido pedido;
-	
+//	@ManyToOne
+//	@JoinColumn(name = "pedido_id", nullable = false)
+//	private Pedido pedido;
+
 }

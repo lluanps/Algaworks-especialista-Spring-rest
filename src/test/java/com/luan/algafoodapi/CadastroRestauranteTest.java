@@ -1,5 +1,7 @@
 package com.luan.algafoodapi;
 
+import static org.assertj.core.api.Assertions.contentOf;
+
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +73,24 @@ public class CadastroRestauranteTest {
 			.get()
 		.then()
 			.statusCode(HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void deveRetornarStatus201QuandoCadastrarRestauranteCorreto() {
+		RestAssured
+		.given()
+			.body(jsonRestauranteCorreto)
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.CREATED.value());
+	}
+	
+	@Test
+	public void deveRetornarStatus404QuandoCadastrarRestauranteSemCozinha() {
+		
 	}
 	
     private void prepararDados() {

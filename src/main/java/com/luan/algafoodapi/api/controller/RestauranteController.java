@@ -29,10 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luan.algafoodapi.core.validation.ValidacaoException;
+import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
+import com.luan.algafoodapi.domain.service.CozinhaService;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
 @RestController
@@ -61,9 +63,10 @@ public class RestauranteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurante save(@RequestBody @Valid Restaurante restaurante) {
+
 		try {
 			return service.salvar(restaurante);
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
