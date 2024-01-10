@@ -27,12 +27,9 @@ public class RestauranteMixin {
 	private LocalDateTime dataAtualizacao;
 	
 	@JsonIgnore
-	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+	private List<FormaPagamento> formasPagamento;
 	
 	@JsonIgnore
 	private List<Produto> produto;
-	
-	@JsonIgnore
-	private List<Pedido> pedido;
 	
 }
