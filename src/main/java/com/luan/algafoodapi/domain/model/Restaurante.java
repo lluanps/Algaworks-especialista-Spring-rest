@@ -1,7 +1,7 @@
 package com.luan.algafoodapi.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,6 @@ import javax.validation.groups.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luan.algafoodapi.core.validation.Groups;
 import com.luan.algafoodapi.core.validation.TaxaFrete;
 import com.luan.algafoodapi.core.validation.ValorZeroIncluiDescricao;
@@ -46,38 +45,34 @@ public class Restaurante {
 /*	https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-builtin-constraints
 	@NotNull nao aceita null mas aceita string vazia
 	@NotEmpty nao aceita nenhum dos dois acima mas aceita string com 'espaço' em branco*/
-	@NotBlank
+//	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotNull 
+//	@NotNull 
 //	@PositiveOrZero
 	@TaxaFrete
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
-	@Valid//valida as propriedades de cozinha
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
-	@NotNull
+//	@Valid//valida as propriedades de cozinha
+//	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
-	@JsonIgnore
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
 	private Endereco endereco;
 
-	@JsonIgnore
 	@CreationTimestamp // informe que a propriedade anotada deve ser atribuido com a data no momento que for cadastrada
 	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
-	private LocalDateTime dataCadastro;
+	private OffsetDateTime dataCadastro;
 	
-	@JsonIgnore
 	@UpdateTimestamp // altera a data sempre na hora atual
 	@Column(name = "data_atualizacao", nullable = false, columnDefinition = "datetime") // columnDefinition = "datetime" -> cria sem o milisegundos ficando hh:mm:ss
-	private LocalDateTime dataAtualizacao;
+	private OffsetDateTime dataAtualizacao;
 	
-	@JsonIgnore
 	//muitos restaurantes possui muitas formas de pagamentos
 	@ManyToMany
 	//joinColumns define o nome da coluna da chave estrangeira na tabela intermediaria que faz referencia a tabela restaurante
@@ -86,12 +81,7 @@ public class Restaurante {
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurantes")
 	private List<Produto> produto;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "restaurantes")
-	private List<Pedido> pedido;
 	
 }

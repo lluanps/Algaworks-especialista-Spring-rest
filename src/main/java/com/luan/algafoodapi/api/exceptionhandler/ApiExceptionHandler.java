@@ -1,6 +1,6 @@
 package com.luan.algafoodapi.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -248,7 +248,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			String detail) {
 		
 		return ApiError.builder()
-				.timestamp(LocalDateTime.now())
+				.timestamp(OffsetDateTime.now())
 				.status(status.value())
 				.type(apiErrorType.getUri())
 				.title(apiErrorType.getTitle())
@@ -273,13 +273,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		if (body == null) {
 			body = ApiError.builder()
-					.timestamp(LocalDateTime.now())
+					.timestamp(OffsetDateTime.now())
 					.title(status.getReasonPhrase())//getReasonPhrase() retorna a descrição do status
 					.status(status.value())
 					.build();
 		} else if (body instanceof String) {
 			body = ApiError.builder()
-					.timestamp(LocalDateTime.now())
+					.timestamp(OffsetDateTime.now())
 					.title((String) body)
 					.status(status.value())
 					.build();

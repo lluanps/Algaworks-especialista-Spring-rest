@@ -3,6 +3,7 @@ package com.luan.algafoodapi.domain.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -40,10 +41,10 @@ public class Pedido implements Serializable {
 	private BigDecimal valorTotal;
 	
 	@Column(nullable = false)
-	private LocalDateTime dataCriacao;
-	private LocalDateTime dataConfirmacao;
-	private LocalDateTime dataCancelamento;
-	private LocalDateTime dataEntrega;
+	private OffsetDateTime dataCriacao;
+	private OffsetDateTime dataConfirmacao;
+	private OffsetDateTime dataCancelamento;
+	private OffsetDateTime dataEntrega;
 	
 	@ManyToOne
 	@JoinColumn(name = "restaurante_id", nullable = false)

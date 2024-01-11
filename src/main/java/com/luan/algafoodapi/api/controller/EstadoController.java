@@ -16,7 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 
+import com.luan.algafoodapi.api.assembler.EstadoDTOAssembler;
+import com.luan.algafoodapi.api.assembler.EstadoInputDisassembler;
+import com.luan.algafoodapi.api.model.EstadoDTO;
+import com.luan.algafoodapi.api.model.input.EstadoInput;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Estado;
@@ -33,36 +38,44 @@ public class EstadoController {
 	@Autowired
 	private EstadoService service;
 	
+	@Autowired
+	private EstadoDTOAssembler estadoDTOAssembler;
+	
+	@Autowired
+	private EstadoInputDisassembler estadoInputDisassembler;
+	
 	@GetMapping
-	public List<Estado> listar() {
-		return repository.findAll();
+	public List<EstadoDTO> listar() {
+		 List<Estado> findAll = repository.findAll();
+		 
+		 return estadoDTOAssembler.toCollectionDto(findAll);
 	}
 	
 	@GetMapping("/{estadoId}")
-	public Estado findEstadoById(@PathVariable Long estadoId) {
-		return service.buscaOuFalha(estadoId);
+	public EstadoDTO findEstadoById(@PathVariable Long estadoId) {
+		Estado estado = service.buscaOuFalha(estadoId);
+		
+		return estadoDTOAssembler.toModel(estado);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado salvar(@RequestBody @Valid Estado estado) {
-		try {
-			return service.salvar(estado);
-		} catch (EstadoNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
-		}
+	public EstadoDTO salvar(@RequestBody @Valid EstadoInput estadoInput) {
+		Estado estado = estadoInputDisassembler.toDomainObject(estadoInput);
+		
+		estado = service.salvar(estado);
+		
+		return estadoDTOAssembler.toModel(estado);
 	}
 	
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@RequestBody @Valid Estado estado, @PathVariable Long id) {
-		try {
-			Estado estadoAtual = service.buscaOuFalha(id);
-			
-			BeanUtils.copyProperties(estado, estadoAtual, "id");
-			return service.salvar(estadoAtual);
-		} catch (EstadoNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
-		}
+	public EstadoDTO atualizar(@RequestBody @Valid EstadoInput estadoInput, @PathVariable Long estadoId) {
+		Estado estadoAtual = service.buscaOuFalha(estadoId);
+		
+		estadoInputDisassembler.copyToDomainObject(estadoInput, estadoAtual);
+		estadoAtual = service.salvar(estadoAtual);
+		
+		return estadoDTOAssembler.toModel(estadoAtual);
 	}
 
 	@DeleteMapping("/{estadoId}")

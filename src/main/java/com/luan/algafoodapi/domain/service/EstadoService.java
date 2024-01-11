@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
@@ -21,13 +22,16 @@ public class EstadoService {
 				String.format("Não foi encontrado estado com id ", estadoId)));
 	}
 
+	@Transactional
 	public Estado salvar(Estado estado) {
 		return repository.save(estado);
 	}
 
+	@Transactional
 	public void excluir(Long estadoId) {
 		try {
 			repository.deleteById(estadoId);
+			repository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new EstadoNaoEncontradaException(String.format("Não foi possivel remover o estado, pois o Id: %d informado não se encontra em nosso siterma", estadoId));
 		} 

@@ -1,6 +1,6 @@
 package com.luan.algafoodapi.domain.service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +43,7 @@ public class RestauranteService {
 		Cozinha cozinha = cozinhaService.buscaOuFalha(cozinhaId);
 		
 		restaurante.setCozinha(cozinha);
-		restaurante.setDataCadastro(LocalDateTime.now());
+		restaurante.setDataCadastro(OffsetDateTime.now());
 		
 		return repository.save(restaurante);
 	}
