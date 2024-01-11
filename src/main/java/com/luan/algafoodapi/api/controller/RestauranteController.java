@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ import com.luan.algafoodapi.api.model.input.RestauranteInputDTO;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
-import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 import com.luan.algafoodapi.domain.service.RestauranteService;
@@ -71,11 +69,12 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public RestauranteDTO atualizar(@PathVariable @Valid Long restauranteId,
 	        @RequestBody RestauranteInputDTO restauranteInput) {
-		Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
+//		Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
 	    Restaurante restauranteAtual = service.buscaOuFalha(restauranteId);
+	    inputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 	    
-	    BeanUtils.copyProperties(restaurante, restauranteAtual,
-	            "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+//	    BeanUtils.copyProperties(restaurante, restauranteAtual,
+//	            "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 	    
 	    try {
 	        return dtoAssembler.toModel(service.salvar(restauranteAtual));
