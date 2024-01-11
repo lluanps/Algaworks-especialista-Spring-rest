@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.luan.algafoodapi.api.assembler.CozinhaDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CozinhaInputDisassembler;
 import com.luan.algafoodapi.api.model.CozinhaDTO;
-import com.luan.algafoodapi.api.model.input.CozinhaIdInput;
 import com.luan.algafoodapi.api.model.input.CozinhaInput;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
