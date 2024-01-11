@@ -45,19 +45,19 @@ public class Restaurante {
 /*	https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-builtin-constraints
 	@NotNull nao aceita null mas aceita string vazia
 	@NotEmpty nao aceita nenhum dos dois acima mas aceita string com 'espaço' em branco*/
-	@NotBlank
+//	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotNull 
+//	@NotNull 
 //	@PositiveOrZero
 	@TaxaFrete
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
-	@Valid//valida as propriedades de cozinha
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
-	@NotNull
+//	@Valid//valida as propriedades de cozinha
+//	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
