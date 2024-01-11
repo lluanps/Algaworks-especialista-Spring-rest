@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luan.algafoodapi.api.assembler.RestauranteDTOAssembler;
+import com.luan.algafoodapi.api.assembler.RestauranteInputDisassembler;
 import com.luan.algafoodapi.api.model.RestauranteDTO;
 import com.luan.algafoodapi.api.model.input.RestauranteInputDTO;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
@@ -40,6 +41,8 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteDTOAssembler dtoAssembler;
 	
+	@Autowired
+	private RestauranteInputDisassembler inputDisassembler;
 	
 	@GetMapping
 	public List<RestauranteDTO> findAll() { 
@@ -57,7 +60,7 @@ public class RestauranteController {
 	public RestauranteDTO save(@RequestBody @Valid RestauranteInputDTO restauranteInput) {
 
 		try {
-			Restaurante restaurante = toDomainObjetct(restauranteInput);
+			Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
 			
 			return dtoAssembler.toModel(service.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
@@ -68,7 +71,7 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public RestauranteDTO atualizar(@PathVariable @Valid Long restauranteId,
 	        @RequestBody RestauranteInputDTO restauranteInput) {
-		Restaurante restaurante = toDomainObjetct(restauranteInput);
+		Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
 	    Restaurante restauranteAtual = service.buscaOuFalha(restauranteId);
 	    
 	    BeanUtils.copyProperties(restaurante, restauranteAtual,
@@ -79,19 +82,6 @@ public class RestauranteController {
 	    } catch (EntidadeNaoEncontradaException e) {
 	        throw new NegocioException(e.getMessage());
 	    }
-	}
-	
-	private Restaurante toDomainObjetct(RestauranteInputDTO restauranteInput) {
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteInput.getNome());
-		restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteInput.getCozinha().getId());
-		
-		restaurante.setCozinha(cozinha);
-		
-		return restaurante;
 	}
 	
 }
