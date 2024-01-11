@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 public class RestauranteInputDTO {
 	
+	@NotNull
 	private String nome;
 	
 	@NotNull
