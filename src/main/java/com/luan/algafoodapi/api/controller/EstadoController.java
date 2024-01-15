@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,14 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import com.luan.algafoodapi.api.assembler.EstadoDTOAssembler;
-import com.luan.algafoodapi.api.assembler.FormaPagamentoInputDisassembler;
+import com.luan.algafoodapi.api.assembler.EstadoInputDisassembler;
 import com.luan.algafoodapi.api.model.EstadoDTO;
 import com.luan.algafoodapi.api.model.input.EstadoInput;
-import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
-import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Estado;
 import com.luan.algafoodapi.domain.repository.EstadoRepository;
 import com.luan.algafoodapi.domain.service.EstadoService;
@@ -42,7 +38,7 @@ public class EstadoController {
 	private EstadoDTOAssembler estadoDTOAssembler;
 	
 	@Autowired
-	private FormaPagamentoInputDisassembler estadoInputDisassembler;
+	private EstadoInputDisassembler estadoInputDisassembler;
 	
 	@GetMapping
 	public List<EstadoDTO> listar() {
