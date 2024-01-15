@@ -28,12 +28,12 @@ public class RestauranteService {
 		return repository.findAll();
 	}
 	
-	public Optional<Restaurante> findById(Long id) {
+	public Optional<Restaurante> findById(Long restaurantedId) {
 		try {
-			return repository.findById(id);
+			return repository.findById(restaurantedId);
 		} catch (EmptyResultDataAccessException e) {
 			throw new RestauranteNaoEncontradoException(
-					String.format("Restaurante id %d, não existe", id));
+					String.format("Restaurante id %d, não existe", restaurantedId));
 		}
 	}
 	
@@ -47,7 +47,19 @@ public class RestauranteService {
 		
 		return repository.save(restaurante);
 	}
+	
+	@Transactional
+	public void ativar(Long restaurantedId) {
+		Restaurante restauranteAtual = buscaOuFalha(restaurantedId);
+		restauranteAtual.ativar();
+	}
 
+	@Transactional
+	public void inativar(Long restaurantedId) {
+		Restaurante resturanteAtual = buscaOuFalha(restaurantedId);
+		resturanteAtual.inativar();
+	}
+	
 	public Restaurante buscaOuFalha(Long restauranteId) {
 		return repository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncontradoException(
 				String.format("Não existe um restaurante com esse id %d", restauranteId)));
