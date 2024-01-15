@@ -8,7 +8,7 @@ import com.luan.algafoodapi.api.model.input.EstadoInput;
 import com.luan.algafoodapi.domain.model.Estado;
 
 @Component
-public class EstadoInputDisassembler {
+public class FormaPagamentoInputDisassembler {
 
 	@Autowired
 	private ModelMapper mapper;

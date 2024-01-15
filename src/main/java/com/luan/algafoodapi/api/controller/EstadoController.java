@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import com.luan.algafoodapi.api.assembler.EstadoDTOAssembler;
-import com.luan.algafoodapi.api.assembler.EstadoInputDisassembler;
+import com.luan.algafoodapi.api.assembler.FormaPagamentoInputDisassembler;
 import com.luan.algafoodapi.api.model.EstadoDTO;
 import com.luan.algafoodapi.api.model.input.EstadoInput;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
@@ -42,7 +42,7 @@ public class EstadoController {
 	private EstadoDTOAssembler estadoDTOAssembler;
 	
 	@Autowired
-	private EstadoInputDisassembler estadoInputDisassembler;
+	private FormaPagamentoInputDisassembler estadoInputDisassembler;
 	
 	@GetMapping
 	public List<EstadoDTO> listar() {
