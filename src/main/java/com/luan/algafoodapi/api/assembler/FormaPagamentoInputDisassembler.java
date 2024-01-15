@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.luan.algafoodapi.api.model.input.EstadoInput;
+import com.luan.algafoodapi.api.model.input.FormaPagamentoInput;
 import com.luan.algafoodapi.domain.model.Estado;
+import com.luan.algafoodapi.domain.model.FormaPagamento;
 
 @Component
 public class FormaPagamentoInputDisassembler {
@@ -13,12 +15,12 @@ public class FormaPagamentoInputDisassembler {
 	@Autowired
 	private ModelMapper mapper;
 	
-	public Estado toDomainObject(EstadoInput estadoInput) {
-		return mapper.map(estadoInput, Estado.class);
+	public FormaPagamento toDomainObject(FormaPagamentoInput formaPagamentoInput) {
+		return mapper.map(formaPagamentoInput, FormaPagamento.class);
 	}
 	
-	public void copyToDomainObject(EstadoInput estadoInput, Estado estado) {
-		mapper.map(estadoInput, estado);
+	public void copyToDomainObject(FormaPagamentoInput formaPagamentoInput, FormaPagamento formaPagamento) {
+		mapper.map(formaPagamentoInput, formaPagamento);
 	}
 	
 }
