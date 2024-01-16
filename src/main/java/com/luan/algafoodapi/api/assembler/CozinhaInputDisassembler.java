@@ -17,7 +17,7 @@ public class CozinhaInputDisassembler {
 		return mapper.map(cozinhaIdInput, Cozinha.class);
 	}
 	
-	public void copyToDomainObject(CozinhaInput cozinhaIdInput, Cozinha cozinha) {
+	public void copyToDomainObject(CozinhaInput cozinhaIdInput, Cozinha cozinha) {´
 		mapper.map(cozinhaIdInput, cozinha);
 	}
 	

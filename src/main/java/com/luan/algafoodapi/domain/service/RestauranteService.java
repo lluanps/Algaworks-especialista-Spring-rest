@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.luan.algafoodapi.domain.exception.RestauranteNaoEncontradoException;
+import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
@@ -23,6 +25,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private CozinhaService cozinhaService;
+	
+	@Autowired
+	private CidadeService cidadeService;
 	
 	public List<Restaurante> findAll() {
 		return repository.findAll();
@@ -40,10 +45,17 @@ public class RestauranteService {
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
+		Long cidadeId = restaurante.getEndereco().getCidade().getId();
+
 		Cozinha cozinha = cozinhaService.buscaOuFalha(cozinhaId);
+		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 		
 		restaurante.setCozinha(cozinha);
-		restaurante.setDataCadastro(OffsetDateTime.now());
+		restaurante.getEndereco().setCidade(cidade);
+		
+		if (restaurante.getDataCadastro() == null) {
+			restaurante.setDataCadastro(OffsetDateTime.now());
+		}
 		
 		return repository.save(restaurante);
 	}

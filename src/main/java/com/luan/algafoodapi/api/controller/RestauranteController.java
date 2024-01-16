@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.luan.algafoodapi.api.assembler.RestauranteDTOAssembler;
 import com.luan.algafoodapi.api.assembler.RestauranteInputDisassembler;
 import com.luan.algafoodapi.api.model.RestauranteDTO;
-import com.luan.algafoodapi.api.model.input.RestauranteInputDTO;
+import com.luan.algafoodapi.api.model.input.RestauranteInput;
+import com.luan.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
-import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
@@ -56,7 +56,7 @@ public class RestauranteController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestauranteDTO save(@RequestBody @Valid RestauranteInputDTO restauranteInput) {
+	public RestauranteDTO save(@RequestBody @Valid RestauranteInput restauranteInput) {
 
 		try {
 			Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
@@ -68,20 +68,17 @@ public class RestauranteController {
 	}
 	
 	@PutMapping("/{restauranteId}")
-	public RestauranteDTO atualizar(@PathVariable @Valid Long restauranteId,
-	        @RequestBody RestauranteInputDTO restauranteInput) {
-//		Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
-	    Restaurante restauranteAtual = service.buscaOuFalha(restauranteId);
-	    inputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
-	    
-//	    BeanUtils.copyProperties(restaurante, restauranteAtual,
-//	            "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-	    
-	    try {
-	        return dtoAssembler.toModel(service.salvar(restauranteAtual));
-	    } catch (EntidadeNaoEncontradaException e) {
-	        throw new NegocioException(e.getMessage());
-	    }
+	public RestauranteDTO atualizar(@PathVariable Long restauranteId,
+			@RequestBody @Valid RestauranteInput restauranteInput) {
+		try {
+			Restaurante restauranteAtual = service.buscaOuFalha(restauranteId);
+			
+			inputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
+			
+			return dtoAssembler.toModel(service.salvar(restauranteAtual));
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 	
 	@PutMapping("/{restauranteId}/ativo")
