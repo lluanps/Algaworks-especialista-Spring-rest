@@ -3,7 +3,6 @@ package com.luan.algafoodapi.domain.service;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;

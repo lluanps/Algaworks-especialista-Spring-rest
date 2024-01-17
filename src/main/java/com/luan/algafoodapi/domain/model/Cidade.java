@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luan.algafoodapi.core.validation.Groups;
 
 import lombok.Data;
