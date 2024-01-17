@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.luan.algafoodapi.domain.exception.RestauranteNaoEncontradoException;
 import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.model.Cozinha;
+import com.luan.algafoodapi.domain.model.FormaPagamento;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 
@@ -28,6 +28,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private CidadeService cidadeService;
+	
+	@Autowired
+	private FormaPagamentoService formaPagamentoService;
 	
 	public List<Restaurante> findAll() {
 		return repository.findAll();
@@ -70,6 +73,22 @@ public class RestauranteService {
 	public void inativar(Long restaurantedId) {
 		Restaurante resturanteAtual = buscaOuFalha(restaurantedId);
 		resturanteAtual.inativar();
+	}
+	
+	@Transactional
+	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
+		
+		restaurante.removerFormaPagamento(formaPagamento);
+	}
+	
+	@Transactional
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
+		
+		restaurante.associarFormaPagamento(formaPagamento);
 	}
 	
 	public Restaurante buscaOuFalha(Long restauranteId) {
