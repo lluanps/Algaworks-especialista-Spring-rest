@@ -82,3 +82,5 @@ insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, '
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (5, 'Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, false);
 
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (6, 'Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, false);
+
+insert into grupo (nome) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');

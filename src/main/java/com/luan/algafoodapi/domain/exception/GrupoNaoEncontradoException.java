@@ -8,7 +8,7 @@ public class GrupoNaoEncontradoException extends EntidadeNaoEncontradaException 
 	}
 	
 	public GrupoNaoEncontradoException(Long grupoId) {
-		this(String.format("Não existe um cadastro de grupo com o código %d ", grupoId));
+		this(String.format("Não existe um cadastro de grupo com o código %d.", grupoId));
 	}
 
 }

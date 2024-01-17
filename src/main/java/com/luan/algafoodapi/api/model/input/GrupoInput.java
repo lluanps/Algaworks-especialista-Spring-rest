@@ -10,9 +10,6 @@ import lombok.Setter;
 @Setter
 public class GrupoInput {
 
-	@NotNull
-	private Long id;
-	
 	@NotBlank
 	private String nome;
 	
