@@ -1,7 +1,9 @@
 package com.luan.algafoodapi.domain.service;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository repository;
-
+	
 	public Usuario buscaOuFalha(Long usuarioId) {
 		return repository.findById(usuarioId).orElseThrow(() -> new UsuarioNaoEncontradoException(
 				String.format("Não existe um cadastro de usuario com o código %d em nosso sisterma.", usuarioId)));
@@ -25,6 +27,13 @@ public class UsuarioService {
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
+		repository.detach(usuario);
+		
+		Optional<Usuario> usarExistente = repository.findByEmail(usuario.getEmail());
+		if (usarExistente.isPresent() && !usarExistente.get().equals(usuario)) {
+			throw new NegocioException(String.format("Já existe um usuário cadastrado com o e-mail %s", usuario.getEmail()));
+		}
+		
 		if (usuario.getId() == null) {
 			usuario.setDataCadastro(OffsetDateTime.now());
 		}
