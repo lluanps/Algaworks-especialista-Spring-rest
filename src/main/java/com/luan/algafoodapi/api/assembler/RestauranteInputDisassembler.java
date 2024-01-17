@@ -15,7 +15,7 @@ public class RestauranteInputDisassembler {
 	@Autowired
 	private ModelMapper mapper;
 
-	public Restaurante toDomainObjetct(RestauranteInput restauranteInput) {
+	public Restaurante toDomainObject(RestauranteInput restauranteInput) {
 		return mapper.map(restauranteInput, Restaurante.class);
 	}
 	

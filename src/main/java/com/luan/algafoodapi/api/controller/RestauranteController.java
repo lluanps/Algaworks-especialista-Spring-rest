@@ -59,7 +59,7 @@ public class RestauranteController {
 	public RestauranteDTO save(@RequestBody @Valid RestauranteInput restauranteInput) {
 
 		try {
-			Restaurante restaurante = inputDisassembler.toDomainObjetct(restauranteInput);
+			Restaurante restaurante = inputDisassembler.toDomainObject(restauranteInput);
 			
 			return dtoAssembler.toModel(service.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
