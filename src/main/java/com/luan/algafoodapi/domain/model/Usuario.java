@@ -1,6 +1,5 @@
 package com.luan.algafoodapi.domain.model;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -46,5 +45,13 @@ public class Usuario {
 	
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedido;
+	
+	public boolean senhaCoincideCom(String senha) {
+		return getSenha().equals(senha);
+	}
+	
+	public boolean senhaNaoConincideCom(String senha) {
+		return !senhaCoincideCom(senha);
+	}
 	
 }

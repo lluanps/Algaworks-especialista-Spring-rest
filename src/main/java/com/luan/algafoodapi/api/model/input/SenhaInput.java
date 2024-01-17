@@ -7,9 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GrupoInput {
-
-	@NotBlank
-	private String nome;
+public class SenhaInput {
 	
+    @NotBlank
+    private String senhaAtual;
+    
+    @NotBlank
+    private String novaSenha;
+
 }
