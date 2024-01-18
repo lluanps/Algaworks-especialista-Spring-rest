@@ -90,10 +90,23 @@ public class RestauranteService {
 		
 		restaurante.associarFormaPagamento(formaPagamento);
 	}
+
+	@Transactional
+	public void abrir(Long restauranteId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		restaurante.setAberto(true);
+	}
+
+	@Transactional
+	public void fechar(Long restauranteId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		restaurante.setAberto(false);
+	}
 	
 	public Restaurante buscaOuFalha(Long restauranteId) {
 		return repository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncontradoException(
 				String.format("Não existe um restaurante com esse id %d", restauranteId)));
 	}
+
 	
 }

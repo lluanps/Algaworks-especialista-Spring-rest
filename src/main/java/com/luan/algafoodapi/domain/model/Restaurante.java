@@ -78,6 +78,8 @@ public class Restaurante {
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produto;
 	
+	private boolean aberto;
+	
 	public void ativar() {
 		setAtivo(true);
 	}
@@ -92,6 +94,14 @@ public class Restaurante {
 	
 	public boolean associarFormaPagamento(FormaPagamento formaPagamento) {
 		return getFormasPagamento().add(formaPagamento);
+	}
+	
+	public void abrir() {
+		setAberto(true);
+	}
+	
+	public void fechar() {
+		setAberto(false);
 	}
 	
 }
