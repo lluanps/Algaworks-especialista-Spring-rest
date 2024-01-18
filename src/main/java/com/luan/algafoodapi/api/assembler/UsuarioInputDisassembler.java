@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.luan.algafoodapi.api.model.input.UsuarioInput;
 import com.luan.algafoodapi.domain.model.Usuario;
 
 @Component

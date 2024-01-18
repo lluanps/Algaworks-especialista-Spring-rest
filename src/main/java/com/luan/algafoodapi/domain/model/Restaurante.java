@@ -75,7 +75,7 @@ public class Restaurante {
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private Set<FormaPagamento> formasPagamento = new HashSet<>();
 	
-	@OneToMany(mappedBy = "restaurantes")
+	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produto;
 	
 	public void ativar() {

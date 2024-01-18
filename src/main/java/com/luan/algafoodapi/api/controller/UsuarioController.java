@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luan.algafoodapi.api.assembler.UsuarioComSenhaInput;
 import com.luan.algafoodapi.api.assembler.UsuarioDTOAssembler;
-import com.luan.algafoodapi.api.assembler.UsuarioInput;
 import com.luan.algafoodapi.api.assembler.UsuarioInputDisassembler;
 import com.luan.algafoodapi.api.model.UsuarioDTO;
 import com.luan.algafoodapi.api.model.input.SenhaInput;
+import com.luan.algafoodapi.api.model.input.UsuarioInput;
 import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.UsuarioRepository;
 import com.luan.algafoodapi.domain.service.UsuarioService;
