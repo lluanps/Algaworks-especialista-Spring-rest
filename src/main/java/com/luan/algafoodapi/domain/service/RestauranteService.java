@@ -15,6 +15,7 @@ import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.model.FormaPagamento;
 import com.luan.algafoodapi.domain.model.Restaurante;
+import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 
 @Service
@@ -28,6 +29,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private CidadeService cidadeService;
+	
+	@Autowired
+	private UsuarioService usuarioService; 
 	
 	@Autowired
 	private FormaPagamentoService formaPagamentoService;
@@ -103,10 +107,25 @@ public class RestauranteService {
 		restaurante.setAberto(false);
 	}
 	
+	@Transactional
+	public void adicionarResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		Usuario usuario = usuarioService.buscaOuFalha(usuarioId);
+		
+		restaurante.adicionarResponsavel(usuario);
+	}
+	
+	@Transactional
+	public void removerResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		Usuario usuario = usuarioService.buscaOuFalha(usuarioId);
+	
+		restaurante.removerResponsavel(usuario);
+	}
+
 	public Restaurante buscaOuFalha(Long restauranteId) {
 		return repository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncontradoException(
 				String.format("Não existe um restaurante com esse id %d", restauranteId)));
 	}
-
 	
 }
