@@ -96,6 +96,16 @@ public class RestauranteService {
 	}
 
 	@Transactional
+	public void ativarVariosRestaurantes(List<Long> restaurantesIds) {
+		restaurantesIds.forEach(this::ativar);//chama o metodo ativar para cada elemento q tem na lista de restaurantesIds
+	}
+	
+	@Transactional
+	public void inativarVariosRestaurantes(List<Long> restaurantesIds) {
+		restaurantesIds.forEach(this::inativar);//chama o metodo ativar para cada elemento q tem na lista de restaurantesIds
+	}
+	
+	@Transactional
 	public void abrir(Long restauranteId) {
 		Restaurante restaurante = buscaOuFalha(restauranteId);
 		restaurante.setAberto(true);

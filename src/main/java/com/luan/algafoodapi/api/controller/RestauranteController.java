@@ -23,6 +23,7 @@ import com.luan.algafoodapi.api.model.input.RestauranteInput;
 import com.luan.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
+import com.luan.algafoodapi.domain.exception.RestauranteNaoEncontradoException;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 import com.luan.algafoodapi.domain.service.RestauranteService;
@@ -91,6 +92,26 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inativar(@PathVariable Long restauranteId) {
 		service.inativar(restauranteId);
+	}
+	
+	@PutMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativarMultiplosRestuarantes(@RequestBody List<Long> restaurantesIds) {
+		try {
+			service.ativarVariosRestaurantes(restaurantesIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
+	
+	@DeleteMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativarMultiplosRestuarantes(@RequestBody List<Long> restaurantesIds) {
+		try {
+			service.inativarVariosRestaurantes(restaurantesIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
 	}
 	
 	@PutMapping("/{restauranteId}/aberto")
