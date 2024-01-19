@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.exception.UsuarioNaoEncontradoException;
+import com.luan.algafoodapi.domain.model.Grupo;
 import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.UsuarioRepository;
 
@@ -18,6 +19,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository repository;
+	
+	@Autowired
+	private GrupoService grupoService;
 	
 	public Usuario buscaOuFalha(Long usuarioId) {
 		return repository.findById(usuarioId).orElseThrow(() -> new UsuarioNaoEncontradoException(
@@ -50,6 +54,21 @@ public class UsuarioService {
 		
 		usuario.setSenha(senhanova);
 	}
+
+	@Transactional
+	public void associarGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario  = buscaOuFalha(usuarioId);
+		Grupo grupo = grupoService.buscaOuFalha(grupoId);
+		
+		usuario.adicionarGrupo(grupo);
+	}
 	
+	@Transactional
+	public void desassociarGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscaOuFalha(usuarioId);
+		Grupo grupo = grupoService.buscaOuFalha(grupoId);
+		
+		usuario.removerGrupo(grupo);
+	}
 	
 }
