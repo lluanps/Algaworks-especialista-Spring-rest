@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.luan.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.luan.algafoodapi.domain.exception.GrupoNaoEncontradoException;
 import com.luan.algafoodapi.domain.model.Grupo;
+import com.luan.algafoodapi.domain.model.Permissao;
 import com.luan.algafoodapi.domain.repository.GrupoRepository;
 
 @Service
@@ -18,6 +19,9 @@ public class GrupoService {
 	@Autowired
 	private GrupoRepository repository;
 
+	@Autowired
+	private PermissaoService permissaoService;
+	
 	public Grupo buscaOuFalha(Long grupoId) {
 		return repository.findById(grupoId).orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
 	}
@@ -41,4 +45,20 @@ public class GrupoService {
 		}
 	}
 
+	@Transactional
+	public void associar(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscaOuFalha(grupoId);
+		Permissao permissao = permissaoService.buscaOuFalha(permissaoId);
+		
+		grupo.associar(permissao);
+	}
+	
+	@Transactional
+	public void desassociar(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscaOuFalha(grupoId);
+		Permissao permissao = permissaoService.buscaOuFalha(permissaoId);
+		
+		grupo.desassociarGrupo(permissao);
+	}
+	
 }
