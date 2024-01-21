@@ -1,0 +1,17 @@
+package com.luan.algafoodapi.domain.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.luan.algafoodapi.domain.model.Pedido;
+
+@Repository
+public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+	
+	@Query("from Pedido p JOIN FETCH p.cliente JOIN FETCH p.restaurantes r JOIN FETCH r.cozinha")
+	List<Pedido> findAll();
+
+}

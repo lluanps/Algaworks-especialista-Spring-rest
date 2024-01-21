@@ -11,14 +11,14 @@ import com.luan.algafoodapi.domain.model.Estado;
 public class EstadoInputDisassembler {
 
 	@Autowired
-	private ModelMapper mapper;
+	private ModelMapper modelMapper;
 	
 	public Estado toDomainObject(EstadoInput estadoInput) {
-		return mapper.map(estadoInput, Estado.class);
+		return modelMapper.map(estadoInput, Estado.class);
 	}
 	
 	public void copyToDomainObject(EstadoInput estadoInput, Estado estado) {
-		mapper.map(estadoInput, estado);
+		modelMapper.map(estadoInput, estado);
 	}
 	
 }

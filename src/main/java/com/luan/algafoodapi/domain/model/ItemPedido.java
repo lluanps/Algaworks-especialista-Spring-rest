@@ -27,11 +27,28 @@ public class ItemPedido {
 	private String observacao;
 	
 	@ManyToOne
-	@JoinColumn(name = "pedido_id", nullable = false)
+//	@JoinColumn(name = "pedido_id", nullable = false)
+	@JoinColumn(nullable = false)
 	private Pedido pedido;
 	
 	@ManyToOne
-	@JoinColumn(name = "produto_id", nullable = false)
+//	@JoinColumn(name = "produto_id", nullable = false)
+	@JoinColumn(nullable = false)
 	private Produto produto;
 
+	public void calcularPrecoTotal() {
+		BigDecimal precoUnitario = this.getPrecoTotal();
+		Integer quantidade = this.getQuantidade();
+		
+		if (precoUnitario == null) {
+			precoUnitario = BigDecimal.ZERO;
+		}
+		
+		if (quantidade == null) {
+			quantidade = 0;
+		}
+		
+		this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));
+	}
+	
 }

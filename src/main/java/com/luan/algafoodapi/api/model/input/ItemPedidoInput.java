@@ -1,8 +1,5 @@
 package com.luan.algafoodapi.api.model.input;
 
-import java.math.BigDecimal;
-
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -11,17 +8,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RestauranteInputDTO {
-	
+public class ItemPedidoInput {
+
 	@NotNull
-	private String nome;
+	private Long id;
 	
 	@NotNull
 	@PositiveOrZero
-	private BigDecimal taxaFrete;
+	private Integer quantidade;
 	
-	@Valid
-	@NotNull
-	private CozinhaIdInput cozinha;
-
+	private String observacao;
+	
 }

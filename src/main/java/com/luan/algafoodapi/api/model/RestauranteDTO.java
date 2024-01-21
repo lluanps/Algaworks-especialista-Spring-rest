@@ -13,5 +13,8 @@ public class RestauranteDTO {
 	private String nome;
 	private BigDecimal precoFrete;
 	private CozinhaDTO cozinha;
+	private boolean ativo;
+	private EnderecoDTO endereco;
+	private boolean aberto;
 	
 }

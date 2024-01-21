@@ -2,8 +2,9 @@ package com.luan.algafoodapi.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -16,16 +17,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.luan.algafoodapi.core.validation.Groups;
 import com.luan.algafoodapi.core.validation.TaxaFrete;
 import com.luan.algafoodapi.core.validation.ValorZeroIncluiDescricao;
 
@@ -45,25 +40,24 @@ public class Restaurante {
 /*	https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-builtin-constraints
 	@NotNull nao aceita null mas aceita string vazia
 	@NotEmpty nao aceita nenhum dos dois acima mas aceita string com 'espaço' em branco*/
-//	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
-//	@NotNull 
-//	@PositiveOrZero
 	@TaxaFrete
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
 //	@Valid//valida as propriedades de cozinha
 //	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//from = convert o grupo,to = para outro grupo
-//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
 	private Endereco endereco;
+	
+	@Column(nullable = false)
+	private boolean ativo = true;
 
 	@CreationTimestamp // informe que a propriedade anotada deve ser atribuido com a data no momento que for cadastrada
 	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
@@ -79,9 +73,57 @@ public class Restaurante {
 	@JoinTable(name = "restaurante_forma_pagamento", 
 		joinColumns = @JoinColumn(name = "restaurante_id"),
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+	private Set<FormaPagamento> formasPagamento = new HashSet<>();
 	
-	@OneToMany(mappedBy = "restaurantes")
+	@ManyToMany
+	@JoinTable(name = "restaurante_usuario_responsavel",
+			joinColumns = @JoinColumn(name = "restaurante_id"),
+			inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+	private Set<Usuario> responsaveis;
+	
+	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produto;
+	
+	private boolean aberto;
+	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
+	}
+	
+	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().remove(formaPagamento);
+	}
+	
+	public boolean associarFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().add(formaPagamento);
+	}
+	
+	public void abrir() {
+		setAberto(true);
+	}
+	
+	public void fechar() {
+		setAberto(false);
+	}
+	
+	public void adicionarResponsavel(Usuario usuario) {
+		getResponsaveis().add(usuario);
+	}
+	
+	public void removerResponsavel(Usuario usuario) {
+		getResponsaveis().remove(usuario);
+	}
+	
+	public boolean aceitaFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().contains(formaPagamento);
+	}
+	
+	public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
+		return !aceitaFormaPagamento(formaPagamento);
+	}
 	
 }

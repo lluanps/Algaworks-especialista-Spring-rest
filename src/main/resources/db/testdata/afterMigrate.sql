@@ -48,12 +48,12 @@ INSERT INTO cidade (id, nome_cidade, nome_estado, estado_id) VALUES (4, 'Campina
 INSERT INTO cidade (id, nome_cidade, nome_estado, estado_id) VALUES (5, 'Fortaleza', 'Ceará', 3);
 
 -- Insert data into restaurante
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro) VALUES (1, 'Thai Gourmet', 10, 1, current_timestamp, current_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (2, 'Thai Delivery', 9.50, 1, current_timestamp, current_timestamp);
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (3, 'Tuk Tuk Comida Indiana', 15, 2, current_timestamp, current_timestamp);
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (4, 'Java Steakhouse', 12, 3, current_timestamp, current_timestamp);
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (5, 'Lanchonete do Tio Sam', 11, 4, current_timestamp, current_timestamp);
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (6, 'Bar da Maria', 6, 4, current_timestamp, current_timestamp);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, aberto) VALUES (1, 'Thai Gourmet', 10, 1, current_timestamp, current_timestamp, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', true);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (2, 'Thai Delivery', 9.50, 1, current_timestamp, current_timestamp, true, true);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (3, 'Tuk Tuk Comida Indiana', 15, 2, current_timestamp, current_timestamp, true, true);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (4, 'Java Steakhouse', 12, 3, current_timestamp, current_timestamp, true, true);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (5, 'Lanchonete do Tio Sam', 11, 4, current_timestamp, current_timestamp, true, true);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (6, 'Bar da Maria', 6, 4, current_timestamp, current_timestamp, true, true);
 
 -- Insert data into forma_pagamento
 INSERT INTO forma_pagamento (id, descricao) VALUES (1, 'Cartão de crédito');
@@ -82,3 +82,31 @@ insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, '
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (5, 'Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, false);
 
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (6, 'Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, false);
+
+insert into grupo (nome) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
+
+insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'João da Silva', 'joao.ger@algafood.com', '123', current_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', current_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'José Souza', 'jose.aux@algafood.com', '123', current_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', current_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'Luan Pineiro', 'luan@gmail.com', 'admin', current_timestamp);
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
+
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
+
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 5), (3, 5);
+
+insert into pedido (id, sub_total, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, usuario_cliente_id, endereco_cidade_id, endereco_logradouro, endereco_numero,
+    endereco_complemento, endereco_bairro, status_pedido)
+values (1, 298.90, 10, 308.90, current_timestamp, null, null, null, 1, 1, 1, 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil', 'CRIADO');
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
+
+insert into pedido (id, sub_total, taxa_frete, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_entrega, restaurante_id, usuario_cliente_id, endereco_cidade_id, endereco_logradouro, endereco_numero,
+    endereco_complemento, endereco_bairro, status_pedido)
+values (2, 79, 0, 79, current_timestamp, null, null, null, 2, 4, 1,  'Rua Acre', '300', 'Casa 2', 'Centro', 'CRIADO');
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (3, 2, 6, 1, 79, 79, 'Ao ponto');

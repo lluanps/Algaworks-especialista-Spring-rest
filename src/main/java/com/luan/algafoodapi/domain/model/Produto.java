@@ -28,6 +28,6 @@ public class Produto {
 	
 	@ManyToOne
 	@JoinColumn(name = "restaurante_id")
-	private Restaurante restaurantes;
+	private Restaurante restaurante;
 	
 }
