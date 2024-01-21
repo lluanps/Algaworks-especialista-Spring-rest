@@ -3,8 +3,10 @@ package com.luan.algafoodapi.domain.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -64,22 +66,20 @@ public class Pedido implements Serializable {
 	@Embedded // indica que a classe Endereco é uma parte da classe restaurante
 	private Endereco endereco;
 	
-	@OneToMany(mappedBy = "pedido")
-	private List<ItemPedido> itemPedidos;
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private List<ItemPedido> itemPedidos = new ArrayList<>();
 	
 	@Enumerated(EnumType.STRING)
 	private StatusPedido statusPedido = StatusPedido.CRIADO;
 	
-	// método responsável por calcular o valor total do pedido.
 	public void calcularValorTotal() {
-
-	    // calculando o subtotal somando os preços totais de todos os itens no pedido
+		getItemPedidos().forEach(ItemPedido::calcularPrecoTotal);
+		
 	    this.subTotal = getItemPedidos().stream()
-	            .map(item -> item.getPrecoTotal())  // mapeia cada item para seu preço total
-	            .reduce(BigDecimal.ZERO, BigDecimal::add);  // reduz os preços totais para obter a soma, começando com zero. e no final addiona
+	            .map(item -> item.getPrecoTotal())
+	            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-	    // adicionando a taxa de frete ao subtotal para obter o valor total do pedido
-	    this.valorTotal = this.subTotal.add(this.taxaFrete);  // adiciona a taxa de frete ao subtotal para obter o valor total
+	    this.valorTotal = this.subTotal.add(this.taxaFrete);
 	}
 	
 	public void definirTaxaFrete() {
