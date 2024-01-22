@@ -6,7 +6,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,10 +45,13 @@ public class CozinhaController {
 	private CozinhaInputDisassembler cozinhaInputDisassembler;
 	
 	@GetMapping
-	public List<CozinhaDTO> listar(Pageable pageable) {
+	public Page<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
 		Page<Cozinha> cozinahsPage = repository.findAll(pageable);
 		
-		return cozinhaDTOAssembler.toCollectionDto(cozinahsPage.getContent());
+		List<CozinhaDTO> cozinhasDTO =  cozinhaDTOAssembler.toCollectionDto(cozinahsPage.getContent());
+		Page<CozinhaDTO> cozinhaDTOPage = new PageImpl<>(cozinhasDTO, pageable, cozinahsPage.getTotalElements());
+	
+		return cozinhaDTOPage;
 	}
 	
 	//@ResponseStatus(HttpStatus.OK)retornando o status de outro forma
