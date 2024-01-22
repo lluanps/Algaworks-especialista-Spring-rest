@@ -1,5 +1,7 @@
 package com.luan.algafoodapi.domain.service;
 
+import java.time.OffsetDateTime;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,25 +44,53 @@ public class PedidoService {
 	}
 
 	@Transactional
+	public Pedido salvar(Pedido novoPedido) {
+	    Cidade cidade = cidadeService.buscarOuFalhar(novoPedido.getEnderecoEntrega().getCidade().getId());
+//	    Usuario cliente = usuarioService.buscaOuFalha(novoPedido.getCliente().getId());
+	    Restaurante restaurante = restauranteService.buscaOuFalha(novoPedido.getRestaurante().getId());
+	    FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(novoPedido.getFormaPagamento().getId());
+
+	    novoPedido.getEnderecoEntrega().setCidade(cidade);
+//	    novoPedido.setCliente(cliente);
+	    novoPedido.setRestaurante(restaurante);
+	    novoPedido.setFormaPagamento(formaPagamento);
+
+	    novoPedido.setDataCriacao(OffsetDateTime.now());
+	    novoPedido.setTaxaFrete(novoPedido.getRestaurante().getTaxaFrete());
+//	    novoPedido.calcularValorTotal();
+
+//	    novoPedido.getItens().forEach(item -> {
+//	        Produto produto = produtoService.buscaOuFalha(
+//	        		novoPedido.getRestaurante().getId(), item.getProduto().getId());
+//	        
+//	        item.setPedido(novoPedido);
+//	        item.setProduto(produto);
+//	        item.setPrecoUnitario(produto.getPreco());
+//	    });
+		
+	    return pedidoRepository.save(novoPedido);
+	}
+	
+	@Transactional
 	public Pedido emitir(Pedido pedido) {
 	    validarPedido(pedido);
 	    validarItens(pedido);
 
-	    pedido.setTaxaFrete(pedido.getRestaurantes().getTaxaFrete());
+	    pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
 	    pedido.calcularValorTotal();
 
 	    return pedidoRepository.save(pedido);
 	}
 
 	private void validarPedido(Pedido pedido) {
-	    Cidade cidade = cidadeService.buscarOuFalhar(pedido.getEndereco().getCidade().getId());
-//	    Usuario cliente = usuarioService.buscaOuFalha(pedido.getCliente().getId());
-	    Restaurante restaurante = restauranteService.buscaOuFalha(pedido.getRestaurantes().getId());
+	    Cidade cidade = cidadeService.buscarOuFalhar(pedido.getEnderecoEntrega().getCidade().getId());
+	    Usuario cliente = usuarioService.buscaOuFalha(pedido.getCliente().getId());
+	    Restaurante restaurante = restauranteService.buscaOuFalha(pedido.getRestaurante().getId());
 	    FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(pedido.getFormaPagamento().getId());
 
-	    pedido.getEndereco().setCidade(cidade);
-//	    pedido.setCliente(cliente);
-	    pedido.setRestaurantes(restaurante);
+	    pedido.getEnderecoEntrega().setCidade(cidade);
+	    pedido.setCliente(cliente);
+	    pedido.setRestaurante(restaurante);
 	    pedido.setFormaPagamento(formaPagamento);
 	    
 	    if (restaurante.naoAceitaFormaPagamento(formaPagamento)) {
@@ -70,14 +100,14 @@ public class PedidoService {
 	}
 
 	private void validarItens(Pedido pedido) {
-	    pedido.getItemPedidos().forEach(item -> {
+	    pedido.getItens().forEach(item -> {
 	        Produto produto = produtoService.buscaOuFalha(
-	                pedido.getRestaurantes().getId(), item.getProduto().getId());
+	                pedido.getRestaurante().getId(), item.getProduto().getId());
 	        
 	        item.setPedido(pedido);
 	        item.setProduto(produto);
 	        item.setPrecoUnitario(produto.getPreco());
 	    });
 	}
-	
+
 }

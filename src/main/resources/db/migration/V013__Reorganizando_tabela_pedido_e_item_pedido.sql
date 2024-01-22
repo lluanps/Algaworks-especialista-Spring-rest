@@ -19,7 +19,7 @@ CREATE TABLE pedido (
 	data_criacao TIMESTAMP,
 	data_confirmacao TIMESTAMP,
 	data_entrega TIMESTAMP,
-	subtotal DECIMAL(10,2),
+	sub_total DECIMAL(10,2),
 	taxa_frete DECIMAL(10,2),
 	valor_total DECIMAL(10,2),
 	FOREIGN KEY (restaurante_id) REFERENCES restaurante (id),

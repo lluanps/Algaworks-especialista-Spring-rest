@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,6 +38,7 @@ public class Usuario {
 	@Column(nullable = false)
 	private String senha;
 	
+	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime dataCadastro;
 	
