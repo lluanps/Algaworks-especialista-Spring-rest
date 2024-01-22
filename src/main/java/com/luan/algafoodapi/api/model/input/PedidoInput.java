@@ -19,16 +19,16 @@ public class PedidoInput {
 	
 //	@Valid
 //	@NotNull
-	private EnderecoInput endereco;
+	private EnderecoInput enderecoEntrega;
 	
-//	@Valid
-//	@NotNull
+	@Valid
+	@NotNull
 	private FormaPagamentoIdInput formaPagamento;
 	
 //	@Valid
 //	@Size(min = 1)
 //	@NotNull
-	private List<ItemPedidoInput> itemPedidos;
+	private List<ItemPedidoInput> itens;
 	
 	
 }

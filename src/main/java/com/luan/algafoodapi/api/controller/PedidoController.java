@@ -64,19 +64,19 @@ public class PedidoController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoDTO adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
-	    try {
+//	    try {
 	        Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
 	        // TODO pegar usuário autenticado
-	        novoPedido.setCliente(new Usuario());
-	        novoPedido.getCliente().setId(1L);
+//	        novoPedido.setCliente(new Usuario());
+//	        novoPedido.getCliente().setId(15L);
 
-	        novoPedido = pedidoService.emitir(novoPedido);
+	        novoPedido = pedidoService.salvar(novoPedido);
 
 	        return pedidoDTOAssembler.toModel(novoPedido);
-	    } catch (EntidadeNaoEncontradaException e) {
-	        throw new NegocioException(e.getMessage(), e);
-	    }
+//	    } catch (EntidadeNaoEncontradaException e) {
+//	        throw new NegocioException(e.getMessage(), e);
+//	    }
 	}
 	
 }
