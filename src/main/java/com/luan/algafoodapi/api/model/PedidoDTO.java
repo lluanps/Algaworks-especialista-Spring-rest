@@ -12,18 +12,18 @@ import lombok.Setter;
 public class PedidoDTO {
 
 	private Long id;
-	private BigDecimal subTotal;
+	private BigDecimal subtotal;
 	private BigDecimal taxaFrete;
 	private BigDecimal valorTotal;
-	private String statusPedido;
+	private String status;
 	private OffsetDateTime dataCriacao;
 	private OffsetDateTime dataConfirmacao;
-	private OffsetDateTime dataCancelamento;
 	private OffsetDateTime dataEntrega;
-	private RestauranteResumoDTO restaurantes;
-	private UsuarioResumoDTO cliente;
+	private OffsetDateTime dataCancelamento;
+	private RestauranteResumoDTO restaurante;
+	private UsuarioDTO cliente;
 	private FormaPagamentoDTO formaPagamento;
-	private EnderecoDTO endereco;
-	private List<ItemProutoDTO> itemPedidos;
+	private EnderecoDTO enderecoEntrega;
+	private List<ItemPedidoDTO> itens;
 	
 }
