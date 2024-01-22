@@ -6,6 +6,9 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.luan.algafoodapi.api.assembler.PedidoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.PedidoInputDisassembler;
 import com.luan.algafoodapi.api.assembler.PedidoResumoDTOAssembler;
+import com.luan.algafoodapi.api.model.CozinhaDTO;
 import com.luan.algafoodapi.api.model.PedidoDTO;
 import com.luan.algafoodapi.api.model.PedidoResumoDTO;
 import com.luan.algafoodapi.api.model.input.PedidoInput;
@@ -54,34 +58,14 @@ public class PedidoController {
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
 	@GetMapping
-	public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
-		List<Pedido> todosPedidos = pedidoRepository.findAll();
-		List<PedidoResumoDTO> pedidoResumoDTOs = pedidoResumoDTOAssembler.toCollectionDto(todosPedidos);
+	public Page<PedidoDTO> listar(Pageable pageable) {
+		Page<Pedido> pedidoPage = pedidoRepository.findAll(pageable);
 		
-		MappingJacksonValue pedidoWrapper = new MappingJacksonValue(pedidoResumoDTOs);
+		List<PedidoDTO> pedidoDTO = pedidoDTOAssembler.toCollectionDto(pedidoPage.getContent());
+		Page<PedidoDTO> pedidoDTOPage = new PageImpl<>(pedidoDTO, pageable, pedidoPage.getTotalElements());
 		
-		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-		filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
-//		filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept("id", "valorTotal"));//retorna apenas o id e valorTotal
-		
-		if (StringUtils.isNotBlank(campos)) {
-			filterProvider.addFilter("pedidoFilter", 
-					SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
-		}
-		
-		pedidoWrapper.setFilters(filterProvider);
-		
-		return pedidoWrapper;
+		return pedidoDTOPage;
 	}
-	
-	/*
-	@GetMapping
-	public List<PedidoResumoDTO> pesquiar(PedidoFilter pedidoFilter) {
-		List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecification.usandoFiltro(pedidoFilter));
-		
-		return pedidoResumoDTOAssembler.toCollectionDto(todosPedidos);
-	}
-	*/
 	
 	@GetMapping("/{pedidoId}")
 	@ResponseStatus(HttpStatus.OK)
@@ -108,5 +92,37 @@ public class PedidoController {
 //	        throw new NegocioException(e.getMessage(), e);
 //	    }
 	}
+	
+	/*
+	@GetMapping
+	public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
+		List<Pedido> todosPedidos = pedidoRepository.findAll();
+		List<PedidoResumoDTO> pedidoResumoDTOs = pedidoResumoDTOAssembler.toCollectionDto(todosPedidos);
+		
+		MappingJacksonValue pedidoWrapper = new MappingJacksonValue(pedidoResumoDTOs);
+		
+		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+		filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
+//		filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept("id", "valorTotal"));//retorna apenas o id e valorTotal
+		
+		if (StringUtils.isNotBlank(campos)) {
+			filterProvider.addFilter("pedidoFilter", 
+					SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+		}
+		
+		pedidoWrapper.setFilters(filterProvider);
+		
+		return pedidoWrapper;
+	}
+	*/
+	
+	/*
+	@GetMapping
+	public List<PedidoResumoDTO> pesquiar(PedidoFilter pedidoFilter) {
+		List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecification.usandoFiltro(pedidoFilter));
+		
+		return pedidoResumoDTOAssembler.toCollectionDto(todosPedidos);
+	}
+	*/
 	
 }
