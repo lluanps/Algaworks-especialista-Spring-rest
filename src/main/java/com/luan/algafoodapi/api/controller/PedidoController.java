@@ -30,7 +30,9 @@ import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Pedido;
 import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.PedidoRepository;
+import com.luan.algafoodapi.domain.repository.filter.PedidoFilter;
 import com.luan.algafoodapi.domain.service.PedidoService;
+import com.luan.algafoodapi.infrastructure.repository.spec.PedidoSpecification;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -51,6 +53,7 @@ public class PedidoController {
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
+	/*
 	@GetMapping
 	public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
 		List<Pedido> todosPedidos = pedidoRepository.findAll();
@@ -71,13 +74,14 @@ public class PedidoController {
 		
 		return pedidoWrapper;
 	}
+	*/
 	
-//	@GetMapping
-//	public List<PedidoResumoDTO> listar() {
-//		List<Pedido> todosPedidos = pedidoRepository.findAll();
-//		
-//		return pedidoResumoDTOAssembler.toCollectionDto(todosPedidos);
-//	}
+	@GetMapping
+	public List<PedidoResumoDTO> pesquiar(PedidoFilter pedidoFilter) {
+		List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecification.usandoFiltro(pedidoFilter));
+		
+		return pedidoResumoDTOAssembler.toCollectionDto(todosPedidos);
+	}
 	
 	@GetMapping("/{pedidoId}")
 	@ResponseStatus(HttpStatus.OK)
