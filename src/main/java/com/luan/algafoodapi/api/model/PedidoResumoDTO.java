@@ -20,7 +20,8 @@ public class PedidoResumoDTO {
 	private String status;
 	private OffsetDateTime dataCriacao;
 	private RestauranteResumoDTO restaurante;
-	private UsuarioDTO cliente;
-	private EnderecoDTO endereco;
+//	private UsuarioDTO cliente;
+	private String cliente;
+//	private EnderecoDTO endereco; verificar se é possivel retirar
 	
 }
