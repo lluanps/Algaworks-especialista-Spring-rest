@@ -16,4 +16,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>,
 	@Query("from Pedido p JOIN FETCH p.cliente JOIN FETCH p.restaurante r JOIN FETCH r.cozinha")
 	List<Pedido> findAll();
 
+
 }

@@ -1,4 +1,4 @@
-package com.luan.algafoodapi.domain.repository.filter;
+package com.luan.algafoodapi.domain.filter;
 
 import java.time.OffsetDateTime;
 

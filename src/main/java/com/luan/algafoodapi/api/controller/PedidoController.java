@@ -26,9 +26,9 @@ import com.luan.algafoodapi.api.model.PedidoDTO;
 import com.luan.algafoodapi.api.model.PedidoResumoDTO;
 import com.luan.algafoodapi.api.model.input.PedidoInput;
 import com.luan.algafoodapi.core.data.PageableTranslator;
+import com.luan.algafoodapi.domain.filter.PedidoFilter;
 import com.luan.algafoodapi.domain.model.Pedido;
 import com.luan.algafoodapi.domain.repository.PedidoRepository;
-import com.luan.algafoodapi.domain.repository.filter.PedidoFilter;
 import com.luan.algafoodapi.domain.service.PedidoService;
 import com.luan.algafoodapi.infrastructure.repository.spec.PedidoSpecification;
 
