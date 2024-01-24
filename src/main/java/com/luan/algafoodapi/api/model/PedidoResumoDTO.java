@@ -3,9 +3,12 @@ package com.luan.algafoodapi.api.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonFilter("pedidoFilter")
 @Getter
 @Setter
 public class PedidoResumoDTO {
@@ -17,7 +20,8 @@ public class PedidoResumoDTO {
 	private String status;
 	private OffsetDateTime dataCriacao;
 	private RestauranteResumoDTO restaurante;
-	private UsuarioDTO cliente;
-	private EnderecoDTO endereco;
+//	private UsuarioDTO cliente;
+	private String cliente;
+//	private EnderecoDTO endereco; verificar se é possivel retirar
 	
 }
