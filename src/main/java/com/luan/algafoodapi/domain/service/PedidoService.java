@@ -57,16 +57,9 @@ public class PedidoService {
 
 	    novoPedido.setDataCriacao(OffsetDateTime.now());
 	    novoPedido.setTaxaFrete(novoPedido.getRestaurante().getTaxaFrete());
-//	    novoPedido.calcularValorTotal();
-
-//	    novoPedido.getItens().forEach(item -> {
-//	        Produto produto = produtoService.buscaOuFalha(
-//	        		novoPedido.getRestaurante().getId(), item.getProduto().getId());
-//	        
-//	        item.setPedido(novoPedido);
-//	        item.setProduto(produto);
-//	        item.setPrecoUnitario(produto.getPreco());
-//	    });
+	    novoPedido.calcularValorTotal();
+	    
+//	    validarItens(novoPedido);
 		
 	    return pedidoRepository.save(novoPedido);
 	}
