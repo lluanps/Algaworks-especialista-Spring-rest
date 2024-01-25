@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ItemPedidoInput {
 
 	@NotNull
-	private Long id;
+	private Long produtoId;
 	
 	@NotNull
 	@PositiveOrZero

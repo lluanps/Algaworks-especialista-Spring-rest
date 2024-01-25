@@ -1,7 +1,5 @@
 package com.luan.algafoodapi.domain.service;
 
-import java.time.OffsetDateTime;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,27 +41,6 @@ public class PedidoService {
 				.orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
 	}
 
-	@Transactional
-	public Pedido salvar(Pedido novoPedido) {
-	    Cidade cidade = cidadeService.buscarOuFalhar(novoPedido.getEnderecoEntrega().getCidade().getId());
-//	    Usuario cliente = usuarioService.buscaOuFalha(novoPedido.getCliente().getId());
-	    Restaurante restaurante = restauranteService.buscaOuFalha(novoPedido.getRestaurante().getId());
-	    FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(novoPedido.getFormaPagamento().getId());
-
-	    novoPedido.getEnderecoEntrega().setCidade(cidade);
-//	    novoPedido.setCliente(cliente);
-	    novoPedido.setRestaurante(restaurante);
-	    novoPedido.setFormaPagamento(formaPagamento);
-
-	    novoPedido.setDataCriacao(OffsetDateTime.now());
-	    novoPedido.setTaxaFrete(novoPedido.getRestaurante().getTaxaFrete());
-	    novoPedido.calcularValorTotal();
-	    
-//	    validarItens(novoPedido);
-		
-	    return pedidoRepository.save(novoPedido);
-	}
-	
 	@Transactional
 	public Pedido emitir(Pedido pedido) {
 	    validarPedido(pedido);

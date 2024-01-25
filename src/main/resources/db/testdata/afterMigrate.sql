@@ -23,6 +23,8 @@ TRUNCATE TABLE foto_produto CASCADE;
 SET CONSTRAINTS ALL IMMEDIATE;
 
 -- Reset auto-increment counters
+
+
 SELECT pg_catalog.setval(pg_get_serial_sequence('cidade', 'id'), 1, false);
 SELECT pg_catalog.setval(pg_get_serial_sequence('cozinha', 'id'), 1, false);
 SELECT pg_catalog.setval(pg_get_serial_sequence('estado', 'id'), 1, false);
