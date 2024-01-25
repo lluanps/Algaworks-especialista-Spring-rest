@@ -9,6 +9,7 @@
 <br>ESR-12 - Modelagem avançada e implementação da API
 <br>ESR-13 - Modelagem de projeções, pesquisas e relatórios
 <br>ESR-14 - Upload e download de arquivos
+<a href="https://blog.algaworks.com/lazy-loading-com-mapeamento-onetoone/">Lazy loading com mapeamento OneToOne<a/>
 <br>ESR-15 - E-mails transacionais e Domain Events
 <br>ESR-16 - CORS e consumo da API com Javascript e JAVA
 <br>ESR-17 - Cache de HTTP
