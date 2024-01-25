@@ -12,13 +12,19 @@ TRUNCATE TABLE permissao CASCADE;
 TRUNCATE TABLE produto CASCADE;
 TRUNCATE TABLE restaurante CASCADE;
 TRUNCATE TABLE restaurante_forma_pagamento CASCADE;
+TRUNCATE TABLE restaurante_usuario_responsavel CASCADE;
 TRUNCATE TABLE usuario CASCADE;
 TRUNCATE TABLE usuario_grupo CASCADE;
+TRUNCATE TABLE pedido CASCADE;
+TRUNCATE TABLE item_pedido CASCADE;
+TRUNCATE TABLE foto_produto CASCADE;
 
 -- Enable foreign key checks
 SET CONSTRAINTS ALL IMMEDIATE;
 
 -- Reset auto-increment counters
+
+
 SELECT pg_catalog.setval(pg_get_serial_sequence('cidade', 'id'), 1, false);
 SELECT pg_catalog.setval(pg_get_serial_sequence('cozinha', 'id'), 1, false);
 SELECT pg_catalog.setval(pg_get_serial_sequence('estado', 'id'), 1, false);

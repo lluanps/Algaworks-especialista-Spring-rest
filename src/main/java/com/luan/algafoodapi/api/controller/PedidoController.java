@@ -23,11 +23,13 @@ import com.luan.algafoodapi.api.assembler.PedidoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.PedidoInputDisassembler;
 import com.luan.algafoodapi.api.assembler.PedidoResumoDTOAssembler;
 import com.luan.algafoodapi.api.model.PedidoDTO;
-import com.luan.algafoodapi.api.model.PedidoResumoDTO;
 import com.luan.algafoodapi.api.model.input.PedidoInput;
 import com.luan.algafoodapi.core.data.PageableTranslator;
+import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.filter.PedidoFilter;
 import com.luan.algafoodapi.domain.model.Pedido;
+import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.PedidoRepository;
 import com.luan.algafoodapi.domain.service.PedidoService;
 import com.luan.algafoodapi.infrastructure.repository.spec.PedidoSpecification;
@@ -121,19 +123,19 @@ public class PedidoController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoDTO adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
-//	    try {
+	    try {
 	        Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
 	        // TODO pegar usuário autenticado
-//	        novoPedido.setCliente(new Usuario());
-//	        novoPedido.getCliente().setId(15L);
+	        novoPedido.setCliente(new Usuario());
+	        novoPedido.getCliente().setId(1L);
 
-	        novoPedido = pedidoService.salvar(novoPedido);
+	        novoPedido = pedidoService.emitir(novoPedido);
 
 	        return pedidoDTOAssembler.toModel(novoPedido);
-//	    } catch (EntidadeNaoEncontradaException e) {
-//	        throw new NegocioException(e.getMessage(), e);
-//	    }
+	    } catch (EntidadeNaoEncontradaException e) {
+	        throw new NegocioException(e.getMessage(), e);
+	    }
 	}
 	
 	private Pageable traduzirPageable(Pageable apiPageable) {
