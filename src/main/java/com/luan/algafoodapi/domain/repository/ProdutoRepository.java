@@ -12,7 +12,7 @@ import com.luan.algafoodapi.domain.model.Produto;
 import com.luan.algafoodapi.domain.model.Restaurante;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoRepositoryQueries {
 
 	@Query("FROM Produto p WHERE p.restaurante.id = :restaurante AND p.id = :produto")
 	Optional<Produto> findProdutoIdByRestauaranteId(@Param("restaurante") Long restauranteId, @Param("produto") Long produtoId);
