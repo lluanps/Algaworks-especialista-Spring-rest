@@ -1,5 +1,6 @@
 package com.luan.algafoodapi.infrastructure.service.storage;
 
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -33,6 +34,17 @@ public class LocalFotoStorageService implements FotoStorageService {
 			Path arquivoPath = getArquivoPath(nomeArquivo);
 			
 			Files.deleteIfExists(arquivoPath);
+		} catch (Exception e) {
+			throw new StorageException("Não foi possivel excluir arquivo", e);
+		}
+	}
+
+	@Override
+	public InputStream recuperar(String nomeArquivo) {
+		try {
+			Path arquivoPath = getArquivoPath(nomeArquivo);
+			
+			return Files.newInputStream(arquivoPath);
 		} catch (Exception e) {
 			throw new StorageException("Não foi possivel excluir arquivo", e);
 		}
