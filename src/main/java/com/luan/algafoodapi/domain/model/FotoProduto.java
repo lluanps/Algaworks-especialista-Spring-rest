@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
-public class FotoPedido {
+public class FotoProduto {
 
 	@Id
 	@Column(name = "produto_id")
@@ -23,9 +23,17 @@ public class FotoPedido {
 	@MapsId
 	private Produto produto;
 	
-	private String arquivo;
+	private String nomeArquivo;
 	private String descricao;
 	private String contentType;
 	private Long tamanho;
+	
+	public Long getRestauranteId() {
+		if (getProduto() != null) {
+			return getProduto().getRestaurante().getId();
+		}
+		
+		return null;
+	}
 	
 }
