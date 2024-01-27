@@ -54,5 +54,15 @@ public class CatalogoFotoProdutoService {
 		return produtoRepository.findFotoById(restauranteId, produtoId)
 				.orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
 	}
+
+	@Transactional
+	public void remover(Long restauranteId, Long produtoId) {
+		FotoProduto fotoProduto = buscaOuFalha(restauranteId, produtoId);
+		
+		produtoRepository.delete(fotoProduto);
+		produtoRepository.flush();
+		
+		fotoStorageService.remover(fotoProduto.getNomeArquivo());
+	}
 	
 }
