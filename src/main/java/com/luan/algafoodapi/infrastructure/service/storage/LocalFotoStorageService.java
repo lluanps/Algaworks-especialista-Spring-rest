@@ -1,11 +1,9 @@
 package com.luan.algafoodapi.infrastructure.service.storage;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -42,11 +40,15 @@ public class LocalFotoStorageService implements FotoStorageService {
 	}
 
 	@Override
-	public InputStream recuperar(String nomeArquivo) {
+	public FotoRecuperada recuperar(String nomeArquivo) {
 		try {
 			Path arquivoPath = getArquivoPath(nomeArquivo);
 			
-			return Files.newInputStream(arquivoPath);
+			FotoRecuperada fotoRecuperada = FotoRecuperada.builder()
+					.inputStream(Files.newInputStream(arquivoPath))
+					.build();
+			
+			return fotoRecuperada;
 		} catch (Exception e) {
 			throw new StorageException("Não foi possivel excluir arquivo", e);
 		}
