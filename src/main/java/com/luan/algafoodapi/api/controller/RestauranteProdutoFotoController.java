@@ -1,7 +1,6 @@
 package com.luan.algafoodapi.api.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.net.HttpHeaders;
 import com.luan.algafoodapi.api.assembler.FotoProdutoDTOAssembler;
 import com.luan.algafoodapi.api.model.FotoProdutoDTO;
 import com.luan.algafoodapi.api.model.input.FotoProdutoInput;
@@ -30,6 +30,7 @@ import com.luan.algafoodapi.domain.model.FotoProduto;
 import com.luan.algafoodapi.domain.model.Produto;
 import com.luan.algafoodapi.domain.service.CatalogoFotoProdutoService;
 import com.luan.algafoodapi.domain.service.FotoStorageService;
+import com.luan.algafoodapi.domain.service.FotoStorageService.FotoRecuperada;
 import com.luan.algafoodapi.domain.service.ProdutoService;
 
 @RestController
@@ -74,7 +75,7 @@ public class RestauranteProdutoFotoController {
 	}
 	
 	@GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
-	public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
+	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
 			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 		try {
 			FotoProduto fotoProduto = catalogoFotoProdutoService.buscaOuFalha(restauranteId, produtoId);
@@ -84,11 +85,18 @@ public class RestauranteProdutoFotoController {
 			
 			verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
 			
-			InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
-
-			return ResponseEntity.ok()
-					.contentType(mediaTypeFoto)
-					.body(new InputStreamResource(inputStream));
+			FotoRecuperada fotoRecuperada  = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
+			
+			if (fotoRecuperada.temUrl()) { // para validar ir no postman e DESABILITAR o campo "Automatically follow redirects" encontrado em settings -> general -> headers
+				return ResponseEntity.status(HttpStatus.FOUND)
+						.header(HttpHeaders.LOCATION, fotoRecuperada.getUrl())//indica qual url eu quero q o consumidor da api siga
+						.build();
+			} else {
+				return ResponseEntity.ok()
+						.contentType(mediaTypeFoto)
+						.body(new InputStreamResource(fotoRecuperada.getInputStream()));
+			}
+			
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.notFound().build();
 		}
