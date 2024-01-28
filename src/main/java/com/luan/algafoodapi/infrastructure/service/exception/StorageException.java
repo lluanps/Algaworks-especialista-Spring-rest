@@ -1,4 +1,4 @@
-package com.luan.algafoodapi.infrastructure.service.storage.exception.copy;
+package com.luan.algafoodapi.infrastructure.service.exception;
 
 public class StorageException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
