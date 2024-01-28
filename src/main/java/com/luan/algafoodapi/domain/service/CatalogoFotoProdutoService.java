@@ -42,6 +42,7 @@ public class CatalogoFotoProdutoService {
 		
 		NovaFoto novaFoto = NovaFoto.builder()
 				.nomeArquivo(fotoProduto.getNomeArquivo())
+				.contentType(fotoProduto.getContentType()) // usado para setar objectMetaData como contentType ao enviar o S3
 				.inputStream(dadosArquivo)
 				.build();
 				

@@ -31,6 +31,7 @@ public interface FotoStorageService {
 	class NovaFoto {
 		
 		private String nomeArquivo;
+		private String contentType; // usado para setar objectMetaData como contentType ao enviar o S3
 		private InputStream inputStream;
 		
 	}
