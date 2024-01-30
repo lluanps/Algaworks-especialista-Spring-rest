@@ -12,7 +12,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.luan.algafoodapi.core.storage.StorageProperties;
 import com.luan.algafoodapi.domain.service.FotoStorageService;
-import com.luan.algafoodapi.infrastructure.service.storage.exception.copy.StorageException;
+import com.luan.algafoodapi.infrastructure.service.exception.copy.StorageException;
 
 @Service
 public class S3FotoStorageService implements FotoStorageService {

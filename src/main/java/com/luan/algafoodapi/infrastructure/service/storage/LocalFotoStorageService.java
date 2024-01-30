@@ -9,7 +9,7 @@ import org.springframework.util.FileCopyUtils;
 
 import com.luan.algafoodapi.core.storage.StorageProperties;
 import com.luan.algafoodapi.domain.service.FotoStorageService;
-import com.luan.algafoodapi.infrastructure.service.storage.exception.StorageException;
+import com.luan.algafoodapi.infrastructure.service.exception.StorageException;
 
 //@Service
 public class LocalFotoStorageService implements FotoStorageService {
