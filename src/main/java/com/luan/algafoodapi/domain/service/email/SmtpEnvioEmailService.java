@@ -20,7 +20,7 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateNotFoundException;
 
-@Service
+//@Service
 public class SmtpEnvioEmailService implements EnvioEmailService {
 	
 	@Autowired
@@ -48,12 +48,11 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 			javaMailSender.send(mimeMessage);
 			
 		} catch (Exception e) {
-//			throw new EmailException("Não foi possivel enviar e-mail", e);
-			e.getStackTrace();
+			throw new EmailException("Não foi possivel enviar e-mail", e);
 		}
 	}
 	
-	private String processarTemplate(Mensagem mensagem) {
+	protected String processarTemplate(Mensagem mensagem) {
 		try {
 			Template template = freeMarkerConfig.getTemplate(mensagem.getCorpo());
 			
