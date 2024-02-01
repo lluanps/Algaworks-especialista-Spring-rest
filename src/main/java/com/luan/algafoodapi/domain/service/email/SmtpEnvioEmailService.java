@@ -48,7 +48,8 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 			javaMailSender.send(mimeMessage);
 			
 		} catch (Exception e) {
-			throw new EmailException("Não foi possivel enviar e-mail", e);
+//			throw new EmailException("Não foi possivel enviar e-mail", e);
+			e.getStackTrace();
 		}
 	}
 	
