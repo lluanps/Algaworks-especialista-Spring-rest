@@ -13,15 +13,21 @@ import lombok.Setter;
 @ConfigurationProperties("algafood.email")
 public class EmailProperties {
 	
-	// usando FAKE como padrão para evitar enviar email de vdd
-	private Implementacao impl = Implementacao.FAKE;
+	private Implementacao impl;
 
+	private Sandbox sandbox = new Sandbox();
 	
 	@NonNull
 	private String remetente;
 	
 	public enum Implementacao {
-		SMTP, FAKE
+		SMTP, FAKE, SANDBOX
+	}
+	
+	@Getter
+	@Setter
+	public class Sandbox {
+		private String destinatario;
 	}
 
 }

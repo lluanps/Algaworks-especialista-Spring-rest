@@ -8,6 +8,7 @@ import com.luan.algafoodapi.core.email.EmailProperties;
 import com.luan.algafoodapi.core.email.EmailProperties.Implementacao;
 import com.luan.algafoodapi.domain.service.EnvioEmailService;
 import com.luan.algafoodapi.domain.service.email.fake.FakeEnvioEmailService;
+import com.luan.algafoodapi.domain.service.email.sandbox.SandboxEnvioEmailService;
 
 @Configuration
 public class EmailConfig {
@@ -19,8 +20,11 @@ public class EmailConfig {
     public EnvioEmailService envioEmailService() {
     	if (emailProperties.getImpl().equals(Implementacao.FAKE)) {
     		return new FakeEnvioEmailService();
-    	}
-    	return new SmtpEnvioEmailService();
+    	} else if (emailProperties.getImpl().equals(Implementacao.SMTP)) {
+			return new SmtpEnvioEmailService();
+		} else {
+			return new SandboxEnvioEmailService();
+		}
     }
     
 } 

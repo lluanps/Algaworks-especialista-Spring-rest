@@ -2,6 +2,7 @@ package com.luan.algafoodapi.domain.service.email;
 
 import java.io.IOException;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,21 +36,27 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 	@Override
 	public void enviar(Mensagem mensagem) {
 		try {
-			String corpo = processarTemplate(mensagem);
-			
-			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-			
-			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
-			mimeMessageHelper.setFrom(emailProperties.getRemetente());
-			mimeMessageHelper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
-			mimeMessageHelper.setSubject(mensagem.getAssunto());
-			mimeMessageHelper.setText(corpo, true);
+			MimeMessage mimeMessage = criarMimeMessage(mensagem);
 			
 			javaMailSender.send(mimeMessage);
 			
 		} catch (Exception e) {
 			throw new EmailException("Não foi possivel enviar e-mail", e);
 		}
+	}
+
+	//separa a criação do MimeMessage para para possibilitar a sobrescrita do metodo na classe SandboxEnvioEmailService
+	protected  MimeMessage criarMimeMessage(Mensagem mensagem) throws MessagingException {
+		String corpo = processarTemplate(mensagem);
+		
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		
+		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
+		mimeMessageHelper.setFrom(emailProperties.getRemetente());
+		mimeMessageHelper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
+		mimeMessageHelper.setSubject(mensagem.getAssunto());
+		mimeMessageHelper.setText(corpo, true);
+		return mimeMessage;
 	}
 	
 	protected String processarTemplate(Mensagem mensagem) {
