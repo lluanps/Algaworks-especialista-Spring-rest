@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.luan.algafoodapi.domain.event.PedidoCanceladoEvent;
 import com.luan.algafoodapi.domain.event.PedidoConfirmadoEvent;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 
@@ -115,6 +116,8 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
 	public void cancelar() {
 		setStatus(StatusPedido.CANCELADO);
 		setDataCancelamento(OffsetDateTime.now());
+		
+		registerEvent(new PedidoCanceladoEvent(this));
 	}
 	
 	private void setStatus(StatusPedido novoStatus) {

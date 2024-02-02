@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.luan.algafoodapi.domain.model.Pedido;
 import com.luan.algafoodapi.domain.repository.PedidoRepository;
-import com.luan.algafoodapi.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class FluxoPedidoService {
@@ -36,6 +35,8 @@ public class FluxoPedidoService {
 	public void cancelar(Long pedidoId) {
 		Pedido pedido = pedidoService.buscaOuFalha(pedidoId);
 		pedido.cancelar();
+		
+		pedidoRepository.save(pedido);
 	}
 	
 }
