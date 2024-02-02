@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.luan.algafoodapi.domain.model.Pedido;
+import com.luan.algafoodapi.domain.repository.PedidoRepository;
 import com.luan.algafoodapi.domain.service.EnvioEmailService.Mensagem;
 
 @Service
@@ -15,21 +16,14 @@ public class FluxoPedidoService {
 	PedidoService pedidoService;
 	
 	@Autowired
-	private EnvioEmailService envioEmail;
+	private PedidoRepository pedidoRepository;
 	
 	@Transactional
 	public void confirmar(Long pedidoId) {
 		Pedido pedido = pedidoService.buscaOuFalha(pedidoId);
 		pedido.confirmar();
 		
-		var mensagem = Mensagem.builder()
-				.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-				.corpo("pedido-confirmado.html")
-				.variavel("pedido", pedido)
-				.destinatario(pedido.getCliente().getEmail())
-				.build();
-		
-		envioEmail.enviar(mensagem);
+		pedidoRepository.save(pedido);//usado para funcionar o evento
 	}
 
 	@Transactional
