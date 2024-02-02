@@ -1,6 +1,5 @@
 package com.luan.algafoodapi.domain.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -20,17 +19,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.data.domain.AbstractAggregateRoot;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.luan.algafoodapi.domain.event.PedidoCanceladoEvent;
+import com.luan.algafoodapi.domain.event.PedidoConfirmadoEvent;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
-public class Pedido implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Pedido extends AbstractAggregateRoot<Pedido> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,6 +103,9 @@ public class Pedido implements Serializable {
 	public void confirmar() {
 		setStatus(StatusPedido.CONFIRMADO);
 		setDataConfirmacao(OffsetDateTime.now());
+		
+		//registrando evento que deve ser disparado
+		registerEvent(new PedidoConfirmadoEvent(this));
 	}
 	
 	public void entregar() {
@@ -111,6 +116,8 @@ public class Pedido implements Serializable {
 	public void cancelar() {
 		setStatus(StatusPedido.CANCELADO);
 		setDataCancelamento(OffsetDateTime.now());
+		
+		registerEvent(new PedidoCanceladoEvent(this));
 	}
 	
 	private void setStatus(StatusPedido novoStatus) {
