@@ -12,6 +12,8 @@
 <a href="https://blog.algaworks.com/lazy-loading-com-mapeamento-onetoone/">Lazy loading com mapeamento OneToOne<a/>
 <br>ESR-15 - E-mails transacionais e Domain Events
 <br>ESR-16 - CORS e consumo da API com Javascript e JAVA
+<a href="https://github.com/lluanps/consumindo-api/tree/main?tab=readme-ov-file
+">Projeto consumindo api com RestTemplate<a/>
 <br>ESR-17 - Cache de HTTP
 <br>ESR-18 - Documentação da API com OpenAPI, Swagger UI e SpringFox
 <br>ESR-19 - Discoverability e HATEOS: A Glória do REST
