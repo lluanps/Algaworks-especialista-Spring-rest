@@ -1,10 +1,13 @@
 package com.luan.algafoodapi.api.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +41,14 @@ public class FormaPagamentoController {
 	private FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
 	@GetMapping
-	public List<FormaPagamentoDTO> listar() {
+	public ResponseEntity<List<FormaPagamentoDTO>> listar() {
 		List<FormaPagamento> buscaTodos = repository.findAll();
 		
-		return formaPagamentoDTOAssembler.toCollectionDto(buscaTodos);
+		List<FormaPagamentoDTO> formaPagamentoDTOs = formaPagamentoDTOAssembler.toCollectionDto(buscaTodos);
+		
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))// habilita o cache para guardar informação por 10 segundos, evitando uma nova requisição durante esse tempo
+				.body(formaPagamentoDTOs);
 	}
 	
 	@GetMapping("/{formaPagamentoId}")
