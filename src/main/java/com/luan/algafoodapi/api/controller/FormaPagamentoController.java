@@ -47,7 +47,10 @@ public class FormaPagamentoController {
 		List<FormaPagamentoDTO> formaPagamentoDTOs = formaPagamentoDTOAssembler.toCollectionDto(buscaTodos);
 		
 		return ResponseEntity.ok()
-				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))// habilita o cache para guardar informação por 10 segundos, evitando uma nova requisição durante esse tempo
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())// habilita o cache para guardar informação por 10 segundos, evitando uma nova requisição durante esse tempote
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate()())// cachePrivate() -> armazena apenas em cache local
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())// cachePrivate() -> pode ser armazenada em cache locais e compartilhado
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).noCache())// se a resposta for em cache, sera necessario fazer uma validacao no servidor, Etag
 				.body(formaPagamentoDTOs);
 	}
 	
