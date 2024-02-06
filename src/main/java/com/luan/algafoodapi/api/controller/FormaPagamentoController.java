@@ -1,5 +1,6 @@
 package com.luan.algafoodapi.api.controller;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import com.luan.algafoodapi.api.assembler.FormaPagamentoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.FormaPagamentoInputDisassembler;
@@ -41,16 +44,30 @@ public class FormaPagamentoController {
 	private FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
 	@GetMapping
-	public ResponseEntity<List<FormaPagamentoDTO>> listar() {
+	public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest request) {
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+		
+		String eTag = "0";
+		OffsetDateTime dataUltimaAtualizacao = repository.getDataUltimaAtualizacao();
+		if (dataUltimaAtualizacao != null) {
+			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		
+		if (request.checkNotModified(eTag)) {
+			return null;
+		}
+		
 		List<FormaPagamento> buscaTodos = repository.findAll();
 		
 		List<FormaPagamentoDTO> formaPagamentoDTOs = formaPagamentoDTOAssembler.toCollectionDto(buscaTodos);
 		
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())// habilita o cache para guardar informação por 10 segundos, evitando uma nova requisição durante esse tempote
-//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate()())// cachePrivate() -> armazena apenas em cache local
-//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())// cachePrivate() -> pode ser armazenada em cache locais e compartilhado
-				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).noCache())// se a resposta for em cache, sera necessario fazer uma validacao no servidor, Etag
+//				.cacheControl(CacheControl.cachePrivate()())// cachePrivate() -> armazena apenas em cache local
+//				.cacheControl(CacheControl.cachePublic())// cachePrivate() -> pode ser armazenada em cache locais e compartilhado
+//				.cacheControl(CacheControl.noCache())// se a resposta for em cache, sera necessario fazer uma validacao no servidor, Etag	
+//				.cacheControl(CacheControl.noStore())//Não pode ser armazenado em nenhum cache local/compartilhado
+				.eTag(eTag)
 				.body(formaPagamentoDTOs);
 	}
 	
