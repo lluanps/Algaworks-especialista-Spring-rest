@@ -1,0 +1,1 @@
+ALTER TABLE forma_pagamento ADD COLUMN data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
