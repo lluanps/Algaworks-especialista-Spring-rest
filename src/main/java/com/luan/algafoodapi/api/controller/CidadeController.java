@@ -27,6 +27,7 @@ import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "Cidades")
 @RestController
@@ -45,6 +46,7 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 	
+	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public List<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
@@ -52,6 +54,7 @@ public class CidadeController {
 		return cidadeDTOAssembler.toCollectionDto(findAll);
 	}
 
+	@ApiOperation("Busca uma cidade po Id")
 	@GetMapping("/cidadeId")
 	public CidadeDTO cidadeById(@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
@@ -59,6 +62,7 @@ public class CidadeController {
 		return cidadeDTOAssembler.toModel(cidade);
 	}
 	
+	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeDTO salvar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -73,6 +77,7 @@ public class CidadeController {
 		}
 	}
 	
+	@ApiOperation("Atualiza uma cidade por Id")
 	@PutMapping("/{cidadeId}")
 	public CidadeDTO atualizar(@PathVariable @Valid Long cidadeId,
 			@RequestBody CidadeInput cidadeInput) {
@@ -88,6 +93,7 @@ public class CidadeController {
 		}
 	}
 	
+	@ApiOperation("Exclui uma cidade por Id")
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cidadeId) {
