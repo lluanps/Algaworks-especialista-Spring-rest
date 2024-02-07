@@ -7,7 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.google.common.base.Predicates;
 
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -20,7 +23,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.select()
 //				.apis(RequestHandlerSelectors.any())// seleciona tudo
 				.apis(RequestHandlerSelectors.basePackage("com.luan.algafoodapi.api"))// seleciona pacote
-				.build();
+				.build()
+			.apiInfo(apiInfo());
 	}
 	
 	/* http://localhost:8080/swagger-ui/index.html */
@@ -31,6 +35,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		
 		registry.addResourceHandler("/webjars/**")
 			.addResourceLocations("classpath:/META-INF/resources/webjars/");
+	}
+	
+	public ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+				.title("Algafood API")
+				.description("API Aberta para clientes e restaurantes")
+				.version("1")
+				.contact(new Contact("Luan Pinheiro da Silva", "https://www.linkedin.com/in/lluanps/", "lluanps@gmail.com"))
+				.build();
 	}
 	
 }
