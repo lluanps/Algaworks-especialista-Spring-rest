@@ -26,6 +26,12 @@ import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+// SpringFox (3.0.0) foi descontinuada.
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
@@ -42,6 +48,7 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 	
+	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public List<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
@@ -49,16 +56,20 @@ public class CidadeController {
 		return cidadeDTOAssembler.toCollectionDto(findAll);
 	}
 
+	@ApiOperation("Busca uma cidade po Id")
 	@GetMapping("/cidadeId")
-	public CidadeDTO cidadeById(@PathVariable Long cidadeId) {
+	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
+	@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
 		
 		return cidadeDTOAssembler.toModel(cidade);
 	}
 	
+	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CidadeDTO salvar(@RequestBody @Valid CidadeInput cidadeInput) {
+	public CidadeDTO salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+	@RequestBody @Valid CidadeInput cidadeInput) {
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 			
@@ -70,9 +81,10 @@ public class CidadeController {
 		}
 	}
 	
+	@ApiOperation("Atualiza uma cidade por Id")
 	@PutMapping("/{cidadeId}")
-	public CidadeDTO atualizar(@PathVariable @Valid Long cidadeId,
-			@RequestBody CidadeInput cidadeInput) {
+	public CidadeDTO atualizar(@ApiParam("Id de uma cidade") @PathVariable @Valid Long cidadeId,
+			@ApiParam(name = "corpo", value = "Representação de uma cidade como novos dados a serem atualizados") @RequestBody CidadeInput cidadeInput) {
 		try {
 			Cidade cidadeAtual = service.buscarOuFalhar(cidadeId);
 			
@@ -85,9 +97,10 @@ public class CidadeController {
 		}
 	}
 	
+	@ApiOperation("Exclui uma cidade por Id")
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long cidadeId) {
+	public void remover(@ApiParam("Id de uma cidade") @PathVariable Long cidadeId) {
 		service.excluir(cidadeId);	
 	}
 	
