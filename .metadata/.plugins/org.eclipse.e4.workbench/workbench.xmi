@@ -2,7 +2,7 @@
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_N9v08Hv1Ee63etCNaY5AcQ" elementId="org.eclipse.e4.legacy.ide.application" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_N9v08Xv1Ee63etCNaY5AcQ" bindingContexts="_N9v0-nv1Ee63etCNaY5AcQ">
   <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;workbench>&#xD;&#xA;&lt;mruList/>&#xD;&#xA;&lt;/workbench>"/>
   <tags>activeSchemeId:org.eclipse.ui.defaultAcceleratorConfiguration</tags>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_N9v08Xv1Ee63etCNaY5AcQ" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_OHJoknv1Ee63etCNaY5AcQ" label="%trimmedwindow.label.eclipseSDK" x="52" y="52" width="1024" height="768">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_N9v08Xv1Ee63etCNaY5AcQ" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_OHJoknv1Ee63etCNaY5AcQ" label="%trimmedwindow.label.eclipseSDK" x="0" y="0" width="1024" height="768">
     <persistedState key="coolBarVisible" value="true"/>
     <persistedState key="perspectiveBarVisible" value="true"/>
     <persistedState key="isRestored" value="true"/>
@@ -367,7 +367,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_OH-H8nv1Ee63etCNaY5AcQ" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BKKooLsKEe6jp7EkWSU0ew" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_N-Jd8nv1Ee63etCNaY5AcQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_E-n8YMW4Ee6yHcb-R2fjPA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_N-Jd8nv1Ee63etCNaY5AcQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_OH-H83v1Ee63etCNaY5AcQ" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -375,8 +375,8 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_OH-H9Xv1Ee63etCNaY5AcQ" elementId="org.eclipse.ui.workbench.edit">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BKL2wLsKEe6jp7EkWSU0ew" elementId="undo" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/undo_edit.png" tooltip="Undo" enabled="false" command="_N-Ho4Xv1Ee63etCNaY5AcQ"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BKL2wbsKEe6jp7EkWSU0ew" elementId="redo" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/redo_edit.png" tooltip="Redo" enabled="false" command="_N-IPvnv1Ee63etCNaY5AcQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_E-pKgcW4Ee6yHcb-R2fjPA" elementId="undo" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/undo_edit.png" tooltip="Undo" enabled="false" command="_N-Ho4Xv1Ee63etCNaY5AcQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_E-pKgsW4Ee6yHcb-R2fjPA" elementId="redo" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/redo_edit.png" tooltip="Redo" enabled="false" command="_N-IPvnv1Ee63etCNaY5AcQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_OH-H9nv1Ee63etCNaY5AcQ" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -397,7 +397,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_OH-H-nv1Ee63etCNaY5AcQ" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_BKMd0LsKEe6jp7EkWSU0ew" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_N-JdrXv1Ee63etCNaY5AcQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_E-pxkcW4Ee6yHcb-R2fjPA" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_N-JdrXv1Ee63etCNaY5AcQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_OH-H-3v1Ee63etCNaY5AcQ" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -678,6 +678,7 @@
     <bindings xmi:id="_N-e013v1Ee63etCNaY5AcQ" keySequence="ALT+SHIFT+D O" command="_N-I2iXv1Ee63etCNaY5AcQ"/>
     <bindings xmi:id="_N-fb0Hv1Ee63etCNaY5AcQ" keySequence="ALT+SHIFT+D P" command="_N-Jd7nv1Ee63etCNaY5AcQ"/>
     <bindings xmi:id="_N-fb0Xv1Ee63etCNaY5AcQ" keySequence="ALT+SHIFT+D Q" command="_N-IPrHv1Ee63etCNaY5AcQ"/>
+    <bindings xmi:id="_DvwVgMW4Ee6yHcb-R2fjPA" keySequence="CTRL+R" command="_DvOKBcW4Ee6yHcb-R2fjPA"/>
   </bindingTables>
   <bindingTables xmi:id="_N-ZVNnv1Ee63etCNaY5AcQ" elementId="org.eclipse.jdt.ui.javaEditorScope" bindingContext="_N-L543v1Ee63etCNaY5AcQ">
     <bindings xmi:id="_N-ZVN3v1Ee63etCNaY5AcQ" keySequence="CTRL+SHIFT+P" command="_N-I3Jnv1Ee63etCNaY5AcQ"/>
@@ -1395,6 +1396,36 @@
     <persistedState key="originalCompatibilityViewBundle" value="org.springframework.tooling.ls.eclipse.gotosymbol"/>
     <tags>View</tags>
     <tags>categoryTag:Other</tags>
+  </descriptors>
+  <descriptors xmi:id="_E6GowMW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.explorer.view" label="AWS Explorer" iconURI="platform:/plugin/com.amazonaws.eclipse.core/icons/aws-box.gif" tooltip="A tree of Amazon Web Services resources." category="AWS Toolkit" closeable="true" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView">
+    <persistedState key="originalCompatibilityViewClass" value="com.amazonaws.eclipse.explorer.ResourcesView"/>
+    <persistedState key="originalCompatibilityViewBundle" value="com.amazonaws.eclipse.core"/>
+    <tags>View</tags>
+    <tags>categoryTag:AWS Toolkit</tags>
+  </descriptors>
+  <descriptors xmi:id="_E6HP0MW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.ec2.ui.views.AmiBrowserView" label="EC2 AMIs" iconURI="platform:/plugin/com.amazonaws.eclipse.ec2/icons/ami_icon.png" tooltip="" category="AWS Toolkit" closeable="true" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView">
+    <persistedState key="originalCompatibilityViewClass" value="com.amazonaws.eclipse.ec2.ui.amis.AmiBrowserView"/>
+    <persistedState key="originalCompatibilityViewBundle" value="com.amazonaws.eclipse.ec2"/>
+    <tags>View</tags>
+    <tags>categoryTag:AWS Toolkit</tags>
+  </descriptors>
+  <descriptors xmi:id="_E6HP0cW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.ec2.ui.views.InstanceView" label="EC2 Instances" iconURI="platform:/plugin/com.amazonaws.eclipse.ec2/icons/server.png" tooltip="" category="AWS Toolkit" closeable="true" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView">
+    <persistedState key="originalCompatibilityViewClass" value="com.amazonaws.eclipse.ec2.ui.views.instances.InstanceView"/>
+    <persistedState key="originalCompatibilityViewBundle" value="com.amazonaws.eclipse.ec2"/>
+    <tags>View</tags>
+    <tags>categoryTag:AWS Toolkit</tags>
+  </descriptors>
+  <descriptors xmi:id="_E6H24MW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.ec2.ui.views.ElasticBlockStorageView" label="EC2 Elastic Block Storage" iconURI="platform:/plugin/com.amazonaws.eclipse.ec2/icons/harddisk.png" tooltip="" category="AWS Toolkit" closeable="true" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView">
+    <persistedState key="originalCompatibilityViewClass" value="com.amazonaws.eclipse.ec2.ui.ebs.ElasticBlockStorageView"/>
+    <persistedState key="originalCompatibilityViewBundle" value="com.amazonaws.eclipse.ec2"/>
+    <tags>View</tags>
+    <tags>categoryTag:AWS Toolkit</tags>
+  </descriptors>
+  <descriptors xmi:id="_E6H24cW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.ec2.views.SecurityGroupView" label="EC2 Security Groups" iconURI="platform:/plugin/com.amazonaws.eclipse.ec2/icons/shield1.png" tooltip="" category="AWS Toolkit" closeable="true" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView">
+    <persistedState key="originalCompatibilityViewClass" value="com.amazonaws.eclipse.ec2.ui.securitygroups.SecurityGroupView"/>
+    <persistedState key="originalCompatibilityViewBundle" value="com.amazonaws.eclipse.ec2"/>
+    <tags>View</tags>
+    <tags>categoryTag:AWS Toolkit</tags>
   </descriptors>
   <trimContributions xmi:id="_2r10UF9tEeO-yojH_y4TJA" elementId="org.eclipse.ui.ide.application.trimcontribution.QuickAccess" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" toBeRendered="false" parentId="org.eclipse.ui.main.toolbar" positionInParent="last">
     <children xsi:type="menu:ToolControl" xmi:id="_76uUAF9tEeO-yojH_y4TJA" elementId="Spacer Glue" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
@@ -2403,6 +2434,13 @@
   <commands xmi:id="_OGcd9Hv1Ee63etCNaY5AcQ" elementId="AUTOGEN:::org.eclipse.jdt.debug.ui.DisplayViewActions/org.eclipse.jdt.debug.ui.displayViewToolbar.Display" commandName="Display" description="Display Result of Evaluating Selected Text" category="_N-FzU3v1Ee63etCNaY5AcQ"/>
   <commands xmi:id="_OGcd9Xv1Ee63etCNaY5AcQ" elementId="AUTOGEN:::org.eclipse.jdt.debug.ui.DisplayViewActions/org.eclipse.jdt.debug.ui.displayViewToolbar.Inspect" commandName="Inspect" description="Inspect Result of Evaluating Selected Text" category="_N-FzU3v1Ee63etCNaY5AcQ"/>
   <commands xmi:id="_OGdFAHv1Ee63etCNaY5AcQ" elementId="AUTOGEN:::org.eclipse.pde.ui.logViewActions/org.eclipse.jdt.debug.ui.LogViewActions.showStackTrace" commandName="Show Stack Trace in Console View" description="Show Stack Trace in Console View" category="_N-FzU3v1Ee63etCNaY5AcQ"/>
+  <commands xmi:id="_DvOKAMW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.command.openPreferences" commandName="Open AWS Toolkit Preferences" category="_DvEZAMW4Ee6yHcb-R2fjPA"/>
+  <commands xmi:id="_DvOKAcW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.command.displayOverviewEditor" commandName="Open AWS Toolkit Overview" category="_DvEZAMW4Ee6yHcb-R2fjPA"/>
+  <commands xmi:id="_DvOKAsW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.sdk.ui.newAwsJavaProjectCommand" commandName="New AWS Java Project" category="_DvEZAMW4Ee6yHcb-R2fjPA"/>
+  <commands xmi:id="_DvOKA8W4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.command.openWebConsole" commandName="Open AWS Management Console" category="_DvEZAMW4Ee6yHcb-R2fjPA"/>
+  <commands xmi:id="_DvOKBMW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.command.openGeneralFeedbackEmail" commandName="Report Bug or Enhancement" category="_DvEZAMW4Ee6yHcb-R2fjPA"/>
+  <commands xmi:id="_DvOKBcW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.dynamodb.editor.runScan" commandName="Run scan" category="_N-FzU3v1Ee63etCNaY5AcQ"/>
+  <commands xmi:id="_DvOxEMW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.eclipse.ec2.openLaunchWizardCommand" commandName="Open Launch Wizard" category="_DvEZAMW4Ee6yHcb-R2fjPA"/>
   <addons xmi:id="_N9v0_nv1Ee63etCNaY5AcQ" elementId="org.eclipse.e4.core.commands.service" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_N9v0_3v1Ee63etCNaY5AcQ" elementId="org.eclipse.e4.ui.contexts.service" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_N9v1AHv1Ee63etCNaY5AcQ" elementId="org.eclipse.e4.ui.bindings.service" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
@@ -2414,7 +2452,7 @@
   <addons xmi:id="_N9v1Bnv1Ee63etCNaY5AcQ" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_N9v1B3v1Ee63etCNaY5AcQ" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_N93JsHv1Ee63etCNaY5AcQ" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="_IYS0IKimEeS11vbz3f9ezw" elementId="org.eclipse.ui.ide.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_EhFEwMW4Ee6yHcb-R2fjPA" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_N-FzMHv1Ee63etCNaY5AcQ" elementId="org.eclipse.team.ui.category.team" name="Version control (Team)" description="Actions that apply when working with a version control system"/>
   <categories xmi:id="_N-FzMXv1Ee63etCNaY5AcQ" elementId="org.eclipse.ui.category.views" name="Views" description="Commands for opening views"/>
@@ -2452,4 +2490,5 @@
   <categories xmi:id="_N-FzUXv1Ee63etCNaY5AcQ" elementId="org.eclipse.pde.runtime.spy.commands.category" name="Spy"/>
   <categories xmi:id="_N-FzUnv1Ee63etCNaY5AcQ" elementId="org.eclipse.pde.ui.category.source" name="Manifest Editor Source" description="PDE Source Page actions"/>
   <categories xmi:id="_N-FzU3v1Ee63etCNaY5AcQ" elementId="org.eclipse.core.commands.categories.autogenerated" name="Uncategorized" description="Commands that were either auto-generated or have no category"/>
+  <categories xmi:id="_DvEZAMW4Ee6yHcb-R2fjPA" elementId="com.amazonaws.commands.category" name="AWS Toolkit for Eclipse Commands"/>
 </application:Application>
