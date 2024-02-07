@@ -5,12 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.google.common.base.Predicates;
-
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -24,7 +23,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 //				.apis(RequestHandlerSelectors.any())// seleciona tudo
 				.apis(RequestHandlerSelectors.basePackage("com.luan.algafoodapi.api"))// seleciona pacote
 				.build()
-			.apiInfo(apiInfo());
+			.apiInfo(apiInfo())
+			.tags(new Tag("Cidades", "Gerencia as cidades", 0));
 	}
 	
 	/* http://localhost:8080/swagger-ui/index.html */
