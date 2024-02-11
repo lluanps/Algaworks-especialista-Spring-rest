@@ -9,4 +9,8 @@ public interface VendaQueryService  {
 
 	List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro);
 
+	List<VendaDiaria> consultarVendasMensais(VendaDiariaFilter filtro);
+
+	List<VendaDiaria> consultarVendasAnuais(VendaDiariaFilter filtro);
+
 }
