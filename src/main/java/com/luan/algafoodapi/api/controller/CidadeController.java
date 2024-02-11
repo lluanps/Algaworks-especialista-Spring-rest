@@ -1,10 +1,14 @@
 package com.luan.algafoodapi.api.controller;
 
+import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.http.protocol.RequestContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.luan.algafoodapi.api.ResourceURIHelper;
 import com.luan.algafoodapi.api.assembler.CidadeDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CidadeInputDisassembler;
 import com.luan.algafoodapi.api.model.CidadeDTO;
@@ -75,7 +83,11 @@ public class CidadeController {
 			
 			cidade = service.salvar(cidade);
 			
-			return cidadeDTOAssembler.toModel(cidade);
+			CidadeDTO cidadeDTO =  cidadeDTOAssembler.toModel(cidade);
+			
+			ResourceURIHelper.addUriResponseHeader(cidadeDTO.getId());
+			
+			return cidadeDTO;
 		} catch (EstadoNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
