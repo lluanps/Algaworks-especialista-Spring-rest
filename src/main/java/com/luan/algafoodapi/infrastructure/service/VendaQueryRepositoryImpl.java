@@ -34,7 +34,7 @@ public class VendaQueryRepositoryImpl implements VendaQueryService {
 
 		var functionDateDataCriacao= builder.function("TO_CHAR", String.class,
 				root.get("dataCriacao"), 
-				builder.literal("yyyy/MM/dd"));
+				builder.literal("yyyy-MM-dd"));
 
 		var selection = builder.construct(VendaDiaria.class, functionDateDataCriacao,
 				builder.count(root.get("id")),
@@ -43,7 +43,7 @@ public class VendaQueryRepositoryImpl implements VendaQueryService {
 		var predicates = new ArrayList<Predicate>();
 		predicates = precondicoesParaFiltro(filtro, builder, root, predicates);
 
-		query.select(selection).where(predicates.toArray(new Predicate[0])).groupBy(root.get(DATA_CRIACAO));
+		query.select(selection).where(predicates.toArray(new Predicate[0])).groupBy(functionDateDataCriacao);
 
 		return manager.createQuery(query).getResultList();
 	}
