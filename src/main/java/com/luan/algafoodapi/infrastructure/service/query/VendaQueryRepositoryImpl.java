@@ -1,4 +1,4 @@
-package com.luan.algafoodapi.infrastructure.service;
+package com.luan.algafoodapi.infrastructure.service.query;
 
 import java.util.ArrayList;
 import java.util.List;
