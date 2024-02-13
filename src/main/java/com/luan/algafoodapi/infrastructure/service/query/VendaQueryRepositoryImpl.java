@@ -34,7 +34,8 @@ public class VendaQueryRepositoryImpl implements VendaQueryService {
 
 		var functionDateDataCriacao= builder.function("TO_CHAR", String.class,
 				root.get("dataCriacao"), 
-				builder.literal("yyyy-MM-dd"));
+//				builder.literal("yyyy/MM/dd"));
+				builder.literal("dd/MM/yyyy"));
 
 		var selection = builder.construct(VendaDiaria.class, functionDateDataCriacao,
 				builder.count(root.get("id")),
