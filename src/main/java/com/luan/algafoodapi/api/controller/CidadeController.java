@@ -10,6 +10,7 @@ import org.apache.http.protocol.RequestContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -75,13 +76,14 @@ public class CidadeController {
 		
 		CidadeDTO cidadeDTO = cidadeDTOAssembler.toModel(cidade);
 		
-		cidadeDTO.add(Link.of("http://localhost:8080/cidades/1"));
-//		cidadeDTO.add(Link.of("http://localhost:8080/cidades/1", IanaLinkRelations.SELF)); /* https://www.iana.org/assignments/link-relations/link-relations.xhtml */
+		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+				.slash(cidadeDTO.getId()).withSelfRel());
 
-		cidadeDTO.add(Link.of("http://localhost:8080/cidades", "cidades"));
-//		cidadeDTO.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+				.withRel("cidades"));
 		
-		cidadeDTO.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+		cidadeDTO.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+				.slash(cidadeDTO.getEstado().getId()).withSelfRel());
 		
 		return cidadeDTO;
 	}
