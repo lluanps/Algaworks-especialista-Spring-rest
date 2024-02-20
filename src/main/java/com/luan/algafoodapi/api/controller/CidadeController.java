@@ -8,8 +8,11 @@ import javax.validation.Valid;
 
 import org.apache.http.protocol.RequestContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,12 +68,22 @@ public class CidadeController {
 	}
 
 	@ApiOperation("Busca uma cidade po Id")
-	@GetMapping("/{cidadeId}")
+	@GetMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
 	@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
 		
-		return cidadeDTOAssembler.toModel(cidade);
+		CidadeDTO cidadeDTO = cidadeDTOAssembler.toModel(cidade);
+		
+		cidadeDTO.add(Link.of("http://localhost:8080/cidades/1"));
+//		cidadeDTO.add(Link.of("http://localhost:8080/cidades/1", IanaLinkRelations.SELF)); /* https://www.iana.org/assignments/link-relations/link-relations.xhtml */
+
+		cidadeDTO.add(Link.of("http://localhost:8080/cidades", "cidades"));
+//		cidadeDTO.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+		
+		cidadeDTO.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+		
+		return cidadeDTO;
 	}
 	
 	@ApiOperation("Cadastra uma cidade")
