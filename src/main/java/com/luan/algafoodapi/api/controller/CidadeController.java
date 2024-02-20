@@ -57,26 +57,7 @@ public class CidadeController {
 	public CollectionModel<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
 		
-		List<CidadeDTO> cidadeDTOs = cidadeDTOAssembler.toCollectionDto(findAll);
-		
-		cidadeDTOs.forEach(cidadeDto -> {
-			cidadeDto.add(WebMvcLinkBuilder.linkTo(
-					WebMvcLinkBuilder.methodOn(CidadeController.class).cidadeById(cidadeDto.getId())).withSelfRel());
-
-
-			cidadeDto.add(WebMvcLinkBuilder.linkTo(
-					WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades"));
-			
-			cidadeDto.add(WebMvcLinkBuilder.linkTo(
-					WebMvcLinkBuilder.methodOn(EstadoController.class).findEstadoById(cidadeDto.getEstado().getId())).withSelfRel());
-		});
-		
-	    CollectionModel<CidadeDTO> cidadesCollectionModel = CollectionModel.of(cidadeDTOs);
-	    
-	    //add link da coleção
-	    cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
-	    
-		return cidadesCollectionModel;
+		return cidadeDTOAssembler.toCollectionModel(findAll);
 	}
 
 	@ApiOperation("Busca uma cidade po Id")
@@ -85,25 +66,7 @@ public class CidadeController {
 	@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
 		
-		CidadeDTO cidadeDTO = cidadeDTOAssembler.toModel(cidade);
-		
-		//Link que apontam para métodos
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(CidadeController.class).cidadeById(cidadeDTO.getId())).withSelfRel());
-//		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-//				.slash(cidadeDTO.getId()).withSelfRel());
-
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades"));
-//		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-//				.withRel("cidades"));
-		
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(EstadoController.class).findEstadoById(cidadeDTO.getEstado().getId())).withSelfRel());
-//		cidadeDTO.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
-//				.slash(cidadeDTO.getEstado().getId()).withSelfRel());
-		
-		return cidadeDTO;
+		return cidadeDTOAssembler.toModel(cidade);
 	}
 	
 	@ApiOperation("Cadastra uma cidade")
