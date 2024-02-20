@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,15 +45,18 @@ public class CozinhaController {
 	
 	@Autowired
 	private CozinhaInputDisassembler cozinhaInputDisassembler;
+
+	@Autowired
+	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 	
 	@GetMapping
-	public Page<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
-		Page<Cozinha> cozinahsPage = repository.findAll(pageable);
+	public PagedModel<CozinhaDTO> listar(@PageableDefault(size = 10) Pageable pageable) {
+		Page<Cozinha> cozinhasPage = repository.findAll(pageable);
 		
-		List<CozinhaDTO> cozinhasDTO =  cozinhaDTOAssembler.toCollectionDto(cozinahsPage.getContent());
-		Page<CozinhaDTO> cozinhaDTOPage = new PageImpl<>(cozinhasDTO, pageable, cozinahsPage.getTotalElements());
-	
-		return cozinhaDTOPage;
+		PagedModel<CozinhaDTO> cozinhasPagedModel = pagedResourcesAssembler
+				.toModel(cozinhasPage, cozinhaDTOAssembler);
+		
+		return cozinhasPagedModel;
 	}
 	
 	//@ResponseStatus(HttpStatus.OK)retornando o status de outro forma
