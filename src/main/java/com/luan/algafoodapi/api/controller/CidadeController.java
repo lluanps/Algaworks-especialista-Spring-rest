@@ -65,7 +65,7 @@ public class CidadeController {
 	}
 
 	@ApiOperation("Busca uma cidade po Id")
-	@GetMapping("/cidadeId")
+	@GetMapping("/{cidadeId}")
 	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
 	@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
