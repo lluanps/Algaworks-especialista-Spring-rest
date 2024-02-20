@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,10 +54,29 @@ public class CidadeController {
 	
 	@ApiOperation("Lista as cidades")
 	@GetMapping
-	public List<CidadeDTO> listar() {
+	public CollectionModel<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
 		
-		return cidadeDTOAssembler.toCollectionDto(findAll);
+		List<CidadeDTO> cidadeDTOs = cidadeDTOAssembler.toCollectionDto(findAll);
+		
+		cidadeDTOs.forEach(cidadeDto -> {
+			cidadeDto.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(CidadeController.class).cidadeById(cidadeDto.getId())).withSelfRel());
+
+
+			cidadeDto.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades"));
+			
+			cidadeDto.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(EstadoController.class).findEstadoById(cidadeDto.getEstado().getId())).withSelfRel());
+		});
+		
+	    CollectionModel<CidadeDTO> cidadesCollectionModel = CollectionModel.of(cidadeDTOs);
+	    
+	    //add link da coleção
+	    cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+	    
+		return cidadesCollectionModel;
 	}
 
 	@ApiOperation("Busca uma cidade po Id")
