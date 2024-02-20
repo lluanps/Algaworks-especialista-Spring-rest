@@ -1,5 +1,8 @@
 package com.luan.algafoodapi.domain.service;
 
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,7 @@ public class PedidoService {
 
 	    pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
 	    pedido.calcularValorTotal();
+	    pedido.setDataCriacao(OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
 	    return pedidoRepository.save(pedido);
 	}
