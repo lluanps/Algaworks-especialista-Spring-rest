@@ -5,7 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.luan.algafoodapi.api.ResourceURIHelper;
 import com.luan.algafoodapi.api.assembler.CidadeDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CidadeInputDisassembler;
 import com.luan.algafoodapi.api.model.CidadeDTO;
@@ -50,14 +54,14 @@ public class CidadeController {
 	
 	@ApiOperation("Lista as cidades")
 	@GetMapping
-	public List<CidadeDTO> listar() {
+	public CollectionModel<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
 		
-		return cidadeDTOAssembler.toCollectionDto(findAll);
+		return cidadeDTOAssembler.toCollectionModel(findAll);
 	}
 
 	@ApiOperation("Busca uma cidade po Id")
-	@GetMapping("/{cidadeId}")
+	@GetMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
 	@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
@@ -75,7 +79,11 @@ public class CidadeController {
 			
 			cidade = service.salvar(cidade);
 			
-			return cidadeDTOAssembler.toModel(cidade);
+			CidadeDTO cidadeDTO =  cidadeDTOAssembler.toModel(cidade);
+			
+			ResourceURIHelper.addUriResponseHeader(cidadeDTO.getId());
+			
+			return cidadeDTO;
 		} catch (EstadoNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}

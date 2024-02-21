@@ -25,6 +25,7 @@ SET CONSTRAINTS ALL IMMEDIATE;
 -- Reset auto-increment counters
 
 
+
 SELECT pg_catalog.setval(pg_get_serial_sequence('cidade', 'id'), 1, false);
 SELECT pg_catalog.setval(pg_get_serial_sequence('cozinha', 'id'), 1, false);
 SELECT pg_catalog.setval(pg_get_serial_sequence('estado', 'id'), 1, false);
@@ -62,9 +63,9 @@ INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_a
 INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (6, 'Bar da Maria', 6, 4, current_timestamp, current_timestamp, true, true);
 
 -- Insert data into forma_pagamento
-INSERT INTO forma_pagamento (id, descricao) VALUES (1, 'Cartão de crédito');
-INSERT INTO forma_pagamento (id, descricao) VALUES (2, 'Cartão de débito');
-INSERT INTO forma_pagamento (id, descricao) VALUES (3, 'Dinheiro');
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (1, 'Cartão de crédito', current_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (2, 'Cartão de débito', current_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (3, 'Dinheiro', current_timestamp);
 
 -- Insert data into permissao
 INSERT INTO permissao (id, nome, descricao) VALUES (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');

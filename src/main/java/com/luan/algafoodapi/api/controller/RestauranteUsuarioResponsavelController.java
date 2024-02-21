@@ -1,8 +1,8 @@
 package com.luan.algafoodapi.api.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +28,14 @@ public class RestauranteUsuarioResponsavelController {
 	private UsuarioDTOAssembler usuarioDTOAssembler;
 	
 	@GetMapping
-	public List<UsuarioDTO> listar(@PathVariable Long restauranteId) {
+	public CollectionModel<UsuarioDTO> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = restauranteService.buscaOuFalha(restauranteId);
 		
-		return usuarioDTOAssembler.toCollectionDto(restaurante.getResponsaveis());	
+		return usuarioDTOAssembler.toCollectionModel(restaurante.getResponsaveis())
+				.removeLinks()
+				.add(WebMvcLinkBuilder.linkTo(
+						WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class)
+										.listar(restauranteId)).withSelfRel());	
 	}
 	
 	@PutMapping("/{usuarioId}")
