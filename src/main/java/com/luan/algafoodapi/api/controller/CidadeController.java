@@ -24,6 +24,7 @@ import com.luan.algafoodapi.api.assembler.CidadeInputDisassembler;
 import com.luan.algafoodapi.api.exceptionhandler.ApiError;
 import com.luan.algafoodapi.api.model.CidadeDTO;
 import com.luan.algafoodapi.api.model.input.CidadeInput;
+import com.luan.algafoodapi.api.openapi.CidadeControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Cidade;
@@ -36,11 +37,9 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-// SpringFox (3.0.0) foi descontinuada.
-@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
-public class CidadeController {
+public class CidadeController implements CidadeControllerOpenApi {
 	
 	@Autowired
 	private CidadeService service;
@@ -54,7 +53,6 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 	
-	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public CollectionModel<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
@@ -62,11 +60,6 @@ public class CidadeController {
 		return cidadeDTOAssembler.toCollectionModel(findAll);
 	}
 
-	@ApiOperation("Busca uma cidade po Id")
-	@ApiResponses({
-		@ApiResponse(code = 400, message = "Id da cidade inválido", response = ApiError.class),
-		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class),
-	})
 	@GetMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
 	@PathVariable Long cidadeId) {
@@ -75,7 +68,6 @@ public class CidadeController {
 		return cidadeDTOAssembler.toModel(cidade);
 	}
 	
-	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeDTO salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
@@ -95,10 +87,6 @@ public class CidadeController {
 		}
 	}
 	
-	@ApiOperation("Atualiza uma cidade por Id")
-	@ApiResponses({
-		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class),
-	})
 	@PutMapping("/{cidadeId}")
 	public CidadeDTO atualizar(@ApiParam("Id de uma cidade") @PathVariable @Valid Long cidadeId,
 			@ApiParam(name = "corpo", value = "Representação de uma cidade como novos dados a serem atualizados") @RequestBody CidadeInput cidadeInput) {
@@ -114,11 +102,6 @@ public class CidadeController {
 		}
 	}
 	
-	@ApiOperation("Exclui uma cidade por Id")
-	@ApiResponses({
-		@ApiResponse(code = 204, message = "Cidade excluída", response = ApiError.class),
-		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class),
-	})
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@ApiParam("Id de uma cidade") @PathVariable Long cidadeId) {
