@@ -11,6 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.luan.algafoodapi.api.exceptionhandler.ApiError;
+
+import io.swagger.annotations.ApiModelProperty;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -21,6 +26,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
@@ -29,6 +35,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
 	@Bean
 	public Docket apiDocket() {
+		var typeResolver = new TypeResolver();
+			
 		return new Docket(DocumentationType.OAS_30)
 				.select()
 //				.apis(RequestHandlerSelectors.any())// seleciona tudo
@@ -40,6 +48,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 			.globalResponses(HttpMethod.POST, globalPostResponseMessages())
 			.globalResponses(HttpMethod.PUT, globalPutResponseMessages())
 			.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+			.additionalModels(typeResolver.resolve(ApiError.class))// add um modelo na documentação
 			.apiInfo(apiInfo())
 			.tags(new Tag("Cidades", "Gerencia as cidades", 0));
 	}
@@ -130,5 +139,12 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.contact(new Contact("Luan Pinheiro da Silva", "https://www.linkedin.com/in/lluanps/", "lluanps@gmail.com"))
 				.build();
 	}
+	
+	//usado para corrigir erro ao adicionar @ApiModelProperty no OffsetDateTime
+	@Bean
+	public JacksonModuleRegistrar springFoxJacksonConfig() {
+		return objectMapper -> objectMapper.registerModule(new JavaTimeModule());
+	}
+
 	
 }
