@@ -16,7 +16,6 @@ public class CidadeInput {
 	@NotBlank
 	private String nome;
 	
-	@ApiModelProperty(example = "1")
 	@Valid
 	@NotNull
 	private EstadoIdInput estado;

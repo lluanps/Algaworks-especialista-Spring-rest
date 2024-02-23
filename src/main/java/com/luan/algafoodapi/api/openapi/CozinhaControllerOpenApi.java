@@ -10,6 +10,7 @@ import com.luan.algafoodapi.api.model.input.CozinhaInput;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -30,17 +31,18 @@ public interface CozinhaControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Cozinha cadastrada"),
 	})
-	public CozinhaDTO save(CozinhaInput cozinhaIdInput);
+	public CozinhaDTO save(@ApiParam(name = "corpo", value = "Representação de uma nova cozinha") CozinhaInput cozinhaIdInput);
 	
 	@ApiOperation("Atualiza cozinha")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Cozinha atualizada"),
 		@ApiResponse(code = 404, message = "Id da cozinha não encontrado", response = ApiError.class),
 	})
-	public CozinhaDTO update(Long id, CozinhaInput cozinhaInput);
+	public CozinhaDTO update(@ApiParam(name = "corpo", value = "Representação de uma cozinha com os novos dados")
+		Long id, CozinhaInput cozinhaInput);
 
 	@ApiOperation("Remove cozinha")
 	@ApiResponse(code = 204, message = "Cozinha removida")
-	public void delete(Long id);
+	public void delete(@ApiParam(value = "ID de uma cozinha", example = "1") Long id);
 
 }

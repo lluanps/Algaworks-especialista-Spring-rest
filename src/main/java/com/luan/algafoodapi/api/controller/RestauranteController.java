@@ -22,6 +22,7 @@ import com.luan.algafoodapi.api.assembler.RestauranteInputDisassembler;
 import com.luan.algafoodapi.api.model.RestauranteDTO;
 import com.luan.algafoodapi.api.model.input.RestauranteInput;
 import com.luan.algafoodapi.api.model.view.RestauranteView;
+import com.luan.algafoodapi.api.openapi.RestauranteControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -30,13 +31,9 @@ import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.RestauranteRepository;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-
 @RestController
 @RequestMapping(value = "/restaurantes")
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@Autowired
 	private RestauranteService service;
@@ -50,18 +47,12 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteInputDisassembler inputDisassembler;
 	
-	@ApiOperation(value = "Lista restaurantes")
-	@ApiImplicitParams({
-			@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "apenas-nome",
-					name = "projecao", paramType = "query", dataType = "java.lang.String")
-	})
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
 	public List<RestauranteDTO> listar() { 
 		return dtoAssembler.toCollectionDto(repository.findAll());
 	}
 
-	@ApiOperation(value = "Lista restaurantes", hidden = true)
 	@JsonView(RestauranteView.ApenasNome.class)
 	@GetMapping(params = "projecao=apenas-nome")
 	public List<RestauranteDTO> listarApenasNome() { 
@@ -154,7 +145,7 @@ public class RestauranteController {
 	
 	@PutMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativarMultiplosRestuarantes(@RequestBody List<Long> restaurantesIds) {
+	public void ativarMultiplosRestaurantes(@RequestBody List<Long> restaurantesIds) {
 		try {
 			service.ativarVariosRestaurantes(restaurantesIds);
 		} catch (RestauranteNaoEncontradoException e) {
