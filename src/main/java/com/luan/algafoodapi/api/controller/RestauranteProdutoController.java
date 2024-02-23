@@ -20,6 +20,7 @@ import com.luan.algafoodapi.api.assembler.ProdutoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.ProdutoInputDisassembler;
 import com.luan.algafoodapi.api.model.ProdutoDTO;
 import com.luan.algafoodapi.api.model.input.ProdutoInput;
+import com.luan.algafoodapi.api.openapi.RestauranteProdutoControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Produto;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.repository.ProdutoRepository;
@@ -28,7 +29,7 @@ import com.luan.algafoodapi.domain.service.RestauranteService;
 
 @RestController
 @RequestMapping("restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 	
 	@Autowired
 	private ProdutoService service;

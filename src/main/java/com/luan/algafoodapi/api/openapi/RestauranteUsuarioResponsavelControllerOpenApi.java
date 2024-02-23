@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Restaurante - Usuario Responsavel")
+@Api(tags = "Restaurante - Usuário Responsavel")
 public interface RestauranteUsuarioResponsavelControllerOpenApi {
 	
 	@ApiOperation("Lista dos usuários associados ao restaurante")
