@@ -25,6 +25,7 @@ import com.google.common.net.HttpHeaders;
 import com.luan.algafoodapi.api.assembler.FotoProdutoDTOAssembler;
 import com.luan.algafoodapi.api.model.FotoProdutoDTO;
 import com.luan.algafoodapi.api.model.input.FotoProdutoInput;
+import com.luan.algafoodapi.api.openapi.RestauranteProdutoFotoControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.FotoProduto;
 import com.luan.algafoodapi.domain.model.Produto;
@@ -35,7 +36,7 @@ import com.luan.algafoodapi.domain.service.ProdutoService;
 
 @RestController
 @RequestMapping("/restaurante/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteProdutoFotoController {
+public class RestauranteProdutoFotoController implements RestauranteProdutoFotoControllerOpenApi {
 	
 	@Autowired
 	private CatalogoFotoProdutoService catalogoFotoProdutoService;
@@ -67,14 +68,14 @@ public class RestauranteProdutoFotoController {
 		return fotoProdutoDTOAssembler.toModel(fotoSalva);
 	}
 	
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping()
 	public FotoProdutoDTO buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		FotoProduto fotoProduto = catalogoFotoProdutoService.buscaOuFalha(restauranteId, produtoId);
 		
 		return fotoProdutoDTOAssembler.toModel(fotoProduto);
 	}
 	
-	@GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(produces = MediaType.ALL_VALUE)
 	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
 			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 		try {
