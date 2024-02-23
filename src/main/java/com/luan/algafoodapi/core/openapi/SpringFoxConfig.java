@@ -55,8 +55,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 			.ignoredParameterTypes(ServletWebRequest.class)
 			.apiInfo(apiInfo())
 			.tags(new Tag("Cidades", "Gerencia as cidades", 0),
-				new Tag("Grupos", "Gerencia as cidades"),
-				new Tag("Cozinhas", "Gerencia as cozinhas"));
+				new Tag("Grupos", "Gerencia as grupos de usuário"),
+				new Tag("Cozinhas", "Gerencia as cozinhas"),
+				new Tag("Forma Pagamento", "Gerencia as cozinhas formas de pagamento"));
 	}
 
 	private List<Response> globalDeleteResponseMessages() {
