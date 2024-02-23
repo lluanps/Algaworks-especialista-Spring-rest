@@ -20,13 +20,14 @@ import com.luan.algafoodapi.api.assembler.GrupoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.GrupoInputDisassembler;
 import com.luan.algafoodapi.api.model.GrupoDTO;
 import com.luan.algafoodapi.api.model.input.GrupoInput;
+import com.luan.algafoodapi.api.openapi.GrupoControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Grupo;
 import com.luan.algafoodapi.domain.repository.GrupoRepository;
 import com.luan.algafoodapi.domain.service.GrupoService;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 	
 	@Autowired
 	private GrupoService service;

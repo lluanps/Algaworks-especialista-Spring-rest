@@ -21,13 +21,14 @@ import com.luan.algafoodapi.api.assembler.EstadoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.EstadoInputDisassembler;
 import com.luan.algafoodapi.api.model.EstadoDTO;
 import com.luan.algafoodapi.api.model.input.EstadoInput;
+import com.luan.algafoodapi.api.openapi.EstadoControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Estado;
 import com.luan.algafoodapi.domain.repository.EstadoRepository;
 import com.luan.algafoodapi.domain.service.EstadoService;
 
 @RestController
 @RequestMapping(value = "/estados")
-public class EstadoController {
+public class EstadoController implements EstadoControllerOpenApi {
 
 	@Autowired
 	private EstadoRepository repository;

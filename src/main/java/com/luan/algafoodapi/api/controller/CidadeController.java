@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,21 +23,18 @@ import com.luan.algafoodapi.api.assembler.CidadeDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CidadeInputDisassembler;
 import com.luan.algafoodapi.api.model.CidadeDTO;
 import com.luan.algafoodapi.api.model.input.CidadeInput;
+import com.luan.algafoodapi.api.openapi.CidadeControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-// SpringFox (3.0.0) foi descontinuada.
-@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
-public class CidadeController {
+public class CidadeController implements CidadeControllerOpenApi {
 	
 	@Autowired
 	private CidadeService service;
@@ -52,7 +48,6 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 	
-	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public CollectionModel<CidadeDTO> listar() {
 		List<Cidade> findAll = repository.findAll();
@@ -60,7 +55,6 @@ public class CidadeController {
 		return cidadeDTOAssembler.toCollectionModel(findAll);
 	}
 
-	@ApiOperation("Busca uma cidade po Id")
 	@GetMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
 	@PathVariable Long cidadeId) {
@@ -69,7 +63,6 @@ public class CidadeController {
 		return cidadeDTOAssembler.toModel(cidade);
 	}
 	
-	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeDTO salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
@@ -89,7 +82,6 @@ public class CidadeController {
 		}
 	}
 	
-	@ApiOperation("Atualiza uma cidade por Id")
 	@PutMapping("/{cidadeId}")
 	public CidadeDTO atualizar(@ApiParam("Id de uma cidade") @PathVariable @Valid Long cidadeId,
 			@ApiParam(name = "corpo", value = "Representação de uma cidade como novos dados a serem atualizados") @RequestBody CidadeInput cidadeInput) {
@@ -105,7 +97,6 @@ public class CidadeController {
 		}
 	}
 	
-	@ApiOperation("Exclui uma cidade por Id")
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@ApiParam("Id de uma cidade") @PathVariable Long cidadeId) {

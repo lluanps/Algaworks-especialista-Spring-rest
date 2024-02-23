@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +22,7 @@ import com.luan.algafoodapi.api.assembler.RestauranteInputDisassembler;
 import com.luan.algafoodapi.api.model.RestauranteDTO;
 import com.luan.algafoodapi.api.model.input.RestauranteInput;
 import com.luan.algafoodapi.api.model.view.RestauranteView;
+import com.luan.algafoodapi.api.openapi.RestauranteControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -34,7 +33,7 @@ import com.luan.algafoodapi.domain.service.RestauranteService;
 
 @RestController
 @RequestMapping(value = "/restaurantes")
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@Autowired
 	private RestauranteService service;
@@ -146,7 +145,7 @@ public class RestauranteController {
 	
 	@PutMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativarMultiplosRestuarantes(@RequestBody List<Long> restaurantesIds) {
+	public void ativarMultiplosRestaurantes(@RequestBody List<Long> restaurantesIds) {
 		try {
 			service.ativarVariosRestaurantes(restaurantesIds);
 		} catch (RestauranteNaoEncontradoException e) {

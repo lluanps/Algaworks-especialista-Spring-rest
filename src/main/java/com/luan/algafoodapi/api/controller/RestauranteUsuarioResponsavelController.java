@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luan.algafoodapi.api.assembler.UsuarioDTOAssembler;
 import com.luan.algafoodapi.api.model.UsuarioDTO;
+import com.luan.algafoodapi.api.openapi.RestauranteUsuarioResponsavelControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/responsaveis")
-public class RestauranteUsuarioResponsavelController {
+public class RestauranteUsuarioResponsavelController implements RestauranteUsuarioResponsavelControllerOpenApi {
 	
 	@Autowired
 	private RestauranteService restauranteService;
