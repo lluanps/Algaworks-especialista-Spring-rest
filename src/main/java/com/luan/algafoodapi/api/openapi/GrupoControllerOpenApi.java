@@ -2,11 +2,6 @@ package com.luan.algafoodapi.api.openapi;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.luan.algafoodapi.api.exceptionhandler.ApiError;
 import com.luan.algafoodapi.api.model.GrupoDTO;
 import com.luan.algafoodapi.api.model.input.GrupoInput;

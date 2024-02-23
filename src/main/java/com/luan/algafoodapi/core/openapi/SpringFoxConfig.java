@@ -53,7 +53,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 			.additionalModels(typeResolver.resolve(ApiError.class))// add um modelo na documentação
 			.apiInfo(apiInfo())
 			.tags(new Tag("Cidades", "Gerencia as cidades", 0),
-				new Tag("Grupos", "Gerencia as cidades"));
+				new Tag("Grupos", "Gerencia as cidades"),
+				new Tag("Cozinhas", "Gerencia as cozinhas"));
 	}
 
 	private List<Response> globalDeleteResponseMessages() {

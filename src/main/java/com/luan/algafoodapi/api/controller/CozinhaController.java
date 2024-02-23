@@ -1,12 +1,9 @@
 package com.luan.algafoodapi.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -26,13 +23,14 @@ import com.luan.algafoodapi.api.assembler.CozinhaDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CozinhaInputDisassembler;
 import com.luan.algafoodapi.api.model.CozinhaDTO;
 import com.luan.algafoodapi.api.model.input.CozinhaInput;
+import com.luan.algafoodapi.api.openapi.CozinhaControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
 import com.luan.algafoodapi.domain.service.CozinhaService;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
-public class CozinhaController {
+public class CozinhaController implements CozinhaControllerOpenApi {
 
 	@Autowired
 	private CozinhaRepository repository;
