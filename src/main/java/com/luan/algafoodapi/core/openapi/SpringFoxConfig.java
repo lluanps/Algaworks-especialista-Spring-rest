@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -51,6 +52,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 			.globalResponses(HttpMethod.PUT, globalPutResponseMessages())
 			.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
 			.additionalModels(typeResolver.resolve(ApiError.class))// add um modelo na documentação
+			.ignoredParameterTypes(ServletWebRequest.class)
 			.apiInfo(apiInfo())
 			.tags(new Tag("Cidades", "Gerencia as cidades", 0),
 				new Tag("Grupos", "Gerencia as cidades"),
