@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.luan.algafoodapi.api.ResourceURIHelper;
 import com.luan.algafoodapi.api.assembler.CidadeDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CidadeInputDisassembler;
-import com.luan.algafoodapi.api.exceptionhandler.ApiError;
 import com.luan.algafoodapi.api.model.CidadeDTO;
 import com.luan.algafoodapi.api.model.input.CidadeInput;
 import com.luan.algafoodapi.api.openapi.CidadeControllerOpenApi;
@@ -31,11 +30,7 @@ import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/cidades")

@@ -30,6 +30,9 @@ public interface CidadeControllerOpenApi {
 	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade") Long cidadeId);
 	
 	@ApiOperation("Cadastra uma cidade")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "Cidade cadastrada")
+	})
 	public CidadeDTO salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade") CidadeInput cidadeInput);
 	
 	@ApiOperation("Atualiza uma cidade por Id")
