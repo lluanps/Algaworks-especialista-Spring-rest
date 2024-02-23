@@ -1,5 +1,9 @@
 package com.luan.algafoodapi.core.openapi;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -7,6 +11,7 @@ import java.util.function.Consumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,7 +57,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 			.globalResponses(HttpMethod.PUT, globalPutResponseMessages())
 			.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
 			.additionalModels(typeResolver.resolve(ApiError.class))// add um modelo na documentação
-			.ignoredParameterTypes(ServletWebRequest.class)
+			.ignoredParameterTypes(ServletWebRequest.class, URI.class, URI.class, URLStreamHandler.class, Resource.class, File.class, InputStream.class)
 			.apiInfo(apiInfo())
 			.tags(new Tag("Cidades", "Gerencia as cidades", 0),
 				new Tag("Grupos", "Gerencia as grupos de usuário"),

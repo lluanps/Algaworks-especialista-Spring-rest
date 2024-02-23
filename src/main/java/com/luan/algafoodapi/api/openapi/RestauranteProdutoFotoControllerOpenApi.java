@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.luan.algafoodapi.api.exceptionhandler.ApiError;
 import com.luan.algafoodapi.api.model.FotoProdutoDTO;
@@ -14,6 +15,7 @@ import com.luan.algafoodapi.api.model.input.FotoProdutoInput;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -26,7 +28,8 @@ public interface RestauranteProdutoFotoControllerOpenApi {
 		@ApiResponse(code = 404, message = "Produto de restaurante não encontrado", response = ApiError.class)
 	})
 	public FotoProdutoDTO atualizarFoto(Long restauranteId, Long produtoId,
-			@Valid FotoProdutoInput fotoProdutoInput) throws IOException;
+			@Valid FotoProdutoInput fotoProdutoInput, 
+			@ApiParam(value = "Arquivo da foto do produto (500kb, apenas JPG, PNG)", hidden = true) MultipartFile arquivo) throws IOException;
 
 	@ApiOperation(value = "busca uma foto do produto de um restaurante", produces = "application/json, image/jpeg, image/png")
 	@ApiResponses({

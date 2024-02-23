@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class FotoProdutoInput {
 	
-	@ApiModelProperty(value = "Arquivo da foto do produto (máximo 500KB, apenas JPG e PNG)")
+	@ApiModelProperty(value = "Arquivo da foto do produto (500kb, apenas JPG, PNG")
 	@NotNull
 	@FileSize(max = "500KB")
 	@FileContentType(allowed = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
