@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.luan.algafoodapi.api.openapi.EstatisticaControllerOpenApi;
 import com.luan.algafoodapi.domain.model.VendaDiaria;
 import com.luan.algafoodapi.domain.model.filter.VendaDiariaFilter;
 import com.luan.algafoodapi.domain.service.VendaQueryService;
@@ -17,7 +18,7 @@ import com.luan.algafoodapi.domain.service.VendaReportService;
 
 @RestController
 @RequestMapping("/estatisticas")
-public class EstatisticaController {
+public class EstatisticaController implements EstatisticaControllerOpenApi {
 
 	@Autowired
 	private VendaQueryService vendaQueryService;
