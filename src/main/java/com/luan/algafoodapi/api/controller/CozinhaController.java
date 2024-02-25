@@ -28,6 +28,9 @@ import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
 import com.luan.algafoodapi.domain.service.CozinhaService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(value = "/cozinhas")
 public class CozinhaController implements CozinhaControllerOpenApi {
@@ -60,6 +63,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	//@ResponseStatus(HttpStatus.OK)retornando o status de outro forma
 	@GetMapping("/{cozinhaId}")
 	public CozinhaDTO findCozinhaById(@PathVariable Long cozinhaId) {
+		log.info("Listando cozinhas");
 		Cozinha cozinha = service.buscaOuFalha(cozinhaId);
 		
 		return cozinhaDTOAssembler.toModel(cozinha);
