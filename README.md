@@ -19,7 +19,7 @@
 <br>ESR-19 - Discoverability e HATEOS: A Glória do REST
 <br>ESR-20 - Evoluindo e versionando a API
 <br>ESR-21 - Logging
-<br>ESR-22 - Segurança com Spring Security e OAuth2
+<br>ESR-22 - Segurança com Spring Security e OAuth2 <a href="https://datatracker.ietf.org/doc/html/rfc6749">Especificação do OAuth 2.0</a>
 <br>ESR-23 - OAuth2 avançado com JWT e controle de acesso
 <br>ESR-24 - Dockerizando a aplição
 <br>ESR-25 - Deploy em containers Docker na Amazon
