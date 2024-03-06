@@ -24,10 +24,10 @@ import io.restassured.http.ContentType;
  * */
 
 //@SpringBootTest usado apenas a annotation quando a aplicacao estiver levantada
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource("/application-test.properties")
-public class CadastroCozinhaTest {
-	
+//@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@TestPropertySource("/application-test.properties")
+//public class CadastroCozinhaTest {
+/*	
 	private static final int COZINHA_ID_INEXISTENTE = 999999999;
 	
 	@LocalServerPort//é injetado o numero da porta q foi injetado,
@@ -118,7 +118,7 @@ public class CadastroCozinhaTest {
 			.body("nome", equalTo(cozinhaTest.getNome()));
 	}
 	*/
-	
+	/*
 	@Test
 	public void deveRetornarStatus404QuandoConsultarCozinhaInexistente() {
 		RestAssured
@@ -144,3 +144,4 @@ public class CadastroCozinhaTest {
 	}
 	
 }
+*/

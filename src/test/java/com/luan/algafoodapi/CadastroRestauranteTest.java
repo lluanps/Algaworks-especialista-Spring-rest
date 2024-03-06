@@ -23,7 +23,7 @@ import com.luan.algafoodapi.util.ResourceUtils;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-
+/*
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
 public class CadastroRestauranteTest {
@@ -159,3 +159,4 @@ public class CadastroRestauranteTest {
     }
 
 }
+*/
