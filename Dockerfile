@@ -1,18 +1,19 @@
 # repositorio para auxiliar na geracao da imagem pelo maven  https://github.com/spotify/dockerfile-maven
 FROM openjdk:11
 
-WORKDIR /ws-algaworks/
+WORKDIR /ws-algaworks/algafood-api
 
 #define uma variavel que pode ser passada em tempo de build
 ARG JAR_FILE
 
-COPY target/${JAR_FILE} /ws-algaworks/algafood-api.jar
+COPY target/${JAR_FILE} /ws-algaworks/algafood-api/algafood-api.jar
 
 EXPOSE 8080
 
 CMD ["java", "-jar", "algafood-api.jar"]
 
 #mvnw package -> gera o arquivo jar
+#mvnw package -Pdocker -> gera o arquivo jar com o profile docker adicionado no pom.xml
 #docker image build -t algafood-api . -> cria a imagem usando o jar
 
 #enviando para dockerhub

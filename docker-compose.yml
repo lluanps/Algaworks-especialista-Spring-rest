@@ -1,0 +1,29 @@
+#https://docs.docker.com/compose/install/
+#https://docs.docker.com/compose/compose-file/
+#https://docs.docker.com/compose/reference/
+version: "3.9"
+
+networks:
+  algafood-network:
+    driver: bridge
+
+services:
+  algafood-postgres:
+    image: postgres:15.6
+    environment:
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+    networks:
+      - algafood-network
+     
+  algafood-api:
+    image: lluanps/algafood-api
+    environment:
+      DB_HOST: algafood-postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - algafood-network
+    depends_on:
+      - algafood-postgres
