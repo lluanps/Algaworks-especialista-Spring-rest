@@ -26,7 +26,6 @@ import com.google.common.net.HttpHeaders;
 import com.luan.algafoodapi.api.assembler.FotoProdutoDTOAssembler;
 import com.luan.algafoodapi.api.model.FotoProdutoDTO;
 import com.luan.algafoodapi.api.model.input.FotoProdutoInput;
-import com.luan.algafoodapi.api.openapi.RestauranteProdutoFotoControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.model.FotoProduto;
 import com.luan.algafoodapi.domain.model.Produto;
@@ -37,7 +36,7 @@ import com.luan.algafoodapi.domain.service.ProdutoService;
 
 @RestController
 @RequestMapping("/restaurante/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteProdutoFotoController implements RestauranteProdutoFotoControllerOpenApi {
+public class RestauranteProdutoFotoController {
 	
 	@Autowired
 	private CatalogoFotoProdutoService catalogoFotoProdutoService;
@@ -51,7 +50,6 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	@Autowired
 	private FotoStorageService fotoStorageService;
 	
-	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDTO atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
 			@Valid FotoProdutoInput fotoProdutoInput, 

@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luan.algafoodapi.api.assembler.GrupoDTOAssembler;
 import com.luan.algafoodapi.api.model.GrupoDTO;
-import com.luan.algafoodapi.api.openapi.UsuarioGrupoControlllerOpenApi;
 import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios/{usuarioId}/grupos")
-public class UsuarioGrupoControlller implements UsuarioGrupoControlllerOpenApi {
+public class UsuarioGrupoControlller {
 	
 	@Autowired
 	private UsuarioService usuarioService;

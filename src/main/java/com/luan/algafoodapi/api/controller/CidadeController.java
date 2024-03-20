@@ -23,18 +23,15 @@ import com.luan.algafoodapi.api.assembler.CidadeDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CidadeInputDisassembler;
 import com.luan.algafoodapi.api.model.CidadeDTO;
 import com.luan.algafoodapi.api.model.input.CidadeInput;
-import com.luan.algafoodapi.api.openapi.CidadeControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.EstadoNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
 import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
-import io.swagger.annotations.ApiParam;
-
 @RestController
 @RequestMapping("/cidades")
-public class CidadeController implements CidadeControllerOpenApi {
+public class CidadeController {
 	
 	@Autowired
 	private CidadeService service;
@@ -56,8 +53,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	}
 
 	@GetMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public CidadeDTO cidadeById(@ApiParam(value = "Id de uma cidade")
-	@PathVariable Long cidadeId) {
+	public CidadeDTO cidadeById(@PathVariable Long cidadeId) {
 		Cidade cidade = service.buscarOuFalhar(cidadeId);
 		
 		return cidadeDTOAssembler.toModel(cidade);
@@ -65,8 +61,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CidadeDTO salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
-	@RequestBody @Valid CidadeInput cidadeInput) {
+	public CidadeDTO salvar(@RequestBody @Valid CidadeInput cidadeInput) {
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 			
@@ -83,8 +78,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	}
 	
 	@PutMapping("/{cidadeId}")
-	public CidadeDTO atualizar(@ApiParam("Id de uma cidade") @PathVariable @Valid Long cidadeId,
-			@ApiParam(name = "corpo", value = "Representação de uma cidade como novos dados a serem atualizados") @RequestBody CidadeInput cidadeInput) {
+	public CidadeDTO atualizar(@PathVariable @Valid Long cidadeId, @RequestBody CidadeInput cidadeInput) {
 		try {
 			Cidade cidadeAtual = service.buscarOuFalhar(cidadeId);
 			
@@ -99,7 +93,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@ApiParam("Id de uma cidade") @PathVariable Long cidadeId) {
+	public void remover(@PathVariable Long cidadeId) {
 		service.excluir(cidadeId);	
 	}
 	

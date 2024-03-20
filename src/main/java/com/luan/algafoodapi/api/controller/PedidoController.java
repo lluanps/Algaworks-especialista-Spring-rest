@@ -24,7 +24,6 @@ import com.luan.algafoodapi.api.assembler.PedidoInputDisassembler;
 import com.luan.algafoodapi.api.assembler.PedidoResumoDTOAssembler;
 import com.luan.algafoodapi.api.model.PedidoDTO;
 import com.luan.algafoodapi.api.model.input.PedidoInput;
-import com.luan.algafoodapi.api.openapi.PedidoControllerOpenApi;
 import com.luan.algafoodapi.core.data.PageableTranslator;
 import com.luan.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -37,7 +36,7 @@ import com.luan.algafoodapi.infrastructure.repository.spec.PedidoSpecification;
 
 @RestController
 @RequestMapping("/pedidos")
-public class PedidoController implements PedidoControllerOpenApi {
+public class PedidoController {
 
 	@Autowired
 	private PedidoRepository pedidoRepository;

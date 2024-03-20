@@ -23,7 +23,6 @@ import com.luan.algafoodapi.api.assembler.CozinhaDTOAssembler;
 import com.luan.algafoodapi.api.assembler.CozinhaInputDisassembler;
 import com.luan.algafoodapi.api.model.CozinhaDTO;
 import com.luan.algafoodapi.api.model.input.CozinhaInput;
-import com.luan.algafoodapi.api.openapi.CozinhaControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Cozinha;
 import com.luan.algafoodapi.domain.repository.CozinhaRepository;
 import com.luan.algafoodapi.domain.service.CozinhaService;
@@ -33,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(value = "/cozinhas")
-public class CozinhaController implements CozinhaControllerOpenApi {
+public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepository repository;

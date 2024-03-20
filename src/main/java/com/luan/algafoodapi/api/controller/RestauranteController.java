@@ -22,7 +22,6 @@ import com.luan.algafoodapi.api.assembler.RestauranteInputDisassembler;
 import com.luan.algafoodapi.api.model.RestauranteDTO;
 import com.luan.algafoodapi.api.model.input.RestauranteInput;
 import com.luan.algafoodapi.api.model.view.RestauranteView;
-import com.luan.algafoodapi.api.openapi.RestauranteControllerOpenApi;
 import com.luan.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.luan.algafoodapi.domain.exception.NegocioException;
@@ -33,7 +32,7 @@ import com.luan.algafoodapi.domain.service.RestauranteService;
 
 @RestController
 @RequestMapping(value = "/restaurantes")
-public class RestauranteController implements RestauranteControllerOpenApi {
+public class RestauranteController {
 	
 	@Autowired
 	private RestauranteService service;

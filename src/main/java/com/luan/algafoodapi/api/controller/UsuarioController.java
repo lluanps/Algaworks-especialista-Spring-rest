@@ -22,14 +22,13 @@ import com.luan.algafoodapi.api.assembler.UsuarioInputDisassembler;
 import com.luan.algafoodapi.api.model.UsuarioDTO;
 import com.luan.algafoodapi.api.model.input.SenhaInput;
 import com.luan.algafoodapi.api.model.input.UsuarioInput;
-import com.luan.algafoodapi.api.openapi.UsuarioControllerOpenApi;
 import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.UsuarioRepository;
 import com.luan.algafoodapi.domain.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController implements UsuarioControllerOpenApi {
+public class UsuarioController {
 
 	@Autowired
 	private UsuarioService service;

@@ -23,14 +23,13 @@ import com.luan.algafoodapi.api.assembler.FormaPagamentoDTOAssembler;
 import com.luan.algafoodapi.api.assembler.FormaPagamentoInputDisassembler;
 import com.luan.algafoodapi.api.model.FormaPagamentoDTO;
 import com.luan.algafoodapi.api.model.input.FormaPagamentoInput;
-import com.luan.algafoodapi.api.openapi.FormaPagamentoControllerOpenApi;
 import com.luan.algafoodapi.domain.model.FormaPagamento;
 import com.luan.algafoodapi.domain.repository.FormaPagamentoRepository;
 import com.luan.algafoodapi.domain.service.FormaPagamentoService;
 
 @RestController
 @RequestMapping("/formas-pagamento")
-public class FormaPagamentoController implements FormaPagamentoControllerOpenApi {
+public class FormaPagamentoController {
 	
 	@Autowired
 	private FormaPagamentoService service;

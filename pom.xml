@@ -23,6 +23,7 @@
 		<jasperreports.version>6.21.0</jasperreports.version>
 		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
 		<dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+		<springdoc.version>1.6.9</springdoc.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -128,17 +129,24 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- SpringFox 3.0 -->
+		<!-- SpringDoc -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>${springfox.version}</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-bean-validators</artifactId>
-			<version>${springfox.version}</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-security</artifactId>
+			<version>${springdoc.version}</version>
 		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-hateoas</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		-->
 
 		<!-- JasperReports -->
 		<dependency>
