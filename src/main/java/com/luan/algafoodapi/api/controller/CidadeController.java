@@ -29,8 +29,11 @@ import com.luan.algafoodapi.domain.model.Cidade;
 import com.luan.algafoodapi.domain.repository.CidadeRepository;
 import com.luan.algafoodapi.domain.service.CidadeService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/cidades")
+@Tag(name = "Cidades")
 public class CidadeController {
 	
 	@Autowired

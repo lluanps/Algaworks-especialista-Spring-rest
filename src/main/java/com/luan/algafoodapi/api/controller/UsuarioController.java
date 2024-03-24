@@ -26,8 +26,11 @@ import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.repository.UsuarioRepository;
 import com.luan.algafoodapi.domain.service.UsuarioService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/usuarios")
+@Tag(name = "Usuário")
 public class UsuarioController {
 
 	@Autowired

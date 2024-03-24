@@ -17,8 +17,11 @@ import com.luan.algafoodapi.api.model.UsuarioDTO;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/responsaveis")
+@Tag(name = "Restaurante Usuário Responsável")
 public class RestauranteUsuarioResponsavelController {
 	
 	@Autowired

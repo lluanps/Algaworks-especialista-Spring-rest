@@ -32,10 +32,14 @@ import com.luan.algafoodapi.domain.model.Produto;
 import com.luan.algafoodapi.domain.service.CatalogoFotoProdutoService;
 import com.luan.algafoodapi.domain.service.FotoStorageService;
 import com.luan.algafoodapi.domain.service.FotoStorageService.FotoRecuperada;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.luan.algafoodapi.domain.service.ProdutoService;
 
 @RestController
 @RequestMapping("/restaurante/{restauranteId}/produtos/{produtoId}/foto")
+@Tag(name = "Restaurante Produto Foto")
 public class RestauranteProdutoFotoController {
 	
 	@Autowired

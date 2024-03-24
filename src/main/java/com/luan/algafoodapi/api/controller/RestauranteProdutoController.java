@@ -26,8 +26,11 @@ import com.luan.algafoodapi.domain.repository.ProdutoRepository;
 import com.luan.algafoodapi.domain.service.ProdutoService;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("restaurantes/{restauranteId}/produtos")
+@Tag(name = "Restaurante Produto")
 public class RestauranteProdutoController {
 	
 	@Autowired

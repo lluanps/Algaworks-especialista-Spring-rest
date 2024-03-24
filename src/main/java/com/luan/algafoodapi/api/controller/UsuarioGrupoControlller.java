@@ -17,8 +17,11 @@ import com.luan.algafoodapi.api.model.GrupoDTO;
 import com.luan.algafoodapi.domain.model.Usuario;
 import com.luan.algafoodapi.domain.service.UsuarioService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/usuarios/{usuarioId}/grupos")
+@Tag(name = "Usuário Grupo")
 public class UsuarioGrupoControlller {
 	
 	@Autowired

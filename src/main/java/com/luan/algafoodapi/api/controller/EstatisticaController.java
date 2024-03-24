@@ -15,8 +15,11 @@ import com.luan.algafoodapi.domain.model.filter.VendaDiariaFilter;
 import com.luan.algafoodapi.domain.service.VendaQueryService;
 import com.luan.algafoodapi.domain.service.VendaReportService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/estatisticas")
+@Tag(name = "Estatistica")
 public class EstatisticaController {
 
 	@Autowired

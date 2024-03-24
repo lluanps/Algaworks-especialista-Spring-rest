@@ -24,8 +24,11 @@ import com.luan.algafoodapi.domain.model.Grupo;
 import com.luan.algafoodapi.domain.repository.GrupoRepository;
 import com.luan.algafoodapi.domain.service.GrupoService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/grupos")
+@Tag(name = "Grupo")
 public class GrupoController {
 	
 	@Autowired

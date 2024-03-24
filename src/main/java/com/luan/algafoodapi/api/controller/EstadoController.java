@@ -25,8 +25,11 @@ import com.luan.algafoodapi.domain.model.Estado;
 import com.luan.algafoodapi.domain.repository.EstadoRepository;
 import com.luan.algafoodapi.domain.service.EstadoService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(value = "/estados")
+@Tag(name = "Estado")
 public class EstadoController {
 
 	@Autowired

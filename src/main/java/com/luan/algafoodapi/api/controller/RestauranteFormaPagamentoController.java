@@ -17,8 +17,11 @@ import com.luan.algafoodapi.api.model.FormaPagamentoDTO;
 import com.luan.algafoodapi.domain.model.Restaurante;
 import com.luan.algafoodapi.domain.service.RestauranteService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("restaurantes/{restauranteId}/formas-pagamento")
+@Tag(name = "Restaurante Forma Pagamento")
 public class RestauranteFormaPagamentoController {
 
 	@Autowired

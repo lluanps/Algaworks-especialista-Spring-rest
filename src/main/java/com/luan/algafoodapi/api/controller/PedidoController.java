@@ -34,8 +34,11 @@ import com.luan.algafoodapi.domain.repository.PedidoRepository;
 import com.luan.algafoodapi.domain.service.PedidoService;
 import com.luan.algafoodapi.infrastructure.repository.spec.PedidoSpecification;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/pedidos")
+@Tag(name = "Pedido")
 public class PedidoController {
 
 	@Autowired

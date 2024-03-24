@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luan.algafoodapi.domain.service.FluxoPedidoService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/pedidos/{pedidoId}")
+@Tag(name = "Fluxo Pedido")
 public class FluxoPedidoController {
 
 	@Autowired
